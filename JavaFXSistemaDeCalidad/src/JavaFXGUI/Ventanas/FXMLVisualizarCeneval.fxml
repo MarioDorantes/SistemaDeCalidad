@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarCenevalController">
+   <children>
+      <Label layoutX="214.0" layoutY="53.0" text="Visualizar Ceneval">
+         <font>
+            <Font name="System Bold Italic" size="35.0" />
+         </font>
+      </Label>
+      <Button fx:id="btRegistrar" layoutX="68.0" layoutY="219.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="165.0" text="Registrar Ceneval" />
+      <Button fx:id="btActualizar" layoutX="284.0" layoutY="219.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="165.0" text="Actualizar Ceneval" />
+      <Button fx:id="btEliminar" layoutX="499.0" layoutY="219.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="165.0" text="Eliminar Ceneval" />
+      <Button fx:id="btCancelar" layoutX="547.0" layoutY="416.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="40.0" prefWidth="117.0" text="Cancelar" />
+   </children>
+</AnchorPane>

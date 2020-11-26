@@ -12,7 +12,7 @@ public class SistemaDeCalidadMain extends Application {
    
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLPrincipalDocente.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDocente.fxml"));
         
         Scene scene = new Scene(root);
         

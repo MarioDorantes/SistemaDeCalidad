@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="698.0" prefWidth="790.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLRegistrarPlanDeCursoController">
+   <children>
+      <Label layoutX="176.0" layoutY="22.0" text="Registrar Plan de Curso">
+         <font>
+            <Font name="System Bold Italic" size="32.0" />
+         </font>
+      </Label>
+      <Label layoutX="35.0" layoutY="97.0" text="Clave NRC:" />
+      <Label layoutX="203.0" layoutY="97.0" text="E.E.:" />
+      <Label layoutX="448.0" layoutY="97.0" text="P.E.:" />
+      <Label layoutX="608.0" layoutY="97.0" text="Bloque:" />
+      <Label layoutX="35.0" layoutY="128.0" text="Sección:" />
+      <Label layoutX="203.0" layoutY="128.0" text="Académico:" />
+      <Label layoutX="552.0" layoutY="129.0" text="Periodo:" />
+      <TextField layoutX="102.0" layoutY="93.0" prefHeight="25.0" prefWidth="85.0" />
+      <TextField layoutX="227.0" layoutY="93.0" prefHeight="25.0" prefWidth="205.0" />
+      <TextField layoutX="473.0" layoutY="93.0" prefHeight="25.0" prefWidth="123.0" />
+      <TextField layoutX="652.0" layoutY="93.0" prefHeight="25.0" prefWidth="108.0" />
+      <TextField layoutX="85.0" layoutY="125.0" prefHeight="25.0" prefWidth="108.0" />
+      <TextField layoutX="268.0" layoutY="125.0" prefHeight="25.0" prefWidth="268.0" />
+      <TextField layoutX="611.0" layoutY="125.0" />
+      <TextArea layoutX="37.0" layoutY="188.0" prefHeight="41.0" prefWidth="730.0" />
+      <Label layoutX="33.0" layoutY="164.0" text="Objetivo General:" />
+      <Label layoutX="37.0" layoutY="244.0" text="Planeación:" />
+      <Label layoutX="37.0" layoutY="268.0" text="Unidad:" />
+      <Label layoutX="145.0" layoutY="268.0" text="Tema:" />
+      <Label layoutX="338.0" layoutY="268.0" text="Fecha:" />
+      <Label layoutX="33.0" layoutY="296.0" text="Tareas y Practicas:" />
+      <Label layoutX="291.0" layoutY="296.0" text="Técnica Didactica:" />
+      <TableView layoutX="29.0" layoutY="328.0" prefHeight="163.0" prefWidth="742.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Unidad" />
+          <TableColumn prefWidth="75.0" text="Tema" />
+            <TableColumn prefWidth="75.0" text="Fecha" />
+            <TableColumn prefWidth="139.0" text="Tareas y Practicas" />
+            <TableColumn prefWidth="226.0" text="Técnica Didactica" />
+        </columns>
+      </TableView>
+      <Button fx:id="btCancelar" layoutX="498.0" layoutY="620.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="41.0" prefWidth="123.0" text="Cancelar" />
+   </children>
+</AnchorPane>

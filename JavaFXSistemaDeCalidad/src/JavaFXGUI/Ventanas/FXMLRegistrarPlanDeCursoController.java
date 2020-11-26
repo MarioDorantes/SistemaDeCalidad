@@ -1,8 +1,7 @@
 /*
 Autor: Mario Dorantes
 Comentarios aun por verificar 
-(prueba del commit)
-*/
+ */
 
 package JavaFXGUI.Ventanas;
 
@@ -17,29 +16,21 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 
-public class FXMLPrincipalDocenteController implements Initializable {
+public class FXMLRegistrarPlanDeCursoController implements Initializable {
 
     @FXML
-    private Button btSalir;
-    @FXML
-    private Button btVisualizarPlanesDeCurso;
+    private Button btCancelar;
 
-       
+  
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        // TODO
     }    
     
     @FXML
-    private void clicSalir(javafx.event.ActionEvent event) {
-        Stage stage = (Stage) btSalir.getScene().getWindow();
-        stage.close();
-    }
-    
-    @FXML
-    private void clicVisualizarPlanesDeCurso(javafx.event.ActionEvent event) {
+    private void cancelar () {
         try{
-            Stage stage = (Stage) btVisualizarPlanesDeCurso.getScene().getWindow();
+            Stage stage = (Stage) btCancelar.getScene().getWindow();
             Scene sceneVisualizarPlanesDeCurso = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarPlanesDeCurso.fxml")));
             stage.setScene(sceneVisualizarPlanesDeCurso);
             stage.show();

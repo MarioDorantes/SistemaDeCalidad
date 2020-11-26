@@ -14,9 +14,9 @@
             <Font name="System Bold Italic" size="35.0" />
          </font>
       </Label>
-      <Button fx:id="btRegistrar" layoutX="68.0" layoutY="219.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="165.0" text="Registrar Ceneval" />
+      <Button fx:id="btRegistrar" layoutX="68.0" layoutY="219.0" mnemonicParsing="false" onAction="#registrarCeneval" prefHeight="63.0" prefWidth="165.0" text="Registrar Ceneval" />
       <Button fx:id="btActualizar" layoutX="284.0" layoutY="219.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="165.0" text="Actualizar Ceneval" />
-      <Button fx:id="btEliminar" layoutX="499.0" layoutY="219.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="165.0" text="Eliminar Ceneval" />
+      <Button fx:id="btEliminar" layoutX="499.0" layoutY="219.0" mnemonicParsing="false" onAction="#eliminarCeneval" prefHeight="63.0" prefWidth="165.0" text="Eliminar Ceneval" />
       <Button fx:id="btCancelar" layoutX="547.0" layoutY="416.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="40.0" prefWidth="117.0" text="Cancelar" />
    </children>
 </AnchorPane>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="394.0" prefWidth="658.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLEliminarAcademiaController">
+   <children>
+      <Label layoutX="177.0" layoutY="31.0" text="Eliminar Academia">
+         <font>
+            <Font name="System Bold Italic" size="34.0" />
+         </font>
+      </Label>
+      <ComboBox layoutX="118.0" layoutY="160.0" prefHeight="50.0" prefWidth="424.0" promptText="Lista de Academias" />
+      <Button layoutX="147.0" layoutY="296.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="134.0" text="Eliminar" />
+      <Button fx:id="btCancelar" layoutX="361.0" layoutY="296.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="50.0" prefWidth="134.0" text="Cancelar" />
+   </children>
+</AnchorPane>

@@ -12,7 +12,11 @@ public class SistemaDeCalidadMain extends Application {
    
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDocente.fxml"));
+        
+        //HASTA NO TENER EL LOGIN Y SABER QUE TIPO DE USUARIO ENTRA, DEBEMOS COMENTAR EL CONTRARIO 
+        
+        //Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDocente.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDirectorDeLaFacultad.fxml"));
         
         Scene scene = new Scene(root);
         

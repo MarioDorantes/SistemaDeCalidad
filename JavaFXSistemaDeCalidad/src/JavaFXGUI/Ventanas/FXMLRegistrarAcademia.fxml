@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLRegistrarAcademiaController">
+   <children>
+      <Label layoutX="191.0" layoutY="38.0" text="Registrar Academia">
+         <font>
+            <Font name="System Bold Italic" size="38.0" />
+         </font>
+      </Label>
+      <Label layoutX="84.0" layoutY="147.0" text="Nombre de la Academia:" />
+      <Label layoutX="149.0" layoutY="195.0" text="Descripción:" />
+      <Label layoutX="154.0" layoutY="243.0" text="Programa:" />
+      <Label layoutX="77.0" layoutY="286.0" text="Nombre del Coordinador:" />
+      <Label layoutX="69.0" layoutY="346.0" text="Nombre de los Integrantes:" />
+      <Button layoutX="150.0" layoutY="427.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="164.0" text="Registrar" />
+      <Button fx:id="btCancelar" layoutX="425.0" layoutY="427.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="46.0" prefWidth="164.0" text="Cancelar" />
+      <TextField layoutX="220.0" layoutY="143.0" prefHeight="25.0" prefWidth="406.0" />
+      <TextArea layoutX="220.0" layoutY="181.0" prefHeight="46.0" prefWidth="406.0" />
+      <TextField layoutX="220.0" layoutY="239.0" prefHeight="25.0" prefWidth="406.0" />
+      <TextField layoutX="220.0" layoutY="282.0" prefHeight="25.0" prefWidth="406.0" />
+      <TextArea layoutX="222.0" layoutY="327.0" prefHeight="55.0" prefWidth="406.0" />
+   </children>
+</AnchorPane>

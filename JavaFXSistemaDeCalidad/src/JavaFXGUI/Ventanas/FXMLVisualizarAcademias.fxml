@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarAcademiasController">
+   <children>
+      <Label layoutX="164.0" layoutY="36.0" text="Visualizar Academias">
+         <font>
+            <Font name="System Bold Italic" size="40.0" />
+         </font>
+      </Label>
+      <Button fx:id="btRegistrarAcademia" layoutX="69.0" layoutY="209.0" mnemonicParsing="false" onAction="#registrarAcademia" prefHeight="58.0" prefWidth="158.0" text="Registrar Academia" />
+      <Button fx:id="btActualizarAcademia" layoutX="288.0" layoutY="209.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="158.0" text="Actualizar Academia" />
+      <Button fx:id="btEliminarAcademia" layoutX="509.0" layoutY="209.0" mnemonicParsing="false" onAction="#eliminarAcademia" prefHeight="58.0" prefWidth="158.0" text="Eliminar Academia" />
+      <Button fx:id="btCancelar" layoutX="554.0" layoutY="418.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="44.0" prefWidth="113.0" text="Cancelar" />
+   </children>
+</AnchorPane>

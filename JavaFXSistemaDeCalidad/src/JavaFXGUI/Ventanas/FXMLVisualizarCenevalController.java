@@ -44,7 +44,7 @@ public class FXMLVisualizarCenevalController implements Initializable {
             System.out.println("Error al cargar FXML: "+ex.getMessage()); 
         }
     }
-    /*
+    
     @FXML
     private void registrarCeneval () {
         try{
@@ -56,7 +56,7 @@ public class FXMLVisualizarCenevalController implements Initializable {
             System.out.println("Error al cargar FXML: "+ex.getMessage());
         }
     }
-    
+    /*
     @FXML
     private void actualizarCeneval () {
         try{
@@ -67,7 +67,7 @@ public class FXMLVisualizarCenevalController implements Initializable {
         } catch(IOException ex){
             System.out.println("Error al cargar FXML: "+ex.getMessage());
         }
-    }
+    }*/
     
     @FXML
     private void eliminarCeneval () {
@@ -79,6 +79,6 @@ public class FXMLVisualizarCenevalController implements Initializable {
         } catch(IOException ex){
             System.out.println("Error al cargar FXML: "+ex.getMessage());
         }
-    }*/
+    }
     
 }

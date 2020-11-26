@@ -2,6 +2,7 @@
 Autor: Mario Dorantes
 Comentarios aun por verificar 
  */
+
 package JavaFXGUI.Ventanas;
 
 import java.io.IOException;
@@ -21,6 +22,8 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
     private Button btSalir;
     @FXML
     private Button btVisualizarAcademias;
+    @FXML
+    private Button btVisualizarCatalogoDeAcademia;
 
     
     @Override
@@ -45,6 +48,30 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
             System.out.println("Error al cargar FXML: "+ex.getMessage()); 
         }
     }
+    
+    @FXML
+    private void visualizarCatalogoDeAcademia(javafx.event.ActionEvent event) {
+        try{
+            Stage stage = (Stage) btVisualizarCatalogoDeAcademia.getScene().getWindow();
+            Scene sceneVisualizarCatalogoDeAcademia = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCatalogoDeAcademia.fxml")));
+            stage.setScene(sceneVisualizarCatalogoDeAcademia);
+            stage.show(); 
+        } catch(IOException ex){
+            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+        }
+    }
+    /*
+    @FXML
+    private void visualizarCatalogoDeEE(javafx.event.ActionEvent event) {
+        try{
+            Stage stage = (Stage) btVisualizarCatalogoDeEE.getScene().getWindow();
+            Scene sceneVisualizarCatalogoDeEE = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCatalogoDeEE.fxml")));
+            stage.setScene(sceneVisualizarCatalogoDeEE);
+            stage.show(); 
+        } catch(IOException ex){
+            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+        }
+    }*/
     
     
 }

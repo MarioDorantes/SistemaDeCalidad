@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarDocentesController">
+   <children>
+      <Label layoutX="234.0" layoutY="14.0" prefHeight="27.0" prefWidth="265.0" text="Visualizar Docentes" textFill="#092ae1">
+         <font>
+            <Font name="Arial Bold" size="28.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tvContenedor" layoutX="17.0" layoutY="102.0" prefHeight="358.0" prefWidth="702.0">
+        <columns>
+          <TableColumn fx:id="tcNombre" prefWidth="173.0" text="Nombre" />
+          <TableColumn fx:id="tcNumeroDePersonal" prefWidth="132.0" text="Número de personal" />
+            <TableColumn fx:id="tcEstatus" prefWidth="113.0" text="Estatus" />
+            <TableColumn fx:id="tcCorreo" prefWidth="135.0" text="Correo" />
+            <TableColumn fx:id="tcContraseña" minWidth="0.0" prefWidth="148.0" text="Contraseña" />
+        </columns>
+      </TableView>
+      <Button layoutX="657.0" layoutY="470.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC9305;" text="Cancelar" />
+      <Button layoutX="429.0" layoutY="67.0" mnemonicParsing="false" onAction="#irARegistrarDocente" style="-fx-background-color: #1FDC05;" text="Registrar Docente" />
+      <Button layoutX="566.0" layoutY="67.0" mnemonicParsing="false" onAction="#irAActualizarDocente" style="-fx-background-color: #FCF407;" text="Actualizar" />
+      <Button layoutX="660.0" layoutY="67.0" mnemonicParsing="false" onAction="#irAEliminarDocente" style="-fx-background-color: #FC0707;" text="Eliminar" />
+   </children>
+</AnchorPane>

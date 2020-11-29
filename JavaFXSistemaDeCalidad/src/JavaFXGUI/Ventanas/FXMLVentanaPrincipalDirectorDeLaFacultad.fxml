@@ -20,9 +20,10 @@
          </font>
       </Button>
       <Button fx:id="btVisualizarAcademias" layoutX="82.0" layoutY="304.0" mnemonicParsing="false" onAction="#visualizarAcademias" prefHeight="53.0" prefWidth="189.0" text="Visualizar Academias" />
-      <Button layoutX="82.0" layoutY="134.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="189.0" text="Visualizar Docentes" />
+      <Button layoutX="82.0" layoutY="134.0" mnemonicParsing="false" onAction="#visualizarDocentes" prefHeight="53.0" prefWidth="189.0" text="Visualizar Docentes" />
       <Button layoutX="82.0" layoutY="219.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="189.0" text="Visualizar Cuerpo Academico" />
       <Button fx:id="btVisualizarCatalogoDeAcademia" layoutX="439.0" layoutY="134.0" mnemonicParsing="false" onAction="#visualizarCatalogoDeAcademia" prefHeight="53.0" prefWidth="189.0" text="Visualizar Catálogo de Academia" />
       <Button layoutX="439.0" layoutY="219.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="189.0" text="Visualizar Catálogo de EE" />
+      <Button layoutX="439.0" layoutY="304.0" mnemonicParsing="false" onAction="#visulizarCatalogoDeAcademicos" prefHeight="53.0" prefWidth="189.0" text="Visualizar Catálogo de Académicos " textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>

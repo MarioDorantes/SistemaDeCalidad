@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLRegistrarCatalogoAcademicosController">
+   <children>
+      <Label layoutX="137.0" layoutY="21.0" text="Registrar catálogo de Académicos" textFill="#092ae1">
+         <font>
+            <Font name="Arial Bold" size="28.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbNombre" layoutX="28.0" layoutY="70.0" prefHeight="21.0" prefWidth="80.0" text="Nombre: ">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="391.0" layoutY="70.0" text="Número de personal:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="10.0" layoutY="130.0" prefHeight="21.0" prefWidth="92.0" text="Programa:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="34.0" layoutY="100.0" prefHeight="21.0" prefWidth="68.0" text="Correo:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="488.0" layoutY="100.0" prefHeight="21.0" prefWidth="92.0" text="Cubículo:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField layoutX="108.0" layoutY="68.0" prefHeight="25.0" prefWidth="275.0" />
+      <TextField layoutX="572.0" layoutY="68.0" prefHeight="25.0" prefWidth="141.0" />
+      <TextField layoutX="108.0" layoutY="128.0" prefHeight="25.0" prefWidth="275.0" />
+      <TextField layoutX="108.0" layoutY="98.0" prefHeight="25.0" prefWidth="275.0" />
+      <TextField layoutX="572.0" layoutY="98.0" prefHeight="25.0" prefWidth="141.0" />
+      <TextField layoutX="518.0" layoutY="209.0" prefHeight="25.0" prefWidth="195.0" promptText="Fecha de registro del catálogo" />
+      <Button layoutX="24.0" layoutY="472.0" mnemonicParsing="false" style="-fx-background-color: #1FDC05;" text="Registrar" />
+      <Button layoutX="651.0" layoutY="472.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: FC0707;" text="Cancelar" textFill="WHITE" />
+      <Button layoutX="31.0" layoutY="164.0" mnemonicParsing="false" style="-fx-background-color: #1FDC05;" text="Agregar" />
+      <Button layoutX="124.0" layoutY="164.0" mnemonicParsing="false" style="-fx-background-color: #FC9305;" text="Eliminar" />
+      <TableView layoutX="23.0" layoutY="243.0" prefHeight="217.0" prefWidth="689.0">
+        <columns>
+          <TableColumn fx:id="tcNombre" prefWidth="180.0" text="Nombre" />
+          <TableColumn fx:id="tcCorreo" prefWidth="108.0" text="Correo" />
+            <TableColumn fx:id="tcNumeroDePersonal" prefWidth="140.0" text="No. de personal" />
+            <TableColumn fx:id="tcCubiculo" prefWidth="74.0" text="Cubículo" />
+            <TableColumn fx:id="tcPrograma" prefWidth="186.0" text="Programa" />
+        </columns>
+      </TableView>
+      <TextField layoutX="28.0" layoutY="209.0" prefHeight="25.0" prefWidth="418.0" promptText="Nombre del catálogo" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLActualizarCatalogoDeAcademicosController">
+   <children>
+      <Label layoutX="127.0" layoutY="14.0" prefHeight="32.0" prefWidth="480.0" text="Actualizar catálogo de académicos" textFill="#092ae1">
+         <font>
+            <Font name="Arial Bold" size="28.0" />
+         </font>
+      </Label>
+      <TableView layoutX="19.0" layoutY="96.0" prefHeight="343.0" prefWidth="696.0">
+        <columns>
+          <TableColumn fx:id="tcNombre" prefWidth="234.0" text="Nombre" />
+          <TableColumn fx:id="tcCorreo" prefWidth="144.0" text="Correo" />
+            <TableColumn fx:id="tcNumeroDePersonal" minWidth="0.0" prefWidth="108.0" text="No. Personal" />
+            <TableColumn fx:id="tcCubiculo" prefWidth="83.0" text="Cubículo" />
+            <TableColumn fx:id="tcPrograma" prefWidth="126.0" text="Programa" />
+        </columns>
+      </TableView>
+      <TextField fx:id="tfNombreCatalogo" layoutX="19.0" layoutY="63.0" prefHeight="25.0" prefWidth="454.0" />
+      <Button layoutX="19.0" layoutY="467.0" mnemonicParsing="false" style="-fx-background-color: #1FDC05;" text="Actualizar" />
+      <Button layoutX="653.0" layoutY="467.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC0707;" text="Cancelar" textFill="WHITE" />
+   </children>
+</AnchorPane>

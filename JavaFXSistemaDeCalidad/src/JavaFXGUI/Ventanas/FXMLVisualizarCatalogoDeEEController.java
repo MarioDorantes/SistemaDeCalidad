@@ -43,6 +43,28 @@ public class FXMLVisualizarCatalogoDeEEController implements Initializable {
         }
     }
     
-    //Hare el registrar Catalogo de EE (la ventana tambien)
+    @FXML
+    private void registrarCatalogo(javafx.event.ActionEvent event) {
+        try{
+            Stage stage = (Stage) btRegistrarCatalogo.getScene().getWindow();
+            Scene sceneRegistrarCatalogoDeEE = new Scene(FXMLLoader.load(getClass().getResource("FXMLRegistrarCatalogoDeEE.fxml")));
+            stage.setScene(sceneRegistrarCatalogoDeEE);
+            stage.show(); 
+        } catch(IOException ex){
+            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+        }
+    }
+    
+    @FXML
+    private void actualizarCatalogo(javafx.event.ActionEvent event) {
+        try{
+            Stage stage = (Stage) btActualizarCatalogo.getScene().getWindow();
+            Scene sceneActualizarCatalogoDeEE = new Scene(FXMLLoader.load(getClass().getResource("FXMLActualizarCatalogoDeEE.fxml")));
+            stage.setScene(sceneActualizarCatalogoDeEE);
+            stage.show(); 
+        } catch(IOException ex){
+            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+        }
+    }
     
 }

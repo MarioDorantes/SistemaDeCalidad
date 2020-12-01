@@ -23,6 +23,8 @@ public class FXMLVisualizarPlanesDeCursoController implements Initializable {
     private Button btCancelar;
     @FXML
     private Button btRegistrarPlan;
+    @FXML
+    private Button btActualizarPlan;
 
    
     @Override
@@ -57,6 +59,18 @@ public class FXMLVisualizarPlanesDeCursoController implements Initializable {
             Stage stage = (Stage) btRegistrarPlan.getScene().getWindow();
             Scene sceneRegistrarPlanDeCurso = new Scene(FXMLLoader.load(getClass().getResource("FXMLRegistrarPlanDeCurso.fxml")));
             stage.setScene(sceneRegistrarPlanDeCurso);
+            stage.show();
+        } catch(IOException ex){
+            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+        }
+    }
+    
+    @FXML
+    private void actualizarPlan () {
+        try{
+            Stage stage = (Stage) btActualizarPlan.getScene().getWindow();
+            Scene sceneActualizarPlanDeCurso = new Scene(FXMLLoader.load(getClass().getResource("FXMLActualizarPlanDeCurso.fxml")));
+            stage.setScene(sceneActualizarPlanDeCurso);
             stage.show();
         } catch(IOException ex){
             System.out.println("Error al cargar FXML: "+ex.getMessage()); 

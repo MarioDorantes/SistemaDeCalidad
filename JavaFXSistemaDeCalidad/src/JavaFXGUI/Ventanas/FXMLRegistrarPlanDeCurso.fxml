@@ -7,45 +7,135 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="698.0" prefWidth="790.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLRegistrarPlanDeCursoController">
+<AnchorPane id="AnchorPane" prefHeight="698.0" prefWidth="1164.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLRegistrarPlanDeCursoController">
    <children>
-      <Label layoutX="176.0" layoutY="22.0" text="Registrar Plan de Curso">
+      <Label layoutX="38.0" layoutY="14.0" prefHeight="38.0" prefWidth="296.0" text="Registrar Plan de Curso">
          <font>
-            <Font name="System Bold Italic" size="32.0" />
+            <Font name="System Bold Italic" size="26.0" />
          </font>
       </Label>
-      <Label layoutX="35.0" layoutY="97.0" text="Clave NRC:" />
-      <Label layoutX="203.0" layoutY="97.0" text="E.E.:" />
-      <Label layoutX="448.0" layoutY="97.0" text="P.E.:" />
-      <Label layoutX="608.0" layoutY="97.0" text="Bloque:" />
-      <Label layoutX="35.0" layoutY="128.0" text="Sección:" />
-      <Label layoutX="203.0" layoutY="128.0" text="Académico:" />
-      <Label layoutX="552.0" layoutY="129.0" text="Periodo:" />
-      <TextField layoutX="102.0" layoutY="93.0" prefHeight="25.0" prefWidth="85.0" />
-      <TextField layoutX="227.0" layoutY="93.0" prefHeight="25.0" prefWidth="205.0" />
-      <TextField layoutX="473.0" layoutY="93.0" prefHeight="25.0" prefWidth="123.0" />
-      <TextField layoutX="652.0" layoutY="93.0" prefHeight="25.0" prefWidth="108.0" />
-      <TextField layoutX="85.0" layoutY="125.0" prefHeight="25.0" prefWidth="108.0" />
-      <TextField layoutX="268.0" layoutY="125.0" prefHeight="25.0" prefWidth="268.0" />
-      <TextField layoutX="611.0" layoutY="125.0" />
-      <TextArea layoutX="37.0" layoutY="188.0" prefHeight="41.0" prefWidth="730.0" />
-      <Label layoutX="33.0" layoutY="164.0" text="Objetivo General:" />
-      <Label layoutX="37.0" layoutY="244.0" text="Planeación:" />
-      <Label layoutX="37.0" layoutY="268.0" text="Unidad:" />
-      <Label layoutX="145.0" layoutY="268.0" text="Tema:" />
-      <Label layoutX="338.0" layoutY="268.0" text="Fecha:" />
-      <Label layoutX="33.0" layoutY="296.0" text="Tareas y Practicas:" />
-      <Label layoutX="291.0" layoutY="296.0" text="Técnica Didactica:" />
-      <TableView layoutX="29.0" layoutY="328.0" prefHeight="163.0" prefWidth="742.0">
+      <Label layoutX="38.0" layoutY="70.0" text="Clave NRC:" />
+      <Label layoutX="166.0" layoutY="70.0" text="E.E.:" />
+      <Label layoutX="392.0" layoutY="70.0" text="P.E.:" />
+      <Label layoutX="534.0" layoutY="70.0" text="Bloque:" />
+      <Label layoutX="629.0" layoutY="70.0" text="Sección:" />
+      <Label layoutX="723.0" layoutY="70.0" text="Académico:" />
+      <Label layoutX="974.0" layoutY="70.0" text="Periodo:" />
+      <TextField layoutX="103.0" layoutY="66.0" prefHeight="25.0" prefWidth="58.0" />
+      <TextField layoutX="189.0" layoutY="66.0" prefHeight="25.0" prefWidth="195.0" />
+      <TextField layoutX="419.0" layoutY="66.0" prefHeight="25.0" prefWidth="108.0" />
+      <TextField layoutX="576.0" layoutY="66.0" prefHeight="25.0" prefWidth="44.0" />
+      <TextField layoutX="673.0" layoutY="66.0" prefHeight="25.0" prefWidth="44.0" />
+      <TextField layoutX="791.0" layoutY="66.0" prefHeight="25.0" prefWidth="177.0" />
+      <TextField layoutX="1026.0" layoutY="66.0" prefHeight="25.0" prefWidth="123.0" />
+      <TextArea layoutX="149.0" layoutY="101.0" prefHeight="31.0" prefWidth="1000.0" />
+      <Label layoutX="40.0" layoutY="108.0" prefHeight="17.0" prefWidth="96.0" text="Objetivo General:" />
+      <Label layoutX="43.0" layoutY="149.0" prefHeight="20.0" prefWidth="86.0" text="Planeación:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+      <Label layoutX="45.0" layoutY="175.0" prefHeight="17.0" prefWidth="44.0" text="Unidad:" />
+      <Label layoutX="160.0" layoutY="175.0" prefHeight="17.0" prefWidth="58.0" text="Tema:" />
+      <Label layoutX="381.0" layoutY="175.0" prefHeight="17.0" prefWidth="44.0" text="Fecha:" />
+      <Label layoutX="534.0" layoutY="175.0" prefHeight="17.0" prefWidth="108.0" text="Tareas y Practicas:" />
+      <Label layoutX="855.0" layoutY="175.0" prefHeight="17.0" prefWidth="102.0" text="Técnica Didactica:" />
+      <TableView layoutX="45.0" layoutY="204.0" prefHeight="99.0" prefWidth="913.0">
         <columns>
           <TableColumn prefWidth="75.0" text="Unidad" />
-          <TableColumn prefWidth="75.0" text="Tema" />
-            <TableColumn prefWidth="75.0" text="Fecha" />
-            <TableColumn prefWidth="139.0" text="Tareas y Practicas" />
-            <TableColumn prefWidth="226.0" text="Técnica Didactica" />
+          <TableColumn prefWidth="172.0" text="Tema" />
+            <TableColumn prefWidth="106.0" text="Fecha" />
+            <TableColumn prefWidth="338.0" text="Tareas y Practicas" />
+            <TableColumn prefWidth="221.0" text="Técnica Didactica" />
         </columns>
       </TableView>
-      <Button fx:id="btCancelar" layoutX="498.0" layoutY="620.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="41.0" prefWidth="123.0" text="Cancelar" />
+      <Button fx:id="btCancelar" layoutX="694.0" layoutY="639.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="38.0" prefWidth="195.0" style="-fx-background-color: #FC0707;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font></Button>
+      <TextField layoutX="91.0" layoutY="171.0" prefHeight="25.0" prefWidth="58.0" />
+      <TextField layoutX="198.0" layoutY="171.0" prefHeight="25.0" prefWidth="177.0" />
+      <DatePicker layoutX="419.0" layoutY="171.0" prefHeight="25.0" prefWidth="108.0" />
+      <TextField layoutX="631.0" layoutY="171.0" prefHeight="25.0" prefWidth="215.0" />
+      <TextField layoutX="957.0" layoutY="171.0" prefHeight="25.0" prefWidth="189.0" />
+      <Button layoutX="988.0" layoutY="214.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="136.0" style="-fx-background-color: #FCF407;" text="Agregar Planeación">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="988.0" layoutY="254.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="136.0" style="-fx-background-color: #FC0707;" text="Eliminar Planeación" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Label layoutX="47.0" layoutY="308.0" text="Bibliografia:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="47.0" layoutY="328.0" prefHeight="17.0" prefWidth="189.0" text="Autor (es) Apellido (s), Nombre (s):" />
+      <Label layoutX="499.0" layoutY="328.0" text="Título del Libro:" />
+      <Label layoutX="769.0" layoutY="328.0" text="Editorial:" />
+      <Label layoutX="1019.0" layoutY="328.0" text="Año:" />
+      <TextField layoutX="232.0" layoutY="324.0" prefHeight="25.0" prefWidth="259.0" />
+      <TextField layoutX="586.0" layoutY="324.0" prefHeight="25.0" prefWidth="177.0" />
+      <TextField layoutX="822.0" layoutY="324.0" prefHeight="25.0" prefWidth="189.0" />
+      <TextField layoutX="1053.0" layoutY="324.0" prefHeight="25.0" prefWidth="96.0" />
+      <TableView layoutX="47.0" layoutY="357.0" prefHeight="99.0" prefWidth="913.0">
+        <columns>
+          <TableColumn prefWidth="299.0" text="Autor (es) Apellido (s), Nombre (s)" />
+          <TableColumn prefWidth="256.0" text="Título del Libro" />
+            <TableColumn prefWidth="245.0" text="Editorial" />
+            <TableColumn prefWidth="112.0" text="Año" />
+        </columns>
+      </TableView>
+      <TableView layoutX="49.0" layoutY="520.0" prefHeight="99.0" prefWidth="913.0">
+        <columns>
+          <TableColumn prefWidth="79.0" text="Unidad" />
+          <TableColumn prefWidth="122.0" text="Fecha" />
+            <TableColumn prefWidth="319.0" text="Criterio de Evaluación" />
+            <TableColumn prefWidth="283.0" text="Instrumento" />
+            <TableColumn prefWidth="109.0" text="Porcentaje" />
+        </columns>
+      </TableView>
+      <Button layoutX="995.0" layoutY="371.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="136.0" style="-fx-background-color: #FCF407;" text="Agregar Bibliografia">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="995.0" layoutY="414.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="136.0" style="-fx-background-color: #FC0707;" text="Eliminar Bibliografia" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Label layoutX="48.0" layoutY="462.0" text="Calendario de Evaluación:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="50.0" layoutY="491.0" prefHeight="17.0" prefWidth="44.0" text="Unidad:" />
+      <Label layoutX="159.0" layoutY="492.0" text="Fecha:" />
+      <Label layoutX="315.0" layoutY="491.0" text="Criterio de Evaluación:" />
+      <Label layoutX="651.0" layoutY="492.0" text="Instrumento:" />
+      <Label layoutX="877.0" layoutY="492.0" text="Porcentaje:" />
+      <TextField layoutX="94.0" layoutY="487.0" prefHeight="25.0" prefWidth="58.0" />
+      <TextField layoutX="439.0" layoutY="487.0" prefHeight="25.0" prefWidth="207.0" />
+      <TextField layoutX="723.0" layoutY="488.0" />
+      <TextField layoutX="944.0" layoutY="487.0" prefHeight="25.0" prefWidth="102.0" />
+      <DatePicker layoutX="200.0" layoutY="488.0" prefHeight="25.0" prefWidth="108.0" />
+      <Button layoutX="995.0" layoutY="528.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="136.0" style="-fx-background-color: #FCF407;" text="Agregar Calendario">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="295.0" layoutY="639.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="195.0" style="-fx-background-color: #1FDC05;" text="Registrar Plan de Curso">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button layoutX="995.0" layoutY="570.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="136.0" style="-fx-background-color: #FC0707;" text="Eliminar Calendario" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

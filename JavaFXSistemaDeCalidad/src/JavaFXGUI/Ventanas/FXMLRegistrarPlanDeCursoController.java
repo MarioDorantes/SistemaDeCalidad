@@ -1,6 +1,6 @@
 /*
 Autor: Mario Dorantes
-Comentarios aun por verificar 
+fechaCreación: 01/12/2020
  */
 
 package JavaFXGUI.Ventanas;

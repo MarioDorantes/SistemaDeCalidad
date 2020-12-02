@@ -7,16 +7,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="394.0" prefWidth="658.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLEliminarAcademiaController">
+<AnchorPane id="AnchorPane" prefHeight="394.0" prefWidth="658.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLEliminarAcademiaController">
    <children>
-      <Label layoutX="177.0" layoutY="31.0" text="Eliminar Academia">
+      <Label layoutX="177.0" layoutY="31.0" text="Eliminar Academia" textFill="#0026ff">
          <font>
             <Font name="System Bold Italic" size="34.0" />
          </font>
       </Label>
       <ComboBox layoutX="118.0" layoutY="160.0" prefHeight="50.0" prefWidth="424.0" promptText="Lista de Academias" />
-      <Button layoutX="147.0" layoutY="296.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="134.0" text="Eliminar" />
-      <Button fx:id="btCancelar" layoutX="361.0" layoutY="296.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="50.0" prefWidth="134.0" text="Cancelar" />
+      <Button fx:id="btEliminarAcademia" layoutX="147.0" layoutY="296.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="134.0" style="-fx-background-color: #FC0707;" text="Eliminar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="btCancelar" layoutX="361.0" layoutY="296.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="50.0" prefWidth="134.0" style="-fx-background-color: #FF6600;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
    </children>
 </AnchorPane>

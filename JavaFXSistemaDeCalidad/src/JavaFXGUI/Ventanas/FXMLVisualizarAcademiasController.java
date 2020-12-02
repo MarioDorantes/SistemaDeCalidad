@@ -58,6 +58,18 @@ public class FXMLVisualizarAcademiasController implements Initializable {
     }
     
     @FXML
+    private void actualizarAcademia(javafx.event.ActionEvent event) {
+        try{
+            Stage stage = (Stage) btActualizarAcademia.getScene().getWindow();
+            Scene sceneActualizarAcademia = new Scene(FXMLLoader.load(getClass().getResource("FXMLActualizarAcademia.fxml")));
+            stage.setScene(sceneActualizarAcademia);
+            stage.show(); 
+        } catch(IOException ex){
+            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+        }
+    }
+    
+    @FXML
     private void eliminarAcademia(javafx.event.ActionEvent event) {
         try{
             Stage stage = (Stage) btEliminarAcademia.getScene().getWindow();

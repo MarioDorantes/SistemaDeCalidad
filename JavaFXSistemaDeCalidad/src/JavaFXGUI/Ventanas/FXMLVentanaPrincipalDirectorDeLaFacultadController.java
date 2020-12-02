@@ -99,6 +99,30 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
         }
     }
     
+    @FXML
+    private void visualizarCatalogoLGCA(ActionEvent e){
+        try{
+            Stage stage = (Stage) btSalir.getScene().getWindow();
+            Scene sceneVisualizarCatalogoLGCA = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCatalogoLGCA.fxml")));
+            stage.setScene(sceneVisualizarCatalogoLGCA);
+            stage.show();
+        }catch(IOException ex){
+            mostrarAlertas("Error", "No se pudo cargar la ventana siguiente, intente más tarde");
+        }
+    }
+    
+    @FXML
+    private void irAObtenerIndicadorDeInvestigacion(ActionEvent event) {
+        try{
+            Stage stage = (Stage) btSalir.getScene().getWindow();
+            Scene obtenerIndicadorDeInvestigacion = new Scene(FXMLLoader.load(getClass().getResource("FXMLObtenerIndicadorDeInvestigacion.fxml")));
+            stage.setScene(obtenerIndicadorDeInvestigacion);
+            stage.show();
+        }catch(IOException ex){
+            mostrarAlertas("Error", "No se pudo cargar la ventana siguiente, intente más tarde");
+        }
+    }
+    
     private void mostrarAlertas(String titulo, String dialogo){
         Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle(titulo);
@@ -106,6 +130,8 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
         alerta.setContentText(dialogo);
         alerta.showAndWait();
     }
+
+   
     
     
 }

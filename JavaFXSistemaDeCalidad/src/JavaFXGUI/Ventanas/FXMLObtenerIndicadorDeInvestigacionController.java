@@ -1,6 +1,6 @@
 /*
  *Autor: Brandon Trujillo
- *FechaDeCreación: 28/11/2020
+ *fechaDeCreacion: 01/12/2020
  */
 package JavaFXGUI.Ventanas;
 
@@ -13,23 +13,30 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class FXMLRegistrarDocenteController implements Initializable {
+public class FXMLObtenerIndicadorDeInvestigacionController implements Initializable {
+
+    @FXML
+    private TextField tfNumeroDeAcademicosEnProyectos;
+    @FXML
+    private TextField tfNumeroDeEstudiantesEnProyectos;
+    @FXML
+    private TextField tfNumeroDeAprobadosCeneval;
+    @FXML
+    private TextField tfNumeroAprobadosTrabajoRecepcional;
     
     @FXML
-    private Label lbNombre;
-    
-    private void cancelar(ActionEvent e){
-         try {
-            Stage stage = (Stage) lbNombre.getScene().getWindow();
-            Scene cancelar = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarDocentes.fxml")));
+    private void cancelar(ActionEvent event) {
+        try{
+            Stage stage = (Stage) tfNumeroDeAprobadosCeneval.getScene().getWindow();
+            Scene cancelar = new Scene(FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDirectorDeLaFacultad.fxml")));
             stage.setScene(cancelar);
             stage.show();
-        } catch (IOException ex) {
+        }catch(IOException ex){
             mostrarAlertas("Error", "No se pudo cargar la ventana siguiente, intente más tarde");
-        } 
+        }
     }
     
     @Override
@@ -38,11 +45,12 @@ public class FXMLRegistrarDocenteController implements Initializable {
     }    
     
     public void mostrarAlertas(String titulo, String dialogo){
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle(titulo);
         alerta.setHeaderText(null);
         alerta.setContentText(dialogo);
         alerta.showAndWait();
     }
+
     
 }

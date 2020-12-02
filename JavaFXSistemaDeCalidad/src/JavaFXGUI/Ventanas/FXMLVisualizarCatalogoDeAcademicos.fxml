@@ -7,8 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarCatalogoDeAcademicosController">
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarCatalogoDeAcademicosController">
    <children>
       <Label layoutX="128.0" layoutY="14.0" text="Visualizar catálogos de académicos" textFill="#092ae1">
          <font>
@@ -22,8 +21,7 @@
         </columns>
       </TableView>
       <Button layoutX="652.0" layoutY="473.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: FC9305;" text="Cancelar" />
-      <Button layoutX="268.0" layoutY="80.0" mnemonicParsing="false" style="-fx-background-color: #1FDC05;" text="Registrar catálogo" />
-      <Button layoutX="431.0" layoutY="80.0" mnemonicParsing="false" style="-fx-background-color: #FCF407;" text="Actualizar" />
-      <Button layoutX="549.0" layoutY="80.0" mnemonicParsing="false" style="-fx-background-color: FCF407;" text="Descargar" />
+      <Button layoutX="389.0" layoutY="80.0" mnemonicParsing="false" onAction="#irARegistrarCatalogo" style="-fx-background-color: #1FDC05;" text="Registrar catálogo" />
+      <Button layoutX="550.0" layoutY="80.0" mnemonicParsing="false" onAction="#irAActualizarCatalogo" style="-fx-background-color: #FCF407;" text="Actualizar" />
    </children>
 </AnchorPane>

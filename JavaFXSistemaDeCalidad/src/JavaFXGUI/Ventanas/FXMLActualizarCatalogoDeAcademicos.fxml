@@ -7,8 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLActualizarCatalogoDeAcademicosController">
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLActualizarCatalogoDeAcademicosController">
    <children>
       <Label layoutX="127.0" layoutY="14.0" prefHeight="32.0" prefWidth="480.0" text="Actualizar catálogo de académicos" textFill="#092ae1">
          <font>
@@ -26,6 +25,7 @@
       </TableView>
       <TextField fx:id="tfNombreCatalogo" layoutX="19.0" layoutY="63.0" prefHeight="25.0" prefWidth="454.0" />
       <Button layoutX="19.0" layoutY="467.0" mnemonicParsing="false" style="-fx-background-color: #1FDC05;" text="Actualizar" />
-      <Button layoutX="653.0" layoutY="467.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC0707;" text="Cancelar" textFill="WHITE" />
+      <Button layoutX="653.0" layoutY="467.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC9305;" text="Cancelar" />
+      <ComboBox fx:id="cbSeleccionarCatalogo" layoutX="497.0" layoutY="63.0" prefHeight="25.0" prefWidth="218.0" promptText="Seleccione un catálogo" />
    </children>
 </AnchorPane>

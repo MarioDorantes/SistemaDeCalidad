@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarCatalogoLGCAController">
+   <children>
+      <Label layoutX="188.0" layoutY="14.0" text="Visualizar catálogos LGCA" textFill="#092ae1">
+         <font>
+            <Font name="Arial Bold" size="28.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tvContenedor" layoutX="146.0" layoutY="116.0" prefHeight="363.0" prefWidth="441.0">
+        <columns>
+          <TableColumn fx:id="tcClave" prefWidth="241.0" text="Nombre del actálogo" />
+          <TableColumn fx:id="tcFechaRegistro" prefWidth="199.0" text="Fecha de registro" />
+        </columns>
+      </TableView>
+      <Button layoutX="367.0" layoutY="74.0" mnemonicParsing="false" onAction="#irARegistrarCatalogo" style="-fx-background-color: #1FDC05;" text="Registrar catálogo" />
+      <Button layoutX="519.0" layoutY="74.0" mnemonicParsing="false" onAction="#irAActualizarCatalogo" style="-fx-background-color: #FCF407;" text="Actualizar" />
+      <Button layoutX="664.0" layoutY="479.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC9305;" text="Cancelar" />
+   </children>
+</AnchorPane>

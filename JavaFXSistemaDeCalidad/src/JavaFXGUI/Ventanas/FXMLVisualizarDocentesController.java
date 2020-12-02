@@ -1,6 +1,6 @@
 /*
-Autor: Brandon Trujillo
-FechaCreación: 28/11/2020
+ *Autor: Brandon Trujillo
+ *FechaCreación: 28/11/2020
 */
 package JavaFXGUI.Ventanas;
 

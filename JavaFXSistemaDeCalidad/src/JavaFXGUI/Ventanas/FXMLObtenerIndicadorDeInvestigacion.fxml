@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLObtenerIndicadorDeInvestigacionController">
+   <children>
+      <Label layoutX="246.0" layoutY="14.0" text="Obtener indicador" textFill="#092ae1">
+         <font>
+            <Font name="Arial Bold" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="24.0" layoutY="138.0" text="Número de académicos que participan en proyectos de investigación: ">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="27.0" layoutY="214.0" text="Número de estudiantes que participan en proyectos de investigación: ">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="177.0" layoutY="289.0" text="Número de estudiantes que aprobaron CENEVAL:">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="97.0" layoutY="373.0" text="Número de estudiantes que aprobaron Trabajo Recepcional:">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Button layoutX="645.0" layoutY="469.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC9305;" text="Cancelar" />
+      <TextField fx:id="tfNumeroDeAcademicosEnProyectos" layoutX="562.0" layoutY="136.0" />
+      <TextField fx:id="tfNumeroDeEstudiantesEnProyectos" layoutX="562.0" layoutY="212.0" />
+      <TextField fx:id="tfNumeroDeAprobadosCeneval" layoutX="562.0" layoutY="287.0" />
+      <TextField fx:id="tfNumeroAprobadosTrabajoRecepcional" layoutX="562.0" layoutY="371.0" />
+      <Label layoutX="27.0" layoutY="59.0" text="Mes del que necesita su indicador: ">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="27.0" layoutY="91.0" text="Año del que necesita su indicador:">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfmesParaObtenerIndicador" layoutX="220.0" layoutY="54.0" />
+      <TextField fx:id="tfAñoParaObtenerIndicador" layoutX="220.0" layoutY="86.0" />
+      <Button layoutX="422.0" layoutY="67.0" mnemonicParsing="false" style="-fx-background-color: #1FDC05;" text="Obtener" />
+   </children>
+</AnchorPane>

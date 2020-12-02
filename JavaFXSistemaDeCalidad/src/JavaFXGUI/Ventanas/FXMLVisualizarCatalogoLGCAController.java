@@ -1,6 +1,6 @@
 /*
  *Autor: Brandon Trujillo
- *fechaDeCreación: 28/11/2020
+ *fechaDeCreación: 01/12/2020
  */
 package JavaFXGUI.Ventanas;
 
@@ -17,15 +17,39 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
-public class FXMLVisualizarCatalogoDeAcademicosController implements Initializable {
+public class FXMLVisualizarCatalogoLGCAController implements Initializable {
 
     @FXML
     private TableView<?> tvContenedor;
     @FXML
-    private TableColumn<?, ?> tcNombreDeCatalogo;
+    private TableColumn<?, ?> tcClave;
     @FXML
-    private TableColumn<?, ?> tcFechaDeRegistroCatalogo;
+    private TableColumn<?, ?> tcFechaRegistro;
 
+    @FXML
+    private void irARegistrarCatalogo(ActionEvent e){
+        try{
+            Stage stage = (Stage) tvContenedor.getScene().getWindow();
+            Scene registrarCatalogo = new Scene(FXMLLoader.load(getClass().getResource("FXMLRegistrarCatalogoLGCA.fxml")));
+            stage.setScene(registrarCatalogo);
+            stage.show();
+        }catch(IOException ex){
+            mostrarAlertas("Error", "No se pudo cargar la ventana siguiente, intente más tarde");
+        }
+    }
+    
+    @FXML
+    private void irAActualizarCatalogo(ActionEvent e){
+        try{
+            Stage stage = (Stage) tvContenedor.getScene().getWindow();
+            Scene actualizarCatalogo = new Scene(FXMLLoader.load(getClass().getResource("FXMLActualizarCatalogoLGCA.fxml")));
+            stage.setScene(actualizarCatalogo);
+            stage.show();
+        }catch(IOException ex){
+            mostrarAlertas("Error", "No se pudo cargar la ventana siguiente, intente más tarde");
+        }
+    }
+    
     @FXML
     private void cancelar(ActionEvent e){
         try{
@@ -38,35 +62,10 @@ public class FXMLVisualizarCatalogoDeAcademicosController implements Initializab
         }
     }
     
-    @FXML
-    private void irARegistrarCatalogo(ActionEvent event) {
-        try{
-            Stage stage = (Stage) tvContenedor.getScene().getWindow();
-            Scene registrarCatalogo = new Scene(FXMLLoader.load(getClass().getResource("FXMLRegistrarCatalogoAcademicos.fxml")));
-            stage.setScene(registrarCatalogo);
-            stage.show();
-        }catch(IOException ex){
-            mostrarAlertas("Error", "No se pudo cargar la ventana siguiente, intente más tarde");
-        }
-    }
-
-    @FXML
-    private void irAActualizarCatalogo(ActionEvent event) {
-        try{
-            Stage stage = (Stage) tvContenedor.getScene().getWindow();
-            Scene actualizarCatalogo = new Scene(FXMLLoader.load(getClass().getResource("FXMLActualizarCatalogoDeAcademicos.fxml")));
-            stage.setScene(actualizarCatalogo);
-            stage.show();
-        }catch(IOException ex){
-            mostrarAlertas("Error", "No se pudo cargar la ventana siguiente, intente más tarde");
-        }
-    }
-    
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }   
+    }    
     
     public void mostrarAlertas(String titulo, String dialogo){
         Alert alerta = new Alert(Alert.AlertType.ERROR);
@@ -75,6 +74,5 @@ public class FXMLVisualizarCatalogoDeAcademicosController implements Initializab
         alerta.setContentText(dialogo);
         alerta.showAndWait();
     }
-
     
 }

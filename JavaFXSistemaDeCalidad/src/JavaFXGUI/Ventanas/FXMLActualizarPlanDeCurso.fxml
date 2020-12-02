@@ -7,8 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="698.0" prefWidth="1164.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLActualizarPlanDeCursoController">
+<AnchorPane id="AnchorPane" prefHeight="698.0" prefWidth="1164.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLActualizarPlanDeCursoController">
    <children>
       <Label layoutX="34.0" layoutY="20.0" prefHeight="35.0" prefWidth="338.0" text="Actualizar Plan de Curso">
          <font>
@@ -132,7 +131,7 @@
             <TableColumn prefWidth="109.0" text="Porcentaje" />
          </columns>
       </TableView>
-      <Button fx:id="btActualizarPlan" layoutX="305.0" layoutY="649.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="195.0" style="-fx-background-color: #1FDC05;" text="Actualizar Plan de Curso">
+      <Button fx:id="btActualizarPlan" layoutX="305.0" layoutY="649.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="195.0" style="-fx-background-color: #FCF407;" text="Actualizar Plan de Curso">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>

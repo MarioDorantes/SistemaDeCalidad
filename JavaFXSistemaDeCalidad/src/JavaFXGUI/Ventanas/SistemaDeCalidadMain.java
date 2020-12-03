@@ -16,13 +16,12 @@ public class SistemaDeCalidadMain extends Application {
         //HASTA NO TENER EL LOGIN Y SABER QUE TIPO DE USUARIO ENTRA, DEBEMOS COMENTAR EL CONTRARIO 
         
         
-        //Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDocente.fxml"));
+        
         //Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDirectorDeLaFacultad.fxml"));
                         
         Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDocente.fxml"));
-        //Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDirectorDeLaFacultad.fxml"));
-        //Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDirectorDeLaFacultad.fxml"));
-                
+       
+                        
         Scene scene = new Scene(root);
         
         stage.setScene(scene);

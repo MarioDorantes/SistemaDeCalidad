@@ -1,6 +1,6 @@
 /*
 Autor: Mario Dorantes
-fechaCreación: 25/11/2020
+fechaCreación: 02/12/2020
  */
 
 package JavaFXGUI.Ventanas;
@@ -16,18 +16,18 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 
-public class FXMLRegistrarAcademiaController implements Initializable {
+public class FXMLActualizarAcademiaController implements Initializable {
 
     @FXML
-    private Button btCancelar;
+    private Button btActualizarAcademia;
     @FXML
-    private Button btRegistrarAcademia;
+    private Button btCancelar;
 
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
+    }   
     
     @FXML
     private void cancelar(javafx.event.ActionEvent event) {
@@ -40,6 +40,5 @@ public class FXMLRegistrarAcademiaController implements Initializable {
             System.out.println("Error al cargar FXML: "+ex.getMessage()); 
         }
     }
-    
     
 }

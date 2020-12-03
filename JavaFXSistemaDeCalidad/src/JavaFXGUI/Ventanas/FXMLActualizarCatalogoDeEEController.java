@@ -1,6 +1,6 @@
 /*
 Autor: Mario Dorantes
-fechaCreación: 25/11/2020
+FechaDeCreación: 02/12/2020
  */
 
 package JavaFXGUI.Ventanas;
@@ -16,30 +16,29 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 
-public class FXMLRegistrarAcademiaController implements Initializable {
+public class FXMLActualizarCatalogoDeEEController implements Initializable {
 
+    @FXML
+    private Button btActualizarCatalogo;
     @FXML
     private Button btCancelar;
-    @FXML
-    private Button btRegistrarAcademia;
 
-    
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
+    }    
     
     @FXML
     private void cancelar(javafx.event.ActionEvent event) {
         try{
             Stage stage = (Stage) btCancelar.getScene().getWindow();
-            Scene sceneVisualizarAcademias = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarAcademias.fxml")));
-            stage.setScene(sceneVisualizarAcademias);
+            Scene sceneVisualizarCatalogoDeEE = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCatalogoDeEE.fxml")));
+            stage.setScene(sceneVisualizarCatalogoDeEE);
             stage.show(); 
         } catch(IOException ex){
             System.out.println("Error al cargar FXML: "+ex.getMessage()); 
         }
     }
-    
     
 }

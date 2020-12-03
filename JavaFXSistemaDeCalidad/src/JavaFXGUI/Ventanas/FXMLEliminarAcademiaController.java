@@ -20,8 +20,6 @@ public class FXMLEliminarAcademiaController implements Initializable {
 
     @FXML
     private Button btCancelar;
-    @FXML
-    private Button btEliminarAcademia;
 
     
     @Override

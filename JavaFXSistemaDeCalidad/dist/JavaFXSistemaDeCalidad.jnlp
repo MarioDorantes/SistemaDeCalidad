@@ -16,3 +16,21 @@
   <jfx:javafx-desc  width="800" height="600" main-class="JavaFXGUI.Ventanas.SistemaDeCalidadMain"  name="JavaFXSistemaDeCalidad" />
   <update check="always"/>
 </jnlp>
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="JavaFXSistemaDeCalidad.jnlp">
+  <information>
+    <title>JavaFXSistemaDeCalidad</title>
+    <vendor>mario</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="JavaFXSistemaDeCalidad.jar" size="71525" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="JavaFXSistemaDeCalidad" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="JavaFXGUI.Ventanas.SistemaDeCalidadMain"  name="JavaFXSistemaDeCalidad" />
+  <update check="always"/>
+</jnlp>

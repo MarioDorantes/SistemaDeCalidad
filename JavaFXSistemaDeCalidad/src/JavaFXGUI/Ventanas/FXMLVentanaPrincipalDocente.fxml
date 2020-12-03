@@ -26,5 +26,10 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
+      <Button layoutX="65.0" layoutY="284.0" mnemonicParsing="false" onAction="#irAVisualizarAvancesProgramaticos" prefHeight="56.0" prefWidth="164.0" text="Visualizar Avances Programaticos" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

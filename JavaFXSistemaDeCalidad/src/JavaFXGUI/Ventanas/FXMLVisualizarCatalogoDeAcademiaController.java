@@ -55,4 +55,16 @@ public class FXMLVisualizarCatalogoDeAcademiaController implements Initializable
         }
     }
     
+    @FXML
+    private void actualizarCatalogoDeAcademia(javafx.event.ActionEvent event) {
+        try{
+            Stage stage = (Stage) btActualizarCatalogo.getScene().getWindow();
+            Scene sceneActualizarCatalogoDeAcademia = new Scene(FXMLLoader.load(getClass().getResource("FXMLActualizarCatalogoDeAcademia.fxml")));
+            stage.setScene(sceneActualizarCatalogoDeAcademia);
+            stage.show(); 
+        } catch(IOException ex){
+            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+        }
+    }
+    
 }

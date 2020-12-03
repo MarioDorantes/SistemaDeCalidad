@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLActualizarCatalogoDeAcademiaController">
+   <children>
+      <Label layoutX="91.0" layoutY="27.0" text="Actualizar Catálogo de Academia" textFill="#0026ff">
+         <font>
+            <Font name="System Bold Italic" size="35.0" />
+         </font>
+      </Label>
+      <Label layoutX="54.0" layoutY="123.0" text="Nombre de la Licenciatura:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="70.0" layoutY="170.0" text="Nombre de la Academia:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="65.0" layoutY="209.0" prefHeight="21.0" prefWidth="184.0" text="Nombre del Coordinador:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="380.0" layoutY="249.0" text="Estado del Catálogo:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <TextField layoutX="254.0" layoutY="121.0" prefHeight="25.0" prefWidth="422.0" />
+      <TextField layoutX="254.0" layoutY="168.0" prefHeight="25.0" prefWidth="308.0" />
+      <TextField layoutX="254.0" layoutY="207.0" prefHeight="25.0" prefWidth="308.0" />
+      <Button layoutX="54.0" layoutY="241.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="116.0" style="-fx-background-color: #FCF407;" text="Agregar">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="184.0" layoutY="241.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="116.0" style="-fx-background-color: #FC0707;" text="Eliminar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="btActualizarCatalogo" layoutX="173.0" layoutY="448.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="163.0" style="-fx-background-color: #FCF407;" text="Actualizar Catálogo">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="btCancelar" layoutX="428.0" layoutY="448.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="44.0" prefWidth="163.0" style="-fx-background-color: #FC0707;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <TableView layoutX="54.0" layoutY="288.0" prefHeight="139.0" prefWidth="631.0">
+        <columns>
+          <TableColumn prefWidth="306.0" text="Nombre de la Academia" />
+          <TableColumn prefWidth="324.0" text="Nombre del Coordinador" />
+        </columns>
+      </TableView>
+      <RadioButton layoutX="535.0" layoutY="251.0" mnemonicParsing="false" text="Activo" />
+      <RadioButton layoutX="608.0" layoutY="251.0" mnemonicParsing="false" text="Inactivo" />
+   </children>
+</AnchorPane>

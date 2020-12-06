@@ -12,8 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import util.Herramientas;
 
 
 public class FXMLVisualizarAcademiasController implements Initializable {
@@ -27,6 +29,7 @@ public class FXMLVisualizarAcademiasController implements Initializable {
     @FXML
     private Button btCancelar;
 
+    Alert mostrarAlerta;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -41,7 +44,8 @@ public class FXMLVisualizarAcademiasController implements Initializable {
             stage.setScene(sceneVentanaPrincipalDirectorDeLaFacultad);
             stage.show(); 
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();  
         }
     }
     
@@ -53,7 +57,8 @@ public class FXMLVisualizarAcademiasController implements Initializable {
             stage.setScene(sceneRegistrarAcademia);
             stage.show(); 
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait(); 
         }
     }
     
@@ -65,7 +70,8 @@ public class FXMLVisualizarAcademiasController implements Initializable {
             stage.setScene(sceneActualizarAcademia);
             stage.show(); 
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait(); 
         }
     }
     
@@ -77,7 +83,8 @@ public class FXMLVisualizarAcademiasController implements Initializable {
             stage.setScene(sceneEliminarAcademia);
             stage.show(); 
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait(); 
         }
     }
     

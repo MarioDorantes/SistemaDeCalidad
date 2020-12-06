@@ -12,8 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import util.Herramientas;
 
 
 public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable {
@@ -21,6 +23,7 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
     @FXML
     private Button btCancelar;
 
+    Alert mostrarAlerta;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -35,7 +38,8 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
             stage.setScene(sceneVisualizarCatalogoDeAcademia);
             stage.show(); 
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();  
         }
     }
     

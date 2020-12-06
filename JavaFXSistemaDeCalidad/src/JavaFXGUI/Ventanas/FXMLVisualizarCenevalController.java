@@ -12,8 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import util.Herramientas;
 
 
 public class FXMLVisualizarCenevalController implements Initializable {
@@ -28,6 +30,8 @@ public class FXMLVisualizarCenevalController implements Initializable {
     private Button btCancelar;
 
     
+    Alert mostrarAlerta;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -41,7 +45,8 @@ public class FXMLVisualizarCenevalController implements Initializable {
             stage.setScene(sceneVentanaPrincipalDocente);
             stage.show();
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();  
         }
     }
     
@@ -53,7 +58,8 @@ public class FXMLVisualizarCenevalController implements Initializable {
             stage.setScene(sceneRegistrarCeneval);
             stage.show(); 
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage());
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait(); 
         }
     }
     
@@ -65,7 +71,8 @@ public class FXMLVisualizarCenevalController implements Initializable {
             stage.setScene(sceneActualizarCeneval);
             stage.show(); 
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage());
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait(); 
         }
     }
     
@@ -77,7 +84,8 @@ public class FXMLVisualizarCenevalController implements Initializable {
             stage.setScene(sceneEliminarCeneval);
             stage.show(); 
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage());
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait(); 
         }
     }
     

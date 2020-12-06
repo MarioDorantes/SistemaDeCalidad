@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import util.Herramientas;
 
 
 public class FXMLVentanaPrincipalDocenteController implements Initializable {
@@ -27,6 +28,7 @@ public class FXMLVentanaPrincipalDocenteController implements Initializable {
     @FXML
     private Button btSalir;
 
+    Alert mostrarAlerta;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -47,7 +49,8 @@ public class FXMLVentanaPrincipalDocenteController implements Initializable {
             stage.setScene(sceneVisualizarPlanesDeCurso);
             stage.show();
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait(); 
         }
     }
     
@@ -59,7 +62,8 @@ public class FXMLVentanaPrincipalDocenteController implements Initializable {
             stage.setScene(sceneVisualizarCeneval);
             stage.show(); 
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();  
         }
     }
 

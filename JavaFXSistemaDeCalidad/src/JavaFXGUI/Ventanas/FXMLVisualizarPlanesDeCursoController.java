@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import util.Herramientas;
 
 
 public class FXMLVisualizarPlanesDeCursoController implements Initializable {
@@ -27,6 +28,8 @@ public class FXMLVisualizarPlanesDeCursoController implements Initializable {
     private Button btActualizarPlan;
 
    
+    Alert mostrarAlerta;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -49,7 +52,8 @@ public class FXMLVisualizarPlanesDeCursoController implements Initializable {
             stage.setScene(sceneVentanaPrincipalDocente);
             stage.show();
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();  
         }
     }
     
@@ -61,7 +65,8 @@ public class FXMLVisualizarPlanesDeCursoController implements Initializable {
             stage.setScene(sceneRegistrarPlanDeCurso);
             stage.show();
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();  
         }
     }
     
@@ -73,7 +78,8 @@ public class FXMLVisualizarPlanesDeCursoController implements Initializable {
             stage.setScene(sceneActualizarPlanDeCurso);
             stage.show();
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();  
         }
     }
     

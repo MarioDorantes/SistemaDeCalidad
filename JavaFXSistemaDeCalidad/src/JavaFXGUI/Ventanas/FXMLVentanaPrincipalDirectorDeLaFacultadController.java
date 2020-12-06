@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import util.Herramientas;
 
 
 public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initializable {
@@ -27,6 +28,7 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
     @FXML
     private Button btVisualizarCatalogoDeAcademia;
 
+    Alert mostrarAlerta;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -47,7 +49,8 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
             stage.setScene(sceneVisualizarAcademias);
             stage.show(); 
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
         }
     }
     
@@ -59,7 +62,8 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
             stage.setScene(sceneVisualizarCatalogoDeAcademia);
             stage.show(); 
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
         }
     }
     /*
@@ -71,7 +75,8 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
             stage.setScene(sceneVisualizarCatalogoDeEE);
             stage.show(); 
         } catch(IOException ex){
-            System.out.println("Error al cargar FXML: "+ex.getMessage()); 
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait(); 
         }
     }*/
     

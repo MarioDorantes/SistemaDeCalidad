@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLRegistrarAvancesProgramaticosController.java</file>
-            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLVentanaPrincipalDocenteController.java</file>
-            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLActualizarAvancesProgramaticosController.java</file>
-            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLVisualizarAvancesProgramaticosController.java</file>
-        </group>
-    </open-files>
-</project-private>
-<?xml version="1.0" encoding="UTF-8"?>
-<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
         <file>
             <url>src/JavaFXGUI/Ventanas/FXMLPrincipalDocenteController.java</url>
@@ -24,32 +12,5 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group/>
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
-        <file>
-            <url>src/JavaFXGUI/Ventanas/FXMLPrincipalDocenteController.java</url>
-            <bookmark id="1">
-                <name/>
-                <line>0</line>
-                <key/>
-            </bookmark>
-        </file>
-    </editor-bookmarks>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/mario/Documents/NetBeansProjects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLRegistrarCatalogoDeAcademiaController.java</file>
-            <file>file:/C:/Users/mario/Documents/NetBeansProjects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLActualizarCatalogoDeAcademiaController.java</file>
-        </group>
-    </open-files>
-</project-private>
-<?xml version="1.0" encoding="UTF-8"?>
-<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLRegistrarAvancesProgramaticosController.java</file>
-            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLVentanaPrincipalDocenteController.java</file>
-            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLActualizarAvancesProgramaticosController.java</file>
-            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLVisualizarAvancesProgramaticosController.java</file>
-        </group>
     </open-files>
 </project-private>

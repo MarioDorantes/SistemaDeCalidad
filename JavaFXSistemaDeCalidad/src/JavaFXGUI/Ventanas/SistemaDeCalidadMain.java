@@ -17,9 +17,9 @@ public class SistemaDeCalidadMain extends Application {
         
         
         
-        //Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDirectorDeLaFacultad.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDirectorDeLaFacultad.fxml"));
                         
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDocente.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDocente.fxml"));
         
         //Parent root = FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalCoordinador.fxml"));
        

@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class ConectarBD {
 
     private static String driver = "com.mysql.jdbc.Driver";
-    private static String database = "";
+    private static String database = "sgcfei";
     private static String hostname = "localhost";
     private static String port = "3308";
     private static String url= "jdbc:mysql://"+hostname+":"+port+"/"+database+"?allowPublicKeyRetrieval=true&useSSL=false";

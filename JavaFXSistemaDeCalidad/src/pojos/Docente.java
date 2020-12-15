@@ -11,16 +11,14 @@ public class Docente {
     private String correo;
     private String contraseña;
     private String telefono;
-    private String estatus;
 
-    public Docente(int idDocente, String numeroDePersonal, String nombre, String correo, String contraseña, String telefono, String estatus) {
+    public Docente(int idDocente, String numeroDePersonal, String nombre, String correo, String contraseña, String telefono) {
         this.idDocente = idDocente;
         this.numeroDePersonal = numeroDePersonal;
         this.nombre = nombre;
         this.correo = correo;
         this.contraseña = contraseña;
         this.telefono = telefono;
-        this.estatus = estatus;
     }
 
     public Docente() {
@@ -72,16 +70,5 @@ public class Docente {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public String getEstatus() {
-        return estatus;
-    }
-
-    public void setEstatus(String estatus) {
-        this.estatus = estatus;
-    }
-    
-    
-    
+    }    
 }

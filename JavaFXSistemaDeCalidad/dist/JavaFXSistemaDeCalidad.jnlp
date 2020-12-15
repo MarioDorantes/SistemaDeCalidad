@@ -8,11 +8,12 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="JavaFXSistemaDeCalidad.jar" size="89608" download="eager" />
+    <jar href="JavaFXSistemaDeCalidad.jar" size="93410" download="eager" />
+    <jar href="lib\mysql-connector-java-5.1.49.jar" size="1006904" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="JavaFXSistemaDeCalidad" >
     <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="javaFxVentanas.SistemaDeCalidadMain"  name="JavaFXSistemaDeCalidad" />
+  <jfx:javafx-desc  width="800" height="600" main-class="JavaFXGUI.Ventanas.SistemaDeCalidadMain"  name="JavaFXSistemaDeCalidad" />
   <update check="always"/>
 </jnlp>

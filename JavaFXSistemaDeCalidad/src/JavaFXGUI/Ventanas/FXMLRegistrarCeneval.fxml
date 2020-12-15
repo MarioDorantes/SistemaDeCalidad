@@ -18,15 +18,11 @@
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Label>
-      <Label layoutX="175.0" layoutY="174.0" text="Matrícula:">
+      <Label layoutX="114.0" layoutY="187.0" prefHeight="25.0" prefWidth="149.0" text="Fecha del Examen:">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Label>
-      <Label layoutX="158.0" layoutY="212.0" text="Licenciatura:">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font></Label>
-      <Label layoutX="186.0" layoutY="248.0" text="Periodo:">
+      <Label layoutX="186.0" layoutY="236.0" text="Periodo:">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Label>
@@ -42,10 +38,9 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <TextField layoutX="260.0" layoutY="136.0" prefHeight="25.0" prefWidth="363.0" />
-      <TextField layoutX="260.0" layoutY="174.0" prefHeight="25.0" prefWidth="238.0" />
-      <TextField layoutX="260.0" layoutY="212.0" prefHeight="25.0" prefWidth="363.0" />
-      <TextField layoutX="260.0" layoutY="248.0" prefHeight="25.0" prefWidth="238.0" />
-      <TextField layoutX="262.0" layoutY="289.0" prefHeight="25.0" prefWidth="118.0" />
+      <TextField fx:id="tfPeriodo" layoutX="260.0" layoutY="236.0" prefHeight="25.0" prefWidth="238.0" />
+      <TextField fx:id="tfPuntaje" layoutX="262.0" layoutY="289.0" prefHeight="25.0" prefWidth="118.0" />
+      <ComboBox fx:id="cbListaEstudiantes" layoutX="260.0" layoutY="136.0" prefHeight="25.0" prefWidth="363.0" promptText="Seleccione un estudiante" />
+      <DatePicker fx:id="dpFechaExamen" layoutX="260.0" layoutY="187.0" />
    </children>
 </AnchorPane>

@@ -7,44 +7,44 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLRegistrarDocenteController">
+<AnchorPane id="AnchorPane" prefHeight="452.0" prefWidth="615.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLRegistrarDocenteController">
    <children>
-      <Label layoutX="239.0" layoutY="14.0" prefHeight="41.0" prefWidth="256.0" text="Registrar Docente" textFill="#092ae1">
+      <Label layoutX="180.0" layoutY="14.0" prefHeight="41.0" prefWidth="256.0" text="Registrar Docente" textFill="#092ae1">
          <font>
             <Font name="Arial Bold" size="28.0" />
          </font>
       </Label>
-      <Button layoutX="37.0" layoutY="464.0" mnemonicParsing="false" onAction="#clicRegistrar" style="-fx-background-color: #1FDC05;" text="Registrar" />
-      <Button layoutX="643.0" layoutY="464.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC0707;" text="Cancelar" textFill="#fffdfd" />
-      <Label fx:id="lbNombre" layoutX="147.0" layoutY="120.0" text="Nombre:">
+      <Button layoutX="14.0" layoutY="414.0" mnemonicParsing="false" onAction="#clicRegistrar" style="-fx-background-color: #1FDC05;" text="Registrar" />
+      <Button layoutX="536.0" layoutY="414.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC0707;" text="Cancelar" textFill="#fffdfd" />
+      <Label fx:id="lbNombre" layoutX="115.0" layoutY="81.0" text="Nombre:">
          <font>
             <Font name="Arial Bold" size="17.0" />
          </font>
       </Label>
-      <Label layoutX="46.0" layoutY="181.0" text="Número de personal:">
+      <Label layoutX="14.0" layoutY="142.0" text="Número de personal:">
          <font>
             <Font name="Arial Bold" size="17.0" />
          </font>
       </Label>
-      <Label layoutX="137.0" layoutY="245.0" prefHeight="20.0" prefWidth="88.0" text="Teléfono:">
+      <Label layoutX="105.0" layoutY="206.0" prefHeight="20.0" prefWidth="88.0" text="Teléfono:">
          <font>
             <Font name="Arial Bold" size="17.0" />
          </font>
       </Label>
-      <Label layoutX="150.0" layoutY="307.0" text="Correo:">
+      <Label layoutX="118.0" layoutY="268.0" text="Correo:">
          <font>
             <Font name="Arial Bold" size="17.0" />
          </font>
       </Label>
-      <Label layoutX="112.0" layoutY="367.0" text="Contraseña:">
+      <Label layoutX="80.0" layoutY="328.0" text="Contraseña:">
          <font>
             <Font name="Arial Bold" size="17.0" />
          </font>
       </Label>
-      <TextField fx:id="tfNombre" layoutX="225.0" layoutY="118.0" prefHeight="25.0" prefWidth="415.0" promptText="Brandon Adalit Trujillo Capistran" />
-      <TextField fx:id="tfNumeroDePersonal" layoutX="225.0" layoutY="179.0" prefHeight="25.0" prefWidth="415.0" promptText="54678" />
-      <TextField fx:id="tfTelefono" layoutX="225.0" layoutY="243.0" prefHeight="25.0" prefWidth="415.0" promptText="2791240918" />
-      <TextField fx:id="tfCorreo" layoutX="225.0" layoutY="305.0" prefHeight="25.0" prefWidth="415.0" promptText="brandon@gmail.com" />
-      <TextField fx:id="tfContraseña" layoutX="225.0" layoutY="365.0" prefHeight="25.0" prefWidth="415.0" promptText="Brandon17." />
+      <TextField fx:id="tfNombre" layoutX="193.0" layoutY="79.0" prefHeight="25.0" prefWidth="374.0" promptText="Brandon Adalit Trujillo Capistran" />
+      <TextField fx:id="tfNumeroDePersonal" layoutX="193.0" layoutY="140.0" prefHeight="25.0" prefWidth="374.0" promptText="54678" />
+      <TextField fx:id="tfTelefono" layoutX="193.0" layoutY="204.0" prefHeight="25.0" prefWidth="374.0" promptText="2791240918" />
+      <TextField fx:id="tfCorreo" layoutX="193.0" layoutY="266.0" prefHeight="25.0" prefWidth="374.0" promptText="brandon@gmail.com" />
+      <TextField fx:id="tfContraseña" layoutX="193.0" layoutY="326.0" prefHeight="25.0" prefWidth="374.0" promptText="Brandon17." />
    </children>
 </AnchorPane>

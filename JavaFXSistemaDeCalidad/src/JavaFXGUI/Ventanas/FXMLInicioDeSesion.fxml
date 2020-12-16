@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="490.0" prefWidth="372.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLInicioDeSesionController">
+   <children>
+      <Label layoutX="103.0" layoutY="14.0" text="Iniciar sesión" textFill="#092ae1">
+         <font>
+            <Font name="Arial Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="57.0" layoutY="102.0" text="Correo:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="57.0" layoutY="235.0" text="Contraseña:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfCorreo" layoutX="57.0" layoutY="131.0" prefHeight="25.0" prefWidth="277.0" />
+      <PasswordField fx:id="pfContraseña" layoutX="57.0" layoutY="256.0" prefHeight="25.0" prefWidth="277.0" />
+      <Button layoutX="129.0" layoutY="369.0" mnemonicParsing="false" onAction="#clicIniciarSesion" style="-fx-background-color: #00CCF9;" text="Iniciar sesión">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Button>
+      <Label fx:id="lbMensajeCorreo" layoutX="57.0" layoutY="163.0" prefHeight="17.0" prefWidth="277.0" textFill="#e80606">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbMensajeContraseña" layoutX="57.0" layoutY="288.0" prefHeight="17.0" prefWidth="277.0" textFill="#e80606">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

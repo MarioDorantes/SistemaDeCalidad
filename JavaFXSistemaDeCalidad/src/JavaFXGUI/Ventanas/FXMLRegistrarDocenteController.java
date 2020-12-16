@@ -26,8 +26,6 @@ import util.Herramientas;
 public class FXMLRegistrarDocenteController implements Initializable {
 
     @FXML
-    private Label lbNombre;
-    @FXML
     private TextField tfNombre;
     @FXML
     private TextField tfNumeroDePersonal;
@@ -40,8 +38,14 @@ public class FXMLRegistrarDocenteController implements Initializable {
     
     Alert mostrarAlerta;
     boolean registroExitoso = true;
-
-    
+    String nombreAuxiliar;
+    String numeroPersonalAuxiliar;
+    String telefonoAuxiliar;
+    String correoAuxiliar;
+    String contraseñaAuxiliar;
+    int idRol = 0;
+    int idAcademico = 0;
+  
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -50,15 +54,8 @@ public class FXMLRegistrarDocenteController implements Initializable {
     
     @FXML
     private void cancelar(ActionEvent event) {
-        try {
-            Stage stage = (Stage) tfNombre.getScene().getWindow();
-            Scene cancelar = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarDocentes.fxml")));
-            stage.setScene(cancelar);
-            stage.show();
-        } catch (IOException ex) {
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait();
-        }
+        Stage stage = (Stage) tfNombre.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -70,11 +67,11 @@ public class FXMLRegistrarDocenteController implements Initializable {
         tfContraseña.setStyle("-fx-border-color: ;");
         
         boolean esCorrecto = true;
-        String nombreAuxiliar = tfNombre.getText();
-        String numeroPersonalAuxiliar = tfNumeroDePersonal.getText();
-        String telefonoAuxiliar = tfTelefono.getText();
-        String correoAuxiliar = tfCorreo.getText();
-        String contraseñaAuxiliar = tfContraseña.getText();
+        nombreAuxiliar = tfNombre.getText();
+        numeroPersonalAuxiliar = tfNumeroDePersonal.getText();
+        telefonoAuxiliar = tfTelefono.getText();
+        correoAuxiliar = tfCorreo.getText();
+        contraseñaAuxiliar = tfContraseña.getText();
         
         if(nombreAuxiliar.isEmpty()){
             esCorrecto = false;
@@ -99,9 +96,6 @@ public class FXMLRegistrarDocenteController implements Initializable {
         
         if(esCorrecto){
             registrarAcademico(numeroPersonalAuxiliar, nombreAuxiliar, telefonoAuxiliar);
-            registrarRolAcademico(numeroPersonalAuxiliar);
-            int idRol = obtenerIdRolAcademico(numeroPersonalAuxiliar);
-            int idAcademico = obtenerIdAcademico(numeroPersonalAuxiliar);
             if(idRol > 0 && idAcademico > 0){
                 registrarUsuario(correoAuxiliar, contraseñaAuxiliar, idRol, idAcademico);
             }else{
@@ -132,6 +126,8 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
+                }else{
+                    registrarRolAcademico(numeroPersonalAuxiliar);
                 }
                 conn.close();
             }catch(SQLException ex){
@@ -146,23 +142,20 @@ public class FXMLRegistrarDocenteController implements Initializable {
         }
     }
     
-    private void registrarRolAcademico(String numeroDePersonal){
+    private void registrarRolAcademico(String numeroDePersonal) throws SQLException{
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
-            try{
                 String consulta = "INSERT INTO rol (tipoRol, numeroDePersonal) VALUES ('Docente', ?)";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 declaracion.setString(1, numeroDePersonal);
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
+                }else{
+                    obtenerIdRolAcademico(numeroPersonalAuxiliar);
+                    obtenerIdAcademico(numeroPersonalAuxiliar);
                 }
                 conn.close();
-            }catch(SQLException ex){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
-                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
-                mostrarAlerta.showAndWait();
-            }
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
@@ -170,11 +163,9 @@ public class FXMLRegistrarDocenteController implements Initializable {
         }
     }
         
-    private int obtenerIdAcademico(String numeroDePersonal){
-        int idAcademico = 0;
+    private int obtenerIdAcademico(String numeroDePersonal) throws SQLException{
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
-            try{
                 String consulta = "SELECT idAcademico FROM academico WHERE numeroPersonal = ?";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 declaracion.setString(1, numeroDePersonal);
@@ -183,11 +174,6 @@ public class FXMLRegistrarDocenteController implements Initializable {
                     idAcademico = resultado.getInt("idAcademico");
                 }
                 conn.close();
-            }catch(SQLException ex){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
-                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
-                mostrarAlerta.showAndWait();
-            }
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
@@ -196,30 +182,23 @@ public class FXMLRegistrarDocenteController implements Initializable {
         return idAcademico;
     }
     
-    private int obtenerIdRolAcademico(String numeroDePersonal){
-        int idRolAcademico = 0;
+    private int obtenerIdRolAcademico(String numeroDePersonal) throws SQLException{
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
-            try{
                 String consulta = "SELECT idRol FROM rol WHERE numeroDePersonal = ?";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 declaracion.setString(1, numeroDePersonal);
                 ResultSet resultado = declaracion.executeQuery();
                 if(resultado.next()){
-                    idRolAcademico = resultado.getInt("idRol");
+                    idRol = resultado.getInt("idRol");
                 }
                 conn.close();
-            }catch(SQLException ex){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
-                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
-                mostrarAlerta.showAndWait();
-            }
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
-        return idRolAcademico;
+        return idRol;
     }
     
     private void registrarUsuario(String correo, String contraseña, int idRol, int idAcademico){

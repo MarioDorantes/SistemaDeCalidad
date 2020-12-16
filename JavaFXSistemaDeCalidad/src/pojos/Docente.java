@@ -6,15 +6,15 @@ package pojos;
 
 public class Docente {
     private int idDocente;
-    private String numeroDePersonal;
+    private String numeroPersonal;
     private String nombre;
     private String correo;
     private String contraseña;
     private String telefono;
 
-    public Docente(int idDocente, String numeroDePersonal, String nombre, String correo, String contraseña, String telefono) {
+    public Docente(int idDocente, String numeroPersonal, String nombre, String correo, String contraseña, String telefono) {
         this.idDocente = idDocente;
-        this.numeroDePersonal = numeroDePersonal;
+        this.numeroPersonal = numeroPersonal;
         this.nombre = nombre;
         this.correo = correo;
         this.contraseña = contraseña;
@@ -32,12 +32,12 @@ public class Docente {
         this.idDocente = idDocente;
     }
 
-    public String getNumeroDePersonal() {
-        return numeroDePersonal;
+    public String getNumeroPersonal() {
+        return numeroPersonal;
     }
 
-    public void setNumeroDePersonal(String numeroDePersonal) {
-        this.numeroDePersonal = numeroDePersonal;
+    public void setNumeroPersonal(String numeroPersonal) {
+        this.numeroPersonal = numeroPersonal;
     }
 
     public String getNombre() {
@@ -70,5 +70,7 @@ public class Docente {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }    
+    }
+
+     
 }

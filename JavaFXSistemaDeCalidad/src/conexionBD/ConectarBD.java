@@ -18,8 +18,8 @@ public class ConectarBD {
     private static String username = "Brandon";
     private static String password = "12345";    
     
-    
-    /*private static String driver = "com.mysql.jdbc.Driver";
+    /*
+    private static String driver = "com.mysql.jdbc.Driver";
     private static String database = "sgcfei";
     private static String hostname = "localhost";
     private static String port = "3306";

@@ -12,9 +12,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -66,7 +68,7 @@ public class FXMLRegistrarCenevalController implements Initializable {
         }
     }
     
-        
+    
     private void cargarNombresAlumnosBD(){
         Connection conn = ConectarBD.abrirConexionMySQL();
         
@@ -83,7 +85,7 @@ public class FXMLRegistrarCenevalController implements Initializable {
                     estudiante.setCorreo(rs.getString("correo"));
                     estudiantes.add(estudiante);
                 }
-                //Para que lo cargue al combo
+                
                 cbListaEstudiantes.setItems(estudiantes);                                
                 conn.close();
             } catch(SQLException ex){
@@ -96,4 +98,40 @@ public class FXMLRegistrarCenevalController implements Initializable {
         }
     }
     
+    //clic guardar 
+    @FXML
+    private void clicRegistrarCeneval(ActionEvent event){
+        boolean esValido = true;
+           
+        int posicionNombreEstudiante = cbListaEstudiantes.getSelectionModel().getSelectedIndex();
+        LocalDate fechaAux = dpFechaExamen.getValue();  
+        String periodoAux = tfPeriodo.getText();
+        float puntajeAux = tfPuntaje.getLength();   
+        
+        if (posicionNombreEstudiante < 0){
+            esValido = false;
+        }
+        if(fechaAux == null){
+            esValido = false;
+        }
+        if(periodoAux.isEmpty()){
+            esValido = false;
+        }
+        if(puntajeAux < 0){
+            esValido = false;
+        }
+        
+        if(esValido){
+            //metodo de guardar
+            mostrarAlerta = Herramientas.creadorDeAlerta("Se guardo xdd", "mensaje de prueba, que llega aqui", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        } else {
+            mostrarAlerta = Herramientas.creadorDeAlerta("Campos Obligatorios", "Favor de no dejar campos vacios", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+                
+    }
+
+    
+       
 }

@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -104,7 +103,8 @@ public class FXMLRegistrarCenevalController implements Initializable {
         boolean esValido = true;
            
         int posicionNombreEstudiante = cbListaEstudiantes.getSelectionModel().getSelectedIndex();
-        LocalDate fechaAux = dpFechaExamen.getValue();  
+        //va la fecha, la esta jalando, pero la obtiene como dia-mes-año y la necesito guardar como año-mes-dia
+        String fechaAux = dpFechaExamen.getEditor().getText();
         String periodoAux = tfPeriodo.getText();
         float puntajeAux = tfPuntaje.getLength();   
         
@@ -122,14 +122,45 @@ public class FXMLRegistrarCenevalController implements Initializable {
         }
         
         if(esValido){
-            //metodo de guardar
-            mostrarAlerta = Herramientas.creadorDeAlerta("Se guardo xdd", "mensaje de prueba, que llega aqui", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait();
+            guardarCeneval(estudiantes.get(posicionNombreEstudiante).getIdEstudiante(), fechaAux, periodoAux, puntajeAux);
         } else {
             mostrarAlerta = Herramientas.creadorDeAlerta("Campos Obligatorios", "Favor de no dejar campos vacios", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
                 
+    }
+    
+    private void guardarCeneval(int idAlumno, String fechaExamen, String periodo, float puntaje){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try{
+                int resultado;
+                String consulta = "INSERT INTO ceneval (idAlumno, fechaExamen, periodo, puntaje) VALUES (?, ?, ?, ?)";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setInt(1, idAlumno);
+                ps.setString(2, fechaExamen);
+                ps.setString(3, periodo);
+                ps.setFloat(4, puntaje);
+                resultado = ps.executeUpdate();
+                
+                conn.close();
+                
+                if(resultado > 0){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Ceneval registrado exitosamente", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                } else {
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de error", "Error al registrar ceneval", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }
+                                
+                //Es para ver si regresa al visualizar ceneval 
+                cancelar();
+                
+            } catch (SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }
     }
 
     

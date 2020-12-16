@@ -14,7 +14,7 @@
             <Font name="Arial Bold" size="28.0" />
          </font>
       </Label>
-      <Button layoutX="23.0" layoutY="376.0" mnemonicParsing="false" style="-fx-background-color: #1FDC05;" text="Actualizar" />
+      <Button layoutX="23.0" layoutY="376.0" mnemonicParsing="false" onAction="#clicActualizar" style="-fx-background-color: #1FDC05;" text="Actualizar" />
       <Button layoutX="517.0" layoutY="376.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="6.0" prefWidth="62.0" style="-fx-background-color: #FC0707;" text="Cancelar" textFill="#f8f8f8" />
       <Label layoutX="91.0" layoutY="322.0" text="Contraseña:">
          <font>
@@ -45,6 +45,6 @@
       <TextField fx:id="tfNumeroDePersonal" layoutX="202.0" layoutY="134.0" prefHeight="25.0" prefWidth="360.0" />
       <TextField fx:id="tfTelefono" layoutX="202.0" layoutY="193.0" prefHeight="25.0" prefWidth="360.0" />
       <TextField fx:id="tfCorreo" layoutX="202.0" layoutY="262.0" prefHeight="25.0" prefWidth="360.0" />
-      <TextField fx:id="tfConstraseña" layoutX="202.0" layoutY="322.0" prefHeight="25.0" prefWidth="360.0" />
+      <TextField fx:id="tfContraseña" layoutX="202.0" layoutY="322.0" prefHeight="25.0" prefWidth="360.0" />
    </children>
 </AnchorPane>

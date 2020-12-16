@@ -54,8 +54,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
     
     @FXML
     private void cancelar(ActionEvent event) {
-        Stage stage = (Stage) tfNombre.getScene().getWindow();
-        stage.close();
+        Herramientas.cerrarPantalla(tfNombre);
     }
 
     @FXML
@@ -103,9 +102,11 @@ public class FXMLRegistrarDocenteController implements Initializable {
                     + "intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             }
+            
             if(registroExitoso){
                 mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Registro exitoso", Alert.AlertType.INFORMATION);
                 mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfNombre);
             }else{
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
                     + "intente más tarde", Alert.AlertType.ERROR);
@@ -127,7 +128,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 if(resultado == 0){
                     registroExitoso = false;
                 }else{
-                    registrarRolAcademico(numeroPersonalAuxiliar);
+                    registrarRolAcademico();
                 }
                 conn.close();
             }catch(SQLException ex){
@@ -142,18 +143,17 @@ public class FXMLRegistrarDocenteController implements Initializable {
         }
     }
     
-    private void registrarRolAcademico(String numeroDePersonal) throws SQLException{
+    private void registrarRolAcademico() throws SQLException{
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
-                String consulta = "INSERT INTO rol (tipoRol, numeroDePersonal) VALUES ('Docente', ?)";
+                String consulta = "INSERT INTO rol (tipoRol) VALUES ('Docente')";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
-                declaracion.setString(1, numeroDePersonal);
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
                 }else{
-                    obtenerIdRolAcademico(numeroPersonalAuxiliar);
                     obtenerIdAcademico(numeroPersonalAuxiliar);
+                    obtenerIdRolAcademico(idAcademico);
                 }
                 conn.close();
         }else{
@@ -182,12 +182,12 @@ public class FXMLRegistrarDocenteController implements Initializable {
         return idAcademico;
     }
     
-    private int obtenerIdRolAcademico(String numeroDePersonal) throws SQLException{
+    private int obtenerIdRolAcademico(int idRolAcademico) throws SQLException{
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
-                String consulta = "SELECT idRol FROM rol WHERE numeroDePersonal = ?";
+                String consulta = "SELECT idRol FROM rol WHERE idRol = ?";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
-                declaracion.setString(1, numeroDePersonal);
+                declaracion.setInt(1, idRolAcademico);
                 ResultSet resultado = declaracion.executeQuery();
                 if(resultado.next()){
                     idRol = resultado.getInt("idRol");

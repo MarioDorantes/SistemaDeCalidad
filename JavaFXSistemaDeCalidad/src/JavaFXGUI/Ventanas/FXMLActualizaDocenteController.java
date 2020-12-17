@@ -115,20 +115,12 @@ public class FXMLActualizaDocenteController implements Initializable {
             if(idDocente > 0){
                 actualizarAcademico(nombreAuxiliar, numeroPersonalAuxiliar, telefonoAuxiliar, idDocente);
             }else{
+                registroExitoso = false;
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
                     + "intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             }
             
-            if(registroExitoso){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Registro exitoso", Alert.AlertType.INFORMATION);
-                mostrarAlerta.showAndWait();
-                Herramientas.cerrarPantalla(tfNombre);
-            }else{
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
-                    + "intente más tarde", Alert.AlertType.ERROR);
-                mostrarAlerta.showAndWait();
-            }
         }
     }
     
@@ -150,6 +142,7 @@ public class FXMLActualizaDocenteController implements Initializable {
                 }
                 conn.close();
             }catch(SQLException ex){
+                registroExitoso = false;
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
                     + "en este momento, intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
@@ -172,6 +165,17 @@ public class FXMLActualizaDocenteController implements Initializable {
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
+                }else{       
+                    if(registroExitoso){
+                        mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Actualizacion exitosa", Alert.AlertType.INFORMATION);
+                        mostrarAlerta.showAndWait();
+                        Herramientas.cerrarPantalla(tfNombre);
+                        notificacion.refrescarTabla(true);
+                    }else{
+                        mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
+                            + "intente más tarde", Alert.AlertType.ERROR);
+                        mostrarAlerta.showAndWait();
+                    }
                 }
                 conn.close();
         }else{

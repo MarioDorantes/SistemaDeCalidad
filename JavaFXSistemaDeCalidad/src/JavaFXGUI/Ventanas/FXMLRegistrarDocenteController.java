@@ -56,7 +56,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
     }  
     
     public void inicializaCampos(NotificaCambios notificacion){
-        
+        this.notificacion = notificacion;
     }
     
     @FXML
@@ -105,16 +105,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
             if(idRol > 0 && idAcademico > 0){
                 registrarUsuario(correoAuxiliar, contraseñaAuxiliar, idRol, idAcademico);
             }else{
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
-                    + "intente más tarde", Alert.AlertType.ERROR);
-                mostrarAlerta.showAndWait();
-            }
-            
-            if(registroExitoso){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Registro exitoso", Alert.AlertType.INFORMATION);
-                mostrarAlerta.showAndWait();
-                Herramientas.cerrarPantalla(tfNombre);
-            }else{
+                registroExitoso = false;
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
                     + "intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
@@ -139,6 +130,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 }
                 conn.close();
             }catch(SQLException ex){
+                registroExitoso = false;
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
                     + "en este momento, intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
@@ -221,6 +213,17 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
+                }else{
+                    if(registroExitoso){
+                        mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Registro exitoso", Alert.AlertType.INFORMATION);
+                        mostrarAlerta.showAndWait();
+                        Herramientas.cerrarPantalla(tfNombre);
+                        notificacion.refrescarTabla(true);
+                    }else{
+                        mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
+                            + "intente más tarde", Alert.AlertType.ERROR);
+                        mostrarAlerta.showAndWait();
+                    }
                 }
                 conn.close();
             }catch(SQLException ex){

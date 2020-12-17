@@ -6,5 +6,5 @@ package interfaz;
 
 public interface NotificaCambios {
     
-    public void refrescarTabla();
+    public void refrescarTabla(boolean carga);
 }

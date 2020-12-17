@@ -147,8 +147,8 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
     }
     
     @FXML
-    private void clicEliminar(ActionEvent e){
-       int seleccion = tvDocentes.getSelectionModel().getSelectedIndex();
+    private void irAEliminarDocente(ActionEvent event) {
+        int seleccion = tvDocentes.getSelectionModel().getSelectedIndex();
         if(seleccion >= 0){
             Docente docenteEliminar = docentes.get(seleccion);
             idDocente = docenteEliminar.getIdDocente();
@@ -163,15 +163,6 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
             mostrarAlerta.showAndWait();
         }
         
-        if(eliminacionExitosa){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Eliminacion exitosa", Alert.AlertType.INFORMATION);
-            mostrarAlerta.showAndWait();
-            regresarAVentanaDirector();
-        }else{
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo completar la eliminación, "
-                + "intente más tarde", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait();
-        }
     }
     
     private void eliminarAcademico(int idDocente) throws SQLException{
@@ -184,7 +175,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
             if(resultado == 0){
                 eliminacionExitosa = false;
             }else{
-                eliminarUsuario(idDocente);
+                eliminarRol(idRol);
             }
             conn.close();
         }else{
@@ -204,7 +195,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
             if(resultado == 0){
                 eliminacionExitosa = false;
             }else{
-                eliminarRol(idRol);
+                eliminarAcademico(idDocente);
             }
             conn.close();
         }else{
@@ -224,7 +215,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
                 ResultSet resultado = declaracion.executeQuery();
                 if(resultado.next()){
                     idRol = resultado.getInt("idRol");
-                    eliminarAcademico(idDocente);
+                    eliminarUsuario(idDocente);
                 }else{
                     mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible obtener la información necesaria "
                         + "en este momento, intente más tarde", Alert.AlertType.ERROR);
@@ -232,6 +223,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
                 }
                 conn.close();
             }catch(SQLException ex){
+                eliminacionExitosa = false;
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
                     + "en este momento, intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
@@ -252,6 +244,16 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
             int resultado = declaracion.executeUpdate();
             if(resultado == 0){
                 eliminacionExitosa = false;
+            }else{
+                if(eliminacionExitosa){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Eliminacion exitosa", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                    this.refrescarTabla(true);
+                }else{
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo completar la eliminación, "
+                        + "intente más tarde", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }
             }
             conn.close();
         }else{
@@ -279,10 +281,9 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
     }
 
     @Override
-    public void refrescarTabla() {
+    public void refrescarTabla(boolean carga) {
         tvDocentes.getItems().clear();
         obtenerDocentes();
-    }
-    
+    }  
    
 }

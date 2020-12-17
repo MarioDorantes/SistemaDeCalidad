@@ -80,7 +80,6 @@ public class FXMLInicioDeSesionController implements Initializable {
                 ResultSet resultado = declaracion.executeQuery();
                 if(resultado.next()){
                     rol = resultado.getString("rol.tipoRol");
-                    System.out.println(rol);
                     mostrarAlerta = Herramientas.creadorDeAlerta("Usuario encontrado", "Bienvenido",  Alert.AlertType.INFORMATION);
                     mostrarAlerta.showAndWait();
                     irAVentanaCorrespondiente();

@@ -73,12 +73,7 @@ public class FXMLRegistrarCenevalController implements Initializable {
         
         if(conn != null){
             try{
-                //String consulta = "SELECT * FROM estudiante";
-                //PRUEBA DE CONSULTA HABER SI SOLO TRAE A LOS QUE SIIII TIENEN CENEVAL (QUIERO A LOS QUE NO)
-                //Este jala en sql y solo da el bruce wayne
-                //String consulta = "SELECT estudiante.nombre FROM estudiante INNER JOIN ceneval ON estudiante.idEstudiante = ceneval.idAlumno;";
-                //ESTE SI JALA, PERO PONERLO EN NEGACION (ME SIRVE PARA EL ACTUALIZAR Y EL ELIMINAR)
-                String consulta = "SELECT * FROM estudiante INNER JOIN ceneval ON estudiante.idEstudiante = ceneval.idAlumno;";
+                String consulta = "SELECT * FROM estudiante LEFT JOIN ceneval ON estudiante.idEstudiante = ceneval.idAlumno WHERE ceneval.idAlumno IS NULL;";
                 PreparedStatement ps = conn.prepareStatement(consulta);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()){
@@ -102,13 +97,14 @@ public class FXMLRegistrarCenevalController implements Initializable {
         }
     }
     
-    //clic guardar 
+ 
     @FXML
     private void clicRegistrarCeneval(ActionEvent event){
         boolean esValido = true;
            
         int posicionNombreEstudiante = cbListaEstudiantes.getSelectionModel().getSelectedIndex();
         //va la fecha, la esta jalando, pero la obtiene como dia-mes-año y la necesito guardar como año-mes-dia
+        //String fechaAux = "2021-05-01"; AQUI EJEMPLO DE QUE SI SE LE PASA ESTO, SI GUARDA EL CENEVAL
         String fechaAux = dpFechaExamen.getEditor().getText();
         String periodoAux = tfPeriodo.getText();
         float puntajeAux = tfPuntaje.getLength();   

@@ -104,7 +104,7 @@ public class FXMLRegistrarCenevalController implements Initializable {
            
         int posicionNombreEstudiante = cbListaEstudiantes.getSelectionModel().getSelectedIndex();
         //va la fecha, la esta jalando, pero la obtiene como dia-mes-año y la necesito guardar como año-mes-dia
-        //String fechaAux = "2021-05-01"; AQUI EJEMPLO DE QUE SI SE LE PASA ESTO, SI GUARDA EL CENEVAL
+        //String fechaAux = "2018-05-26"; //AQUI EJEMPLO DE QUE SI SE LE PASA ESTO, SI GUARDA EL CENEVAL
         String fechaAux = dpFechaExamen.getEditor().getText();
         String periodoAux = tfPeriodo.getText();
         float puntajeAux = tfPuntaje.getLength();   

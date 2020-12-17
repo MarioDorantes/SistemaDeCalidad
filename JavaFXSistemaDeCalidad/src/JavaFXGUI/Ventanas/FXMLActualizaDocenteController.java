@@ -5,6 +5,7 @@
 package JavaFXGUI.Ventanas;
 
 import conexionBD.ConectarBD;
+import interfaz.NotificaCambios;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -40,6 +41,7 @@ public class FXMLActualizaDocenteController implements Initializable {
     
     int idDocente = 0;
     boolean registroExitoso = true;
+    NotificaCambios notificacion;
     
     String nombreAuxiliar;
     String numeroPersonalAuxiliar;
@@ -57,7 +59,8 @@ public class FXMLActualizaDocenteController implements Initializable {
         Herramientas.cerrarPantalla(tfNombre);
     }
     
-    public void inicializaCampos(Docente editarDocente){
+    public void inicializaCampos(NotificaCambios notificacion, Docente editarDocente){
+        this.notificacion = notificacion;
         this.editarDocente = editarDocente;
         
         obtenerDocenteSeleccionado();

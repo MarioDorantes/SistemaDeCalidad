@@ -5,6 +5,7 @@
 package JavaFXGUI.Ventanas;
 
 import conexionBD.ConectarBD;
+import interfaz.NotificaCambios;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -38,19 +39,25 @@ public class FXMLRegistrarDocenteController implements Initializable {
     
     Alert mostrarAlerta;
     boolean registroExitoso = true;
+    int idRol = 0;
+    int idAcademico = 0;
+    NotificaCambios notificacion;
+    
     String nombreAuxiliar;
     String numeroPersonalAuxiliar;
     String telefonoAuxiliar;
     String correoAuxiliar;
     String contraseñaAuxiliar;
-    int idRol = 0;
-    int idAcademico = 0;
+    
   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-
+    }  
+    
+    public void inicializaCampos(NotificaCambios notificacion){
+        
+    }
     
     @FXML
     private void cancelar(ActionEvent event) {

@@ -6,6 +6,7 @@ package JavaFXGUI.Ventanas;
 
 
 import conexionBD.ConectarBD;
+import interfaz.NotificaCambios;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -32,7 +33,7 @@ import javafx.stage.Stage;
 import pojos.Docente;
 import util.Herramientas;
 
-public class FXMLVisualizarDocentesController implements Initializable {
+public class FXMLVisualizarDocentesController implements Initializable, NotificaCambios {
 
     @FXML
     private TableColumn tcNombre;
@@ -51,7 +52,7 @@ public class FXMLVisualizarDocentesController implements Initializable {
     private ObservableList<Docente> docentes;
     int idRol = 0;
     int idDocente = 0;
-    boolean registroExitoso = true;
+    boolean eliminacionExitosa = true;
    
     
      
@@ -71,9 +72,10 @@ public class FXMLVisualizarDocentesController implements Initializable {
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
-                //Modificar para que verifique que solo se obtengan docentes
-                String consulta = "select academico.idAcademico, usuario.idUsuario, numeroPersonal, nombre, telefono,usuario.correo, "
-                    +"usuario.password as contraseña from academico inner join usuario on academico.idAcademico = usuario.idAcademico";
+                String consulta = "select academico.idAcademico, usuario.idUsuario, numeroPersonal, nombre, "
+                    + "telefono,usuario.correo, usuario.password as contraseña from academico "
+                    + "inner join usuario on academico.idAcademico = usuario.idAcademico inner join rol "
+                    + "on usuario.idRol = rol.idRol and rol.tipoRol = 'Docente'";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 ResultSet resultado = declaracion.executeQuery();
                 while(resultado.next()){
@@ -105,6 +107,8 @@ public class FXMLVisualizarDocentesController implements Initializable {
         try {
             FXMLLoader cargaPantalla = new FXMLLoader(getClass().getResource("FXMLRegistrarDocente.fxml"));
             Parent root = cargaPantalla.load();
+            FXMLRegistrarDocenteController controlador = cargaPantalla.getController();
+            controlador.inicializaCampos(this);
             Scene escenaRegistrarDocente = new Scene(root);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -125,11 +129,11 @@ public class FXMLVisualizarDocentesController implements Initializable {
             FXMLLoader cargaPantalla = new FXMLLoader(getClass().getResource("FXMLActualizaDocente.fxml"));
             Parent root = cargaPantalla.load();
             FXMLActualizaDocenteController controlador = cargaPantalla.getController();
-            controlador.inicializaCampos(editarDocente);
-            Scene escenaRegistrarDocente = new Scene(root);
+            controlador.inicializaCampos(this, editarDocente);
+            Scene escenaActualizarDocente = new Scene(root);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(escenaRegistrarDocente);
+            stage.setScene(escenaActualizarDocente);
             stage.showAndWait();
             }catch(IOException ex){
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error al cargar la escena", ex.getMessage(), Alert.AlertType.ERROR);
@@ -154,9 +158,19 @@ public class FXMLVisualizarDocentesController implements Initializable {
                 obtenerIdRol(idDocente);
             }
         }else{
-            Alert alertaVacio = Herramientas.creadorDeAlerta("Sin seleccion", "Para eliminar un registro, "
+            mostrarAlerta = Herramientas.creadorDeAlerta("Sin seleccion", "Para eliminar un registro, "
                     + "debes seleccionarlo de la tabla", Alert.AlertType.WARNING);
-            alertaVacio.showAndWait();
+            mostrarAlerta.showAndWait();
+        }
+        
+        if(eliminacionExitosa){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Eliminacion exitosa", Alert.AlertType.INFORMATION);
+            mostrarAlerta.showAndWait();
+            regresarAVentanaDirector();
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo completar la eliminación, "
+                + "intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
         }
     }
     
@@ -168,7 +182,7 @@ public class FXMLVisualizarDocentesController implements Initializable {
             declaracion.setInt(1, idDocente);
             int resultado = declaracion.executeUpdate();
             if(resultado == 0){
-                registroExitoso = false;
+                eliminacionExitosa = false;
             }else{
                 eliminarUsuario(idDocente);
             }
@@ -188,7 +202,7 @@ public class FXMLVisualizarDocentesController implements Initializable {
             declaracion.setInt(1, idDocente);
             int resultado = declaracion.executeUpdate();
             if(resultado == 0){
-                registroExitoso = false;
+                eliminacionExitosa = false;
             }else{
                 eliminarRol(idRol);
             }
@@ -237,7 +251,7 @@ public class FXMLVisualizarDocentesController implements Initializable {
             declaracion.setInt(1, idRol);
             int resultado = declaracion.executeUpdate();
             if(resultado == 0){
-                registroExitoso = false;
+                eliminacionExitosa = false;
             }
             conn.close();
         }else{
@@ -249,6 +263,10 @@ public class FXMLVisualizarDocentesController implements Initializable {
     
     @FXML
     private void cancelar(ActionEvent e){
+        regresarAVentanaDirector();
+    } 
+    
+    private void regresarAVentanaDirector(){
         try {
             Stage stage = (Stage) tvDocentes.getScene().getWindow();
             Scene cancelar = new Scene(FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDirectorDeLaFacultad.fxml")));
@@ -258,6 +276,13 @@ public class FXMLVisualizarDocentesController implements Initializable {
             mostrarAlerta = Herramientas.creadorDeAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         } 
-    } 
+    }
+
+    @Override
+    public void refrescarTabla() {
+        tvDocentes.getItems().clear();
+        obtenerDocentes();
+    }
+    
    
 }

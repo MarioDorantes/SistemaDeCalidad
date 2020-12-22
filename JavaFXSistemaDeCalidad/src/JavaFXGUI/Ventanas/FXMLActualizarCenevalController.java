@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,9 +25,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import pojos.Ceneval;
 import pojos.Estudiante;
 import util.Herramientas;
 
@@ -51,7 +56,17 @@ public class FXMLActualizarCenevalController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         estudiantes = FXCollections.observableArrayList();
+        
         cargarNombresAlumnosConCenevalBD();
+        cbListaEstudiantesConCeneval.valueProperty().addListener(new ChangeListener <Estudiante>(){
+            @Override
+            public void changed(ObservableValue<? extends Estudiante> observable, Estudiante oldValue, Estudiante newValue) {
+                if(newValue != null){
+                    extraerCenevalBD(newValue.getIdEstudiante());
+                }
+            }
+            
+        });
     }    
     
     @FXML
@@ -68,6 +83,7 @@ public class FXMLActualizarCenevalController implements Initializable {
     }
     
     private void cargarNombresAlumnosConCenevalBD(){
+        
         Connection conn = ConectarBD.abrirConexionMySQL();
         
         if(conn != null){
@@ -80,11 +96,11 @@ public class FXMLActualizarCenevalController implements Initializable {
                     estudiante.setIdEstudiante(rs.getInt("idEstudiante"));
                     estudiante.setNombre(rs.getString("nombre"));
                     estudiante.setMatricula(rs.getString("matricula"));
-                    estudiante.setCorreo(rs.getString("correo"));
+                    estudiante.setCorreo(rs.getString("correo"));                    
                     estudiantes.add(estudiante);
                 }
                 
-                cbListaEstudiantesConCeneval.setItems(estudiantes);                                
+                cbListaEstudiantesConCeneval.setItems(estudiantes);    
                 conn.close();
             } catch(SQLException ex){
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", ex.getMessage(), Alert.AlertType.ERROR);
@@ -94,12 +110,60 @@ public class FXMLActualizarCenevalController implements Initializable {
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexion a la base de datos", "No hay conexión a la base de datos. Intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
+    }    
+    
+   
+    Ceneval ceneval = new Ceneval();
+    
+    private void extraerCenevalBD(int idEstudiante){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        
+        if(conn != null){
+            try{
+                String consulta = "SELECT * FROM ceneval WHERE idAlumno = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setInt(1, idEstudiante);
+                ResultSet rs = ps.executeQuery();
+                
+                while(rs.next()){
+                    ceneval.setIdCeneval(rs.getInt("idCeneval"));
+                    ceneval.setIdAlumno(rs.getInt("idAlumno"));
+                    ceneval.setFechaExamen(rs.getDate("fechaExamen"));
+                    ceneval.setPeriodo(rs.getString("periodo"));
+                    ceneval.setPuntaje(rs.getFloat("puntaje"));  
+                }
+                llenarCamposCenevalSeleccionado();
+                conn.close();
+                
+            }catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexion a la base de datos", "No hay conexión a la base de datos. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
     }
     
-    //metodo para cargar los datos a los campos de texto
+    private void llenarCamposCenevalSeleccionado(){
+        
+        //CREO JALA, SI SE CAMBIA DEL LUGAR EL FORMATO
+        //dpFechaExamen.setDayCellFactory((Callback<DatePicker, DateCell>) ceneval.getFechaExamen());
+        
+        
+        tfPeriodo.setText(ceneval.getPeriodo());
+                
+        Float puntajeAux = ceneval.getPuntaje();
+        String puntajeAString = puntajeAux.toString();
+        tfPuntaje.setText(puntajeAString);
+        
+    }
+    
     
     @FXML
     private void clicActualizarCeneval(ActionEvent event) {
+        
     }
     
+      
 }

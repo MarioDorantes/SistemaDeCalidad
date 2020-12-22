@@ -64,6 +64,5 @@ public class Ceneval {
     public void setPuntaje(float puntaje) {
         this.puntaje = puntaje;
     }
-    
-            
+         
 }

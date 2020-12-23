@@ -41,6 +41,6 @@
       <TextField fx:id="tfPeriodo" layoutX="260.0" layoutY="236.0" prefHeight="25.0" prefWidth="238.0" />
       <TextField fx:id="tfPuntaje" layoutX="262.0" layoutY="289.0" prefHeight="25.0" prefWidth="118.0" />
       <ComboBox fx:id="cbListaEstudiantes" layoutX="260.0" layoutY="136.0" prefHeight="25.0" prefWidth="363.0" promptText="Seleccione un estudiante" />
-      <DatePicker fx:id="dpFechaExamen" layoutX="260.0" layoutY="187.0" />
+      <TextField fx:id="tfFechaExamen" layoutX="261.0" layoutY="187.0" prefHeight="25.0" prefWidth="118.0" promptText="Año-Mes-Dia" />
    </children>
 </AnchorPane>

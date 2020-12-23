@@ -23,7 +23,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import pojos.Estudiante;
@@ -41,12 +40,12 @@ public class FXMLRegistrarCenevalController implements Initializable {
     @FXML
     private ComboBox<Estudiante> cbListaEstudiantes;
     @FXML
-    private DatePicker dpFechaExamen;
+    private TextField tfFechaExamen;
     
     private ObservableList<Estudiante> estudiantes;
     
     Alert mostrarAlerta;
-    
+       
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         estudiantes = FXCollections.observableArrayList();
@@ -103,22 +102,20 @@ public class FXMLRegistrarCenevalController implements Initializable {
         boolean esValido = true;
            
         int posicionNombreEstudiante = cbListaEstudiantes.getSelectionModel().getSelectedIndex();
-        //va la fecha, la esta jalando, pero la obtiene como dia-mes-año y la necesito guardar como año-mes-dia
-        //String fechaAux = "2018-05-26"; //AQUI EJEMPLO DE QUE SI SE LE PASA ESTO, SI GUARDA EL CENEVAL
-        String fechaAux = dpFechaExamen.getEditor().getText();
+        String fechaAux = tfFechaExamen.getText();
         String periodoAux = tfPeriodo.getText();
-        float puntajeAux = tfPuntaje.getLength();   
+        String puntajeAux = tfPuntaje.getText();
         
         if (posicionNombreEstudiante < 0){
             esValido = false;
         }
-        if(fechaAux == null){
+        if(fechaAux.isEmpty()){
             esValido = false;
         }
         if(periodoAux.isEmpty()){
             esValido = false;
         }
-        if(puntajeAux < 0){
+        if(puntajeAux.isEmpty()){
             esValido = false;
         }
         
@@ -131,7 +128,7 @@ public class FXMLRegistrarCenevalController implements Initializable {
                 
     }
     
-    private void guardarCeneval(int idAlumno, String fechaExamen, String periodo, float puntaje){
+    private void guardarCeneval(int idAlumno, String fechaExamen, String periodo, String puntaje){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
@@ -141,7 +138,7 @@ public class FXMLRegistrarCenevalController implements Initializable {
                 ps.setInt(1, idAlumno);
                 ps.setString(2, fechaExamen);
                 ps.setString(3, periodo);
-                ps.setFloat(4, puntaje);
+                ps.setString(4, puntaje);
                 resultado = ps.executeUpdate();
                 
                 conn.close();
@@ -152,9 +149,8 @@ public class FXMLRegistrarCenevalController implements Initializable {
                 } else {
                     mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de error", "Error al registrar ceneval", Alert.AlertType.ERROR);
                     mostrarAlerta.showAndWait();
-                }
-                                
-                //Es para ver si regresa al visualizar ceneval 
+                }                               
+              
                 cancelar();
                 
             } catch (SQLException ex){

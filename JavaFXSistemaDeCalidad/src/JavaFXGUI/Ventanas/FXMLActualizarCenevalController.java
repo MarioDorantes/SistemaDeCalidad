@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -25,11 +26,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import pojos.Ceneval;
 import pojos.Estudiante;
 import util.Herramientas;
@@ -41,18 +39,18 @@ public class FXMLActualizarCenevalController implements Initializable {
     @FXML
     private Button btCancelar;
     @FXML
-    private DatePicker dpFechaExamen;
-    @FXML
     private ComboBox<Estudiante> cbListaEstudiantesConCeneval;
     @FXML
     private TextField tfPuntaje;
     @FXML
     private TextField tfPeriodo;
+    @FXML
+    private TextField tfFechaExamen;
     
     private ObservableList<Estudiante> estudiantes;
     
     Alert mostrarAlerta;
-    
+        
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         estudiantes = FXCollections.observableArrayList();
@@ -147,9 +145,9 @@ public class FXMLActualizarCenevalController implements Initializable {
     
     private void llenarCamposCenevalSeleccionado(){
         
-        //CREO JALA, SI SE CAMBIA DEL LUGAR EL FORMATO
-        //dpFechaExamen.setDayCellFactory((Callback<DatePicker, DateCell>) ceneval.getFechaExamen());
-        
+        Date fechaExamenAux = ceneval.getFechaExamen();
+        String fechaAString = fechaExamenAux.toString();
+        tfFechaExamen.setText(fechaAString);
         
         tfPeriodo.setText(ceneval.getPeriodo());
                 
@@ -162,7 +160,64 @@ public class FXMLActualizarCenevalController implements Initializable {
     
     @FXML
     private void clicActualizarCeneval(ActionEvent event) {
+        boolean esValido = true;
+           
+        int posicionNombreEstudiante = cbListaEstudiantesConCeneval.getSelectionModel().getSelectedIndex();
+        String fechaAux = tfFechaExamen.getText();
+        String periodoAux = tfPeriodo.getText();
+        String puntajeAux = tfPuntaje.getText();
         
+        if (posicionNombreEstudiante < 0){
+            esValido = false;
+        }
+        if(fechaAux.isEmpty()){
+            esValido = false;
+        }
+        if(periodoAux.isEmpty()){
+            esValido = false;
+        }
+        if(puntajeAux.isEmpty()){
+            esValido = false;
+        }
+        
+        if(esValido){
+            actualizarCeneval(fechaAux, periodoAux, puntajeAux);
+        } else {
+            mostrarAlerta = Herramientas.creadorDeAlerta("Campos Obligatorios", "Favor de no dejar campos vacios", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+    }
+    
+    private void actualizarCeneval(String fechaExamen, String periodo, String puntaje){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try{
+                int resultado;
+                String consulta = "UPDATE ceneval SET fechaExamen = ?, periodo = ?, puntaje = ? WHERE idCeneval = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setString(1, fechaExamen);
+                ps.setString(2, periodo);
+                ps.setString(3, puntaje);
+                ps.setInt(4, ceneval.getIdCeneval());
+                resultado = ps.executeUpdate();
+                
+                conn.close();
+                
+                if(resultado > 0){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Ceneval actualizado exitosamente", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                } else {
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de error", "Error al actualizar ceneval", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }                               
+              
+                cancelar();
+                
+            }catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }
     }
     
       

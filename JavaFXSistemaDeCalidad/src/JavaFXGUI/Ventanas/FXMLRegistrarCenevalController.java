@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +23,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -55,14 +57,11 @@ public class FXMLRegistrarCenevalController implements Initializable {
     
     @FXML
     private void cancelar () {
-        try{
-            Stage stage = (Stage) btCancelar.getScene().getWindow();
-            Scene sceneVisualizarCeneval = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCeneval.fxml")));
-            stage.setScene(sceneVisualizarCeneval);
-            stage.show();
-        } catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait();  
+        mostrarAlerta = Herramientas.creadorDeAlerta("Cancelar", "¿Seguro desea cancelar?", Alert.AlertType.CONFIRMATION);
+        Optional<ButtonType> opcionSeleccionada = mostrarAlerta.showAndWait(); 
+        
+        if(opcionSeleccionada.get() == ButtonType.OK){
+            salir();
         }
     }
     
@@ -151,7 +150,7 @@ public class FXMLRegistrarCenevalController implements Initializable {
                     mostrarAlerta.showAndWait();
                 }                               
               
-                cancelar();
+                salir();
                 
             } catch (SQLException ex){
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
@@ -160,6 +159,16 @@ public class FXMLRegistrarCenevalController implements Initializable {
         }
     }
 
-    
+    private void salir(){
+        try{
+            Stage stage = (Stage) btCancelar.getScene().getWindow();
+            Scene sceneVisualizarCeneval = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCeneval.fxml")));
+            stage.setScene(sceneVisualizarCeneval);
+            stage.show();
+        } catch(IOException ex){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();  
+        }
+    }
        
 }

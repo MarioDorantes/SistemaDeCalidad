@@ -7,6 +7,7 @@ package JavaFXGUI.Ventanas;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import util.Herramientas;
 
@@ -39,14 +41,11 @@ public class FXMLVisualizarCenevalController implements Initializable {
     
     @FXML
     private void cancelar () {
-        try{
-            Stage stage = (Stage) btCancelar.getScene().getWindow();
-            Scene sceneVentanaPrincipalDocente = new Scene(FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDocente.fxml")));
-            stage.setScene(sceneVentanaPrincipalDocente);
-            stage.show();
-        } catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait();  
+        mostrarAlerta = Herramientas.creadorDeAlerta("Cancelar", "¿Seguro desea cancelar?", Alert.AlertType.CONFIRMATION);
+        Optional<ButtonType> opcionSeleccionada = mostrarAlerta.showAndWait(); 
+        
+        if(opcionSeleccionada.get() == ButtonType.OK){
+            salir();
         }
     }
     
@@ -86,6 +85,18 @@ public class FXMLVisualizarCenevalController implements Initializable {
         } catch(IOException ex){
             mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait(); 
+        }
+    }
+    
+    private void salir(){
+        try{
+            Stage stage = (Stage) btCancelar.getScene().getWindow();
+            Scene sceneVentanaPrincipalDocente = new Scene(FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDocente.fxml")));
+            stage.setScene(sceneVentanaPrincipalDocente);
+            stage.show();
+        } catch(IOException ex){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();  
         }
     }
     

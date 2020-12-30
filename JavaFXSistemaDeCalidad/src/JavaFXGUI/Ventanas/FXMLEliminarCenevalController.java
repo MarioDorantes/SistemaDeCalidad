@@ -50,14 +50,11 @@ public class FXMLEliminarCenevalController implements Initializable {
     
     @FXML
     private void cancelar () {
-        try{
-            Stage stage = (Stage) btCancelar.getScene().getWindow();
-            Scene sceneVisualizarCeneval = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCeneval.fxml")));
-            stage.setScene(sceneVisualizarCeneval);
-            stage.show();
-        } catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait(); 
+        mostrarAlerta = Herramientas.creadorDeAlerta("Cancelar", "¿Seguro desea cancelar?", Alert.AlertType.CONFIRMATION);
+        Optional<ButtonType> opcionSeleccionada = mostrarAlerta.showAndWait(); 
+        
+        if(opcionSeleccionada.get() == ButtonType.OK){
+            salir();
         }
     }
     
@@ -127,12 +124,24 @@ public class FXMLEliminarCenevalController implements Initializable {
                     mostrarAlerta.showAndWait();
                 }
                 
-                cancelar();
+                salir();
                 
             } catch(SQLException ex){
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             }
+        }
+    }
+    
+    private void salir(){
+        try{
+            Stage stage = (Stage) btCancelar.getScene().getWindow();
+            Scene sceneVisualizarCeneval = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCeneval.fxml")));
+            stage.setScene(sceneVisualizarCeneval);
+            stage.show();
+        } catch(IOException ex){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait(); 
         }
     }
     

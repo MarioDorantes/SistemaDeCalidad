@@ -85,7 +85,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
                     docente.setTelefono(resultado.getString("telefono"));
                     docente.setCorreo(resultado.getString("usuario.correo"));
                     docente.setContraseña(resultado.getString("contraseña"));
-                    docente.setIdDocente(resultado.getInt("academico.idAcademico"));
+                    docente.setIdentificacion(resultado.getInt("academico.idAcademico"));
                     docentes.add(docente);
                 }
                 tvDocentes.setItems(docentes);
@@ -151,7 +151,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
         int seleccion = tvDocentes.getSelectionModel().getSelectedIndex();
         if(seleccion >= 0){
             Docente docenteEliminar = docentes.get(seleccion);
-            idDocente = docenteEliminar.getIdDocente();
+            idDocente = docenteEliminar.getIdentificacion();
             Alert alertConfirmacion = Herramientas.creadorDeAlerta("Confirmación", "¿Seguro de eliminar?", Alert.AlertType.CONFIRMATION);
             Optional<ButtonType> resultadoDialogo = alertConfirmacion.showAndWait();
             if(resultadoDialogo.get() == ButtonType.OK){

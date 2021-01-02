@@ -131,11 +131,13 @@ public class FXMLRegistrarCoordinadorController implements Initializable {
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
                     + "en este momento, intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfContraseña);
             }
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
         }
     }
     
@@ -157,6 +159,7 @@ public class FXMLRegistrarCoordinadorController implements Initializable {
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
         }
     }
         
@@ -175,6 +178,7 @@ public class FXMLRegistrarCoordinadorController implements Initializable {
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
         }
         
         return idAcademico;
@@ -195,6 +199,7 @@ public class FXMLRegistrarCoordinadorController implements Initializable {
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
         }
         return idRol;
     }
@@ -226,14 +231,17 @@ public class FXMLRegistrarCoordinadorController implements Initializable {
                 }
                 conn.close();
             }catch(SQLException ex){
+                registroExitoso = false;
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
                     + "en este momento, intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfContraseña);
             }
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
         }
     }    
     

@@ -52,11 +52,9 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
     
     Alert mostrarAlerta;
     
-    private static final String estatus = "Activo";
+    private final String estatus = "Activo";
     
     private ObservableList<CatalogoDeAcademia> registrosDelCatalogo;
-    
-    CatalogoDeAcademia catalogo = new CatalogoDeAcademia();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,7 +69,7 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
         Optional<ButtonType> opcionSeleccionada = mostrarAlerta.showAndWait(); 
         
         if(opcionSeleccionada.get() == ButtonType.OK){
-                salir();
+            salir();
         }
     }
     
@@ -114,25 +112,26 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
         int seleccion = tbTabla.getSelectionModel().getSelectedIndex();
         if (seleccion >= 0) {
             CatalogoDeAcademia registroAEliminar = registrosDelCatalogo.get(seleccion);
-            eliminarRegistro(registroAEliminar.getNombreAcademia());
+            eliminarRegistro(registroAEliminar.getNombreAcademia(), registroAEliminar.getNombreCoordinador(), registroAEliminar.getNombreLicenciatura());
         } else {
             Alert alertaVacio = Herramientas.creadorDeAlerta("Sin selección", "Para eliminar un registro, debe seleccionarlo de la tabla", Alert.AlertType.WARNING);
             alertaVacio.showAndWait();
         }
     }
     
-    private void eliminarRegistro(String nombreAcademia){
+    private void eliminarRegistro(String nombreAcademia, String nombreCoordinador, String nombreLicenciatura){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
-                String consulta = "DELETE FROM catalogoDeAcademia WHERE nombreAcademia = ?";
+                String consulta = "DELETE FROM catalogoDeAcademia WHERE nombreAcademia = ? AND nombreCoordinador = ?";
                 PreparedStatement ps = conn.prepareStatement(consulta);
                 ps.setString(1, nombreAcademia);
+                ps.setString(2, nombreCoordinador);
                 int resultado = ps.executeUpdate();
                 conn.close();
                 
                 limpiarTabla();
-                //cargarRegistrosDelCatalogo();
+                cargarRegistrosPorLicenciatura(nombreLicenciatura);
                 
                 
             } catch(SQLException ex){
@@ -181,9 +180,9 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
                 }                               
                 
                 limpiarTabla();
-                //Como ya deberia estar en la base, carga el registro donde el nombrelicenciatura sea igual al que mando
-                //cargarRegistrosDelCatalogo();//osea con parametro nombreLicenciatura
-                cargarRegistrosPorLicenciatura(tfNombreLicenciatura.getText());
+                cargarRegistrosPorLicenciatura(nombreLicenciatura);
+                    
+                
             } catch (SQLException ex){
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
@@ -202,12 +201,13 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
                 ResultSet rs = ps.executeQuery();
                 
                 while(rs.next()){
-                    catalogo.setIdCatalogoDeAcademia(rs.getInt("idCatalogoDeAcademia"));
-                    catalogo.setNombreLicenciatura(rs.getString("nombreLicenciatura"));
-                    catalogo.setNombreAcademia(rs.getString("nombreAcademia"));
-                    catalogo.setNombreCoordinador(rs.getString("nombreCoordinador"));
-                    catalogo.setEstatus(rs.getString("estatus"));
-                    registrosDelCatalogo.add(catalogo);
+                    CatalogoDeAcademia catalogoA = new CatalogoDeAcademia();
+                    catalogoA.setIdCatalogoDeAcademia(rs.getInt("idCatalogoDeAcademia"));
+                    catalogoA.setNombreLicenciatura(rs.getString("nombreLicenciatura"));
+                    catalogoA.setNombreAcademia(rs.getString("nombreAcademia"));
+                    catalogoA.setNombreCoordinador(rs.getString("nombreCoordinador"));
+                    catalogoA.setEstatus(rs.getString("estatus"));
+                    registrosDelCatalogo.add(catalogoA);
                 }
                 
                 tbTabla.setItems(registrosDelCatalogo);
@@ -222,36 +222,6 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
             mostrarAlerta.showAndWait();
         }
     }
-    
-    //ESTE SRIVE MIENTRAS PARA EL DE ELIMINAR, PERO HAY QUE MODIFICARLO, PRIMERO QUE JALE EL REGISTRO
-    /*
-    private void cargarRegistrosDelCatalogo(){
-        Connection conn = ConectarBD.abrirConexionMySQL();
-        if(conn != null){
-            try{
-                String consulta = "SELECT nombreAcademia, nombreCoordinador FROM catalogoDeAcademia;";
-                PreparedStatement ps = conn.prepareStatement(consulta);
-                ResultSet rs = ps.executeQuery();
-                
-                while (rs.next()) {
-                    CatalogoDeAcademia catalogo = new CatalogoDeAcademia();
-                    catalogo.setNombreAcademia(rs.getString("nombreAcademia"));
-                    catalogo.setNombreCoordinador(rs.getString("nombreCoordinador"));
-                    registrosDelCatalogo.add(catalogo);
-                }
-
-                tbTabla.setItems(registrosDelCatalogo);
-                conn.close();
-                
-            }catch(SQLException ex){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
-                mostrarAlerta.showAndWait();
-            }
-        } else {
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", "No hay conexión a la base de datos. Intente más tarde", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait();
-        }
-    }*/
     
     private void limpiarTabla(){
         tbTabla.getItems().clear();

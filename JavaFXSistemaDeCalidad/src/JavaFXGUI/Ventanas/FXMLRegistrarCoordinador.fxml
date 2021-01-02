@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="455.0" prefWidth="611.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLRegistrarCoordinadorController">
+   <children>
+      <TextField fx:id="tfContraseña" layoutX="203.0" layoutY="336.0" prefHeight="25.0" prefWidth="374.0" promptText="Brandon17." />
+      <TextField fx:id="tfCorreo" layoutX="203.0" layoutY="276.0" prefHeight="25.0" prefWidth="374.0" promptText="brandon@gmail.com" />
+      <TextField fx:id="tfTelefono" layoutX="203.0" layoutY="214.0" prefHeight="25.0" prefWidth="374.0" promptText="2791240918" />
+      <TextField fx:id="tfNumeroDePersonal" layoutX="203.0" layoutY="150.0" prefHeight="25.0" prefWidth="374.0" promptText="54678" />
+      <TextField fx:id="tfNombre" layoutX="203.0" layoutY="89.0" prefHeight="25.0" prefWidth="374.0" promptText="Brandon Adalit Trujillo Capistran" />
+      <Label layoutX="90.0" layoutY="338.0" text="Contraseña:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="128.0" layoutY="278.0" text="Correo:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="115.0" layoutY="216.0" prefHeight="20.0" prefWidth="88.0" text="Teléfono:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="24.0" layoutY="152.0" text="Número de personal:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbNombre" layoutX="125.0" layoutY="91.0" text="Nombre:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Button layoutX="521.0" layoutY="399.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC0707;" text="Cancelar" textFill="#fffdfd" />
+      <Button layoutX="24.0" layoutY="399.0" mnemonicParsing="false" onAction="#clicRegistrar" style="-fx-background-color: #1FDC05;" text="Registrar" />
+      <Label layoutX="152.0" layoutY="21.0" prefHeight="42.0" prefWidth="307.0" text="Registrar Coordinador" textFill="#092ae1">
+         <font>
+            <Font name="Arial Bold" size="28.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

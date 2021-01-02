@@ -1,6 +1,6 @@
 /*
- *Autor: Brandon Trujillo
- *fechaCreación: 02/12/2020
+ * Autor: Brandon Trujillo
+ * fecha: 1/12/2020
  */
 package JavaFXGUI.Ventanas;
 
@@ -9,37 +9,33 @@ import interfaz.NotificaCambios;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import pojos.CoordinadorDeAcademia;
 import util.Herramientas;
 
-public class FXMLRegistrarDocenteController implements Initializable {
+public class FXMLActualizarCoordinadorController implements Initializable {
 
-    @FXML
-    private TextField tfNombre;
-    @FXML
-    private TextField tfNumeroDePersonal;
-    @FXML
-    private TextField tfTelefono;
-    @FXML
-    private TextField tfCorreo;
     @FXML
     private TextField tfContraseña;
     @FXML
-    private Label lbNombre;
-    
-    
+    private TextField tfCorreo;
+    @FXML
+    private TextField tfTelefono;
+    @FXML
+    private TextField tfNumeroDePersonal;
+    @FXML
+    private TextField tfNombre;
+
+    private CoordinadorDeAcademia editarCoordinador;
     Alert mostrarAlerta;
+    int idCoordinador = 0;
     boolean registroExitoso = true;
-    int idRol = 0;
-    int idAcademico = 0;
     NotificaCambios notificacion;
     
     String nombreAuxiliar;
@@ -47,23 +43,35 @@ public class FXMLRegistrarDocenteController implements Initializable {
     String telefonoAuxiliar;
     String correoAuxiliar;
     String contraseñaAuxiliar;
-  
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }  
+    }    
     
-    public void inicializaCampos(NotificaCambios notificacion){
+    public void inicializaCampos (NotificaCambios notificacion, CoordinadorDeAcademia editarCoordinador){
         this.notificacion = notificacion;
+        this.editarCoordinador = editarCoordinador;
+        
+        obtenerCoordinadorSeleccionado();
+    }
+
+     private void obtenerCoordinadorSeleccionado(){
+        idCoordinador = editarCoordinador.getIdentificacion();
+        tfNombre.setText(editarCoordinador.getNombre());
+        tfNumeroDePersonal.setText(editarCoordinador.getNumeroPersonal());
+        tfTelefono.setText(editarCoordinador.getTelefono());
+        tfCorreo.setText(editarCoordinador.getCorreo());
+        tfContraseña.setText(editarCoordinador.getContraseña());
     }
     
     @FXML
     private void cancelar(ActionEvent event) {
-        Herramientas.cerrarPantalla(tfNombre);
+        Herramientas.cerrarPantalla(tfContraseña);
     }
 
     @FXML
-    private void clicRegistrar(ActionEvent event) {
+    private void clicActualizar(ActionEvent event) {
         tfNombre.setStyle("-fx-border-color: ;");
         tfNumeroDePersonal.setStyle("-fx-border-color: ;");
         tfTelefono.setStyle("-fx-border-color: ;");
@@ -99,32 +107,33 @@ public class FXMLRegistrarDocenteController implements Initializable {
         }
         
         if(esCorrecto){
-            registrarAcademico(numeroPersonalAuxiliar, nombreAuxiliar, telefonoAuxiliar);
-            if(idRol > 0 && idAcademico > 0){
-                registrarUsuario(correoAuxiliar, contraseñaAuxiliar, idRol, idAcademico);
+            if(idCoordinador > 0){
+                actualizarAcademico(nombreAuxiliar, numeroPersonalAuxiliar, telefonoAuxiliar, idCoordinador);
             }else{
                 registroExitoso = false;
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
                     + "intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             }
+            
         }
     }
     
-    private void registrarAcademico(String numeroDePersonal, String nombre, String telefono){
+    private void actualizarAcademico(String nombre, String numeroDePersonal, String telefono, int idCoordinador){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
-                String consulta = "INSERT INTO academico(numeroPersonal, nombre, telefono) VALUES (?, ?, ?)";
+                String consulta = "UPDATE academico set nombre = ?, numeroPersonal = ?, telefono = ? WHERE idAcademico = ?";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
-                declaracion.setString(1, numeroDePersonal);
-                declaracion.setString(2, nombre);
+                declaracion.setString(1, nombre);
+                declaracion.setString(2, numeroDePersonal);
                 declaracion.setString(3, telefono);
+                declaracion.setInt(4, idCoordinador);
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
                 }else{
-                    registrarRolAcademico(numeroPersonalAuxiliar);
+                    actualizarUsuario(correoAuxiliar, contraseñaAuxiliar, idCoordinador);
                 }
                 conn.close();
             }catch(SQLException ex){
@@ -140,81 +149,20 @@ public class FXMLRegistrarDocenteController implements Initializable {
         }
     }
     
-    private void registrarRolAcademico(String numeroPersonal) throws SQLException{
-        Connection conn = ConectarBD.abrirConexionMySQL();
+    private void actualizarUsuario(String correo, String contraseña, int idCoordinador) throws SQLException{
+         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
-                String consulta = "INSERT INTO rol (tipoRol, numeroPersonal) VALUES ('Docente', ?)";
-                PreparedStatement declaracion = conn.prepareStatement(consulta);
-                declaracion.setString(1, numeroPersonal);
-                int resultado = declaracion.executeUpdate();
-                if(resultado == 0){
-                    registroExitoso = false;
-                }else{
-                    obtenerIdAcademico(numeroPersonalAuxiliar);
-                    obtenerIdRolAcademico(numeroPersonalAuxiliar);
-                }
-                conn.close();
-        }else{
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
-                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait();
-        }
-    }
-        
-    private int obtenerIdAcademico(String numeroDePersonal) throws SQLException{
-        Connection conn = ConectarBD.abrirConexionMySQL();
-        if(conn != null){
-                String consulta = "SELECT idAcademico FROM academico WHERE numeroPersonal = ?";
-                PreparedStatement declaracion = conn.prepareStatement(consulta);
-                declaracion.setString(1, numeroDePersonal);
-                ResultSet resultado = declaracion.executeQuery();
-                if(resultado.next()){
-                    idAcademico = resultado.getInt("idAcademico");
-                }
-                conn.close();
-        }else{
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
-                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait();
-        }
-        return idAcademico;
-    }
-    
-    private int obtenerIdRolAcademico(String numeroPersonal) throws SQLException{
-        Connection conn = ConectarBD.abrirConexionMySQL();
-        if(conn != null){
-                String consulta = "SELECT idRol FROM rol WHERE numeroPersonal = ?";
-                PreparedStatement declaracion = conn.prepareStatement(consulta);
-                declaracion.setString(1, numeroPersonal);
-                ResultSet resultado = declaracion.executeQuery();
-                if(resultado.next()){
-                    idRol = resultado.getInt("idRol");
-                }
-                conn.close();
-        }else{
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
-                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait();
-        }
-        return idRol;
-    }
-    
-    private void registrarUsuario(String correo, String contraseña, int idRol, int idAcademico){
-        Connection conn = ConectarBD.abrirConexionMySQL();
-        if(conn != null){
-            try{
-                String consulta = "INSERT INTO usuario(correo, password, idRol, idAcademico) VALUES (?, ?, ?, ?)";
+                String consulta = "UPDATE usuario set correo = ?, password = ? WHERE idAcademico = ?";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 declaracion.setString(1, correo);
                 declaracion.setString(2, contraseña);
-                declaracion.setInt(3, idRol);
-                declaracion.setInt(4, idAcademico);
+                declaracion.setInt(3, idCoordinador);
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
-                }else{
+                }else{       
                     if(registroExitoso){
-                        mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Registro exitoso", Alert.AlertType.INFORMATION);
+                        mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Actualizacion exitosa", Alert.AlertType.INFORMATION);
                         mostrarAlerta.showAndWait();
                         Herramientas.cerrarPantalla(tfNombre);
                         notificacion.refrescarTabla(true);
@@ -225,11 +173,6 @@ public class FXMLRegistrarDocenteController implements Initializable {
                     }
                 }
                 conn.close();
-            }catch(SQLException ex){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
-                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
-                mostrarAlerta.showAndWait();
-            }
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="520.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarCoordinadoresController">
+   <children>
+      <Button layoutX="670.0" layoutY="77.0" mnemonicParsing="false" onAction="#clicEliminar" style="-fx-background-color: #FC0707;" text="Eliminar" />
+      <Button layoutX="574.0" layoutY="77.0" mnemonicParsing="false" onAction="#irAActualizarCoordinador" style="-fx-background-color: #FCF407;" text="Actualizar" />
+      <Button layoutX="415.0" layoutY="77.0" mnemonicParsing="false" onAction="#irARegistrarCoordinador" style="-fx-background-color: #1FDC05;" text="Registrar Coordinador" />
+      <Button layoutX="667.0" layoutY="480.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC9305;" text="Cancelar" />
+      <TableView fx:id="tvCoordinadores" layoutX="25.0" layoutY="112.0" prefHeight="358.0" prefWidth="704.0">
+         <columns>
+            <TableColumn fx:id="tcNombre" prefWidth="141.0" text="Nombre" />
+            <TableColumn fx:id="tcNumeroDePersonal" prefWidth="126.0" text="Número de personal" />
+            <TableColumn fx:id="tcTelefono" minWidth="0.0" prefWidth="130.0" text="Teléfono" />
+            <TableColumn fx:id="tcCorreo" minWidth="0.0" prefWidth="142.0" text="Correo" />
+            <TableColumn fx:id="tcConstraseña" minWidth="0.0" prefWidth="164.0" text="Contraseña" />
+         </columns>
+      </TableView>
+      <Label layoutX="206.0" layoutY="21.0" prefHeight="32.0" prefWidth="343.0" text="Visualizar Coordinadores" textFill="#092ae1">
+         <font>
+            <Font name="Arial Bold" size="28.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

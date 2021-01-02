@@ -1,6 +1,6 @@
 /*
- *Autor: Brandon Trujillo
- *fechaCreación: 02/12/2020
+ * Autor: Brandon Trujillo
+ * fecha: 1/12/2020
  */
 package JavaFXGUI.Ventanas;
 
@@ -20,26 +20,25 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import util.Herramientas;
 
-public class FXMLRegistrarDocenteController implements Initializable {
+public class FXMLRegistrarCoordinadorController implements Initializable {
 
-    @FXML
-    private TextField tfNombre;
-    @FXML
-    private TextField tfNumeroDePersonal;
-    @FXML
-    private TextField tfTelefono;
-    @FXML
-    private TextField tfCorreo;
     @FXML
     private TextField tfContraseña;
     @FXML
+    private TextField tfCorreo;
+    @FXML
+    private TextField tfTelefono;
+    @FXML
+    private TextField tfNumeroDePersonal;
+    @FXML
+    private TextField tfNombre;
+    @FXML
     private Label lbNombre;
     
-    
     Alert mostrarAlerta;
-    boolean registroExitoso = true;
     int idRol = 0;
     int idAcademico = 0;
+    boolean registroExitoso = true;
     NotificaCambios notificacion;
     
     String nombreAuxiliar;
@@ -47,19 +46,19 @@ public class FXMLRegistrarDocenteController implements Initializable {
     String telefonoAuxiliar;
     String correoAuxiliar;
     String contraseñaAuxiliar;
-  
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }  
+    }    
     
     public void inicializaCampos(NotificaCambios notificacion){
         this.notificacion = notificacion;
     }
-    
+
     @FXML
     private void cancelar(ActionEvent event) {
-        Herramientas.cerrarPantalla(tfNombre);
+        Herramientas.cerrarPantalla(tfContraseña);
     }
 
     @FXML
@@ -98,7 +97,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
             tfContraseña.setStyle("-fx-border-color: red;");
         }
         
-        if(esCorrecto){
+         if(esCorrecto){
             registrarAcademico(numeroPersonalAuxiliar, nombreAuxiliar, telefonoAuxiliar);
             if(idRol > 0 && idAcademico > 0){
                 registrarUsuario(correoAuxiliar, contraseñaAuxiliar, idRol, idAcademico);
@@ -143,7 +142,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
     private void registrarRolAcademico(String numeroPersonal) throws SQLException{
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
-                String consulta = "INSERT INTO rol (tipoRol, numeroPersonal) VALUES ('Docente', ?)";
+                String consulta = "INSERT INTO rol (tipoRol, numeroPersonal) VALUES ('Coordinador', ?)";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 declaracion.setString(1, numeroPersonal);
                 int resultado = declaracion.executeUpdate();
@@ -177,6 +176,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
+        
         return idAcademico;
     }
     
@@ -235,6 +235,6 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
-    }
+    }    
     
 }

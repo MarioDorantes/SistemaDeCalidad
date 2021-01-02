@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="430.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLActualizarCoordinadorController">
+   <children>
+      <TextField fx:id="tfContraseña" layoutX="212.0" layoutY="332.0" prefHeight="25.0" prefWidth="360.0" />
+      <TextField fx:id="tfCorreo" layoutX="212.0" layoutY="272.0" prefHeight="25.0" prefWidth="360.0" />
+      <TextField fx:id="tfTelefono" layoutX="212.0" layoutY="203.0" prefHeight="25.0" prefWidth="360.0" />
+      <TextField fx:id="tfNumeroDePersonal" layoutX="212.0" layoutY="144.0" prefHeight="25.0" prefWidth="360.0" />
+      <TextField fx:id="tfNombre" layoutX="212.0" layoutY="83.0" prefHeight="25.0" prefWidth="360.0" />
+      <Label layoutX="134.0" layoutY="85.0" text="Nombre:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="33.0" layoutY="146.0" text="Número de personal:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="124.0" layoutY="205.0" prefHeight="20.0" prefWidth="88.0" text="Teléfono:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="139.0" layoutY="272.0" text="Correo:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="101.0" layoutY="332.0" text="Contraseña:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Button layoutX="516.0" layoutY="386.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="6.0" prefWidth="62.0" style="-fx-background-color: #FC0707;" text="Cancelar" textFill="#f8f8f8" />
+      <Button layoutX="33.0" layoutY="386.0" mnemonicParsing="false" onAction="#clicActualizar" style="-fx-background-color: #1FDC05;" text="Actualizar" />
+      <Label layoutX="145.0" layoutY="20.0" text="Actualizar Coordinador" textFill="#092ae1">
+         <font>
+            <Font name="Arial Bold" size="28.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

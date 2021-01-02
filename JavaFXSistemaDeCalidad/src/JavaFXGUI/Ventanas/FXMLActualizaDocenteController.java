@@ -25,7 +25,6 @@ import util.Herramientas;
 
 public class FXMLActualizaDocenteController implements Initializable {
     
-    private Docente editarDocente;
     @FXML
     private TextField tfNombre;
     @FXML
@@ -37,8 +36,8 @@ public class FXMLActualizaDocenteController implements Initializable {
     @FXML
     private TextField tfContraseña;
     
+    private Docente editarDocente;
     Alert mostrarAlerta;
-    
     int idDocente = 0;
     boolean registroExitoso = true;
     NotificaCambios notificacion;

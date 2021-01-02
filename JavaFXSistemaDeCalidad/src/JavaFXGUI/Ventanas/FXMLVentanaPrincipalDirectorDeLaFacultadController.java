@@ -42,11 +42,11 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
     }
     
     @FXML
-    private void visualizarAcademias(javafx.event.ActionEvent event) {
+    private void visualizarCoordinadores(javafx.event.ActionEvent event) {
         try{
-            Stage stage = (Stage) btVisualizarAcademias.getScene().getWindow();
-            Scene sceneVisualizarAcademias = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarAcademias.fxml")));
-            stage.setScene(sceneVisualizarAcademias);
+            Stage stage = (Stage) btSalir.getScene().getWindow();
+            Scene sceneVisualizarCoordinadores = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCoordinadores.fxml")));
+            stage.setScene(sceneVisualizarCoordinadores);
             stage.show(); 
         }catch(IOException ex){
             mostrarAlerta = Herramientas.creadorDeAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);

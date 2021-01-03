@@ -63,5 +63,9 @@ public class CatalogoDeAcademia {
         this.estatus = estatus;
     }
       
+    @Override
+    public String toString() {
+        return nombreLicenciatura;
+    }
     
 }

@@ -5,10 +5,17 @@ fechaCreación: 02/12/2020
 
 package JavaFXGUI.Ventanas;
 
+import conexionBD.ConectarBD;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,10 +57,12 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
     
     Alert mostrarAlerta;
     
+    private ObservableList<CatalogoDeAcademia> catalogos;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        catalogos = FXCollections.observableArrayList();
+        cargarCatalogosDeAcademia();
     } 
     
     @FXML
@@ -65,7 +74,36 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
             salir();
         }
     }
-
+    
+    private void cargarCatalogosDeAcademia(){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        
+        if(conn != null){
+            try{
+                String consulta = "SELECT * FROM catalogoDeAcademia;";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()){
+                    CatalogoDeAcademia catalogoA = new CatalogoDeAcademia();
+                    catalogoA.setIdCatalogoDeAcademia(rs.getInt("idCatalogoDeAcademia"));
+                    catalogoA.setNombreLicenciatura(rs.getString("nombreLicenciatura"));
+                    catalogoA.setNombreAcademia(rs.getString("nombreAcademia"));
+                    catalogoA.setNombreCoordinador(rs.getString("nombreCoordinador"));                    
+                    catalogos.add(catalogoA);
+                }
+                
+                cbLicenciaturas.setItems(catalogos);    
+                conn.close();
+            } catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexion a la base de datos", "No hay conexión a la base de datos. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+    }
+    
     @FXML
     private void clicActualizar(ActionEvent event) {
     }

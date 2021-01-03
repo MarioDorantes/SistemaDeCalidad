@@ -34,18 +34,17 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <TextField layoutX="254.0" layoutY="121.0" prefHeight="25.0" prefWidth="422.0" />
-      <TextField layoutX="254.0" layoutY="168.0" prefHeight="25.0" prefWidth="308.0" />
-      <TextField layoutX="254.0" layoutY="207.0" prefHeight="25.0" prefWidth="308.0" />
-      <Button layoutX="54.0" layoutY="241.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="116.0" style="-fx-background-color: #FCF407;" text="Agregar">
+      <TextField fx:id="tfNombreAcademia" layoutX="254.0" layoutY="168.0" prefHeight="25.0" prefWidth="308.0" />
+      <TextField fx:id="tfNombreCoordinador" layoutX="254.0" layoutY="207.0" prefHeight="25.0" prefWidth="308.0" />
+      <Button layoutX="54.0" layoutY="241.0" mnemonicParsing="false" onAction="#clicActualizar" prefHeight="31.0" prefWidth="116.0" style="-fx-background-color: #FCF407;" text="Actualizar">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Button layoutX="184.0" layoutY="241.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="116.0" style="-fx-background-color: #FC0707;" text="Eliminar" textFill="WHITE">
+      <Button layoutX="184.0" layoutY="241.0" mnemonicParsing="false" onAction="#clicEliminar" prefHeight="31.0" prefWidth="116.0" style="-fx-background-color: #FC0707;" text="Eliminar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Button fx:id="btActualizarCatalogo" layoutX="173.0" layoutY="448.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="163.0" style="-fx-background-color: #FCF407;" text="Actualizar Catálogo">
+      <Button layoutX="173.0" layoutY="448.0" mnemonicParsing="false" onAction="#clicFinalizarActualizacion" prefHeight="44.0" prefWidth="163.0" style="-fx-background-color: #FCF407;" text="Finalizar Actualización">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
@@ -53,13 +52,14 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <TableView layoutX="54.0" layoutY="288.0" prefHeight="139.0" prefWidth="631.0">
+      <TableView fx:id="tbTabla" layoutX="54.0" layoutY="288.0" prefHeight="139.0" prefWidth="631.0">
         <columns>
-          <TableColumn prefWidth="306.0" text="Nombre de la Academia" />
-          <TableColumn prefWidth="324.0" text="Nombre del Coordinador" />
+          <TableColumn fx:id="colNombreAcademia" prefWidth="306.0" text="Nombre de la Academia" />
+          <TableColumn fx:id="colNombreCoordinador" prefWidth="324.0" text="Nombre del Coordinador" />
         </columns>
       </TableView>
-      <RadioButton layoutX="535.0" layoutY="251.0" mnemonicParsing="false" text="Activo" />
-      <RadioButton layoutX="608.0" layoutY="251.0" mnemonicParsing="false" text="Inactivo" />
+      <RadioButton fx:id="rbActivo" layoutX="535.0" layoutY="251.0" mnemonicParsing="false" text="Activo" />
+      <RadioButton fx:id="rbInactivo" layoutX="608.0" layoutY="251.0" mnemonicParsing="false" text="Inactivo" />
+      <ComboBox fx:id="cbLicenciaturas" layoutX="254.0" layoutY="121.0" prefHeight="25.0" prefWidth="377.0" promptText="Seleccione una Licenciatura" />
    </children>
 </AnchorPane>

@@ -8,15 +8,24 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarCatalogoDeAcademiaController">
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" style="-fx-background-color: #003333;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarCatalogoDeAcademiaController">
    <children>
-      <Label layoutX="109.0" layoutY="35.0" text="Visualizar Catálogo de Academia">
+      <Label layoutX="109.0" layoutY="35.0" text="Visualizar Catálogo de Academia" textFill="WHITE">
          <font>
-            <Font name="System Bold Italic" size="33.0" />
+            <Font name="System Bold Italic" size="35.0" />
          </font>
       </Label>
-      <Button fx:id="btRegistrarCatalogo" layoutX="452.0" layoutY="164.0" mnemonicParsing="false" onAction="#registrarCatalogoDeAcademia" prefHeight="61.0" prefWidth="173.0" text="Registrar Catálogo" />
-      <Button fx:id="btActualizarCatalogo" layoutX="452.0" layoutY="259.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="173.0" text="Actualizar Catálogo" />
-      <Button fx:id="btCancelar" layoutX="452.0" layoutY="355.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="61.0" prefWidth="173.0" text="Cancelar" />
+      <Button fx:id="btRegistrarCatalogo" layoutX="120.0" layoutY="211.0" mnemonicParsing="false" onAction="#registrarCatalogoDeAcademia" prefHeight="61.0" prefWidth="173.0" text="Registrar Catálogo" >
+      <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="btActualizarCatalogo" layoutX="442.0" layoutY="211.0" mnemonicParsing="false" onAction ="#actualizarCatalogoDeAcademia" prefHeight="61.0" prefWidth="173.0" text="Actualizar Catálogo" >
+      <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="btCancelar" layoutX="529.0" layoutY="426.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="44.0" prefWidth="141.0" text="Cancelar" >
+          <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
    </children>
 </AnchorPane>

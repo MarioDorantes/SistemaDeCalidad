@@ -66,11 +66,11 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
             mostrarAlerta.showAndWait();
         }
     }
-    /*
+    
     @FXML
     private void visualizarCatalogoDeEE(javafx.event.ActionEvent event) {
         try{
-            Stage stage = (Stage) btVisualizarCatalogoDeEE.getScene().getWindow();
+            Stage stage = (Stage) btSalir.getScene().getWindow();
             Scene sceneVisualizarCatalogoDeEE = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCatalogoDeEE.fxml")));
             stage.setScene(sceneVisualizarCatalogoDeEE);
             stage.show(); 
@@ -78,7 +78,7 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
             mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait(); 
         }
-    }*/
+    }
     
     @FXML 
     private void visualizarDocentes(ActionEvent e){

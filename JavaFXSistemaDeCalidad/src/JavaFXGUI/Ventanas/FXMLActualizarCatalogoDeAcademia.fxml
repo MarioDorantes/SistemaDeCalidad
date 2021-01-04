@@ -58,8 +58,11 @@
           <TableColumn fx:id="colNombreCoordinador" prefWidth="304.0" text="Nombre del Coordinador" />
         </columns>
       </TableView>
-      <RadioButton fx:id="rbActivo" layoutX="490.0" layoutY="251.0" mnemonicParsing="false" text="Activo" />
-      <RadioButton fx:id="rbInactivo" layoutX="552.0" layoutY="251.0" mnemonicParsing="false" text="Inactivo" />
+      <RadioButton fx:id="rbActivo" layoutX="490.0" layoutY="251.0" mnemonicParsing="false" text="Activo">
+         <toggleGroup>
+            <ToggleGroup fx:id="tgEstatus" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="rbInactivo" layoutX="552.0" layoutY="251.0" mnemonicParsing="false" text="Inactivo" toggleGroup="$tgEstatus" />
       <ComboBox fx:id="cbLicenciaturas" layoutX="254.0" layoutY="121.0" prefHeight="25.0" prefWidth="377.0" promptText="Seleccione una Licenciatura" />
       <Button layoutX="640.0" layoutY="328.0" mnemonicParsing="false" onAction="#clicEditar" prefHeight="44.0" prefWidth="76.0" style="-fx-background-color: #FF6600;" text="Editar" textFill="WHITE">
          <font>

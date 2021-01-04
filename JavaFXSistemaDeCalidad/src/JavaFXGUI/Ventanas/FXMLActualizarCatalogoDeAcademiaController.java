@@ -31,6 +31,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import pojos.CatalogoDeAcademia;
@@ -58,6 +59,8 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
     private ComboBox<Licenciatura> cbLicenciaturas;
     @FXML
     private TableView<CatalogoDeAcademia> tbTabla;
+    @FXML
+    private ToggleGroup tgEstatus;
     
     Alert mostrarAlerta;
     
@@ -144,6 +147,7 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
                     catalogoA.setNombreCoordinador(rs.getString("nombreCoordinador"));
                     catalogoA.setEstatus(rs.getString("estatus"));  
                     catalogos.add(catalogoA);
+                    llenarRadioButton(catalogoA.getEstatus());
                 }
                 tbTabla.setItems(catalogos);
                 conn.close();
@@ -165,7 +169,61 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
        
     @FXML
     private void clicActualizar(ActionEvent event) {
+        boolean esValido = true;
+           
+        int posicionTabla = tbTabla.getSelectionModel().getSelectedIndex();
+        String nombreAcademiaAux = tfNombreAcademia.getText();
+        String nombreCoordinadorAux = tfNombreCoordinador.getText();
+
+        if (posicionTabla < 0){
+            esValido = false;
+        }
+        if(nombreAcademiaAux.isEmpty()){
+            esValido = false;
+        }
+        if(nombreCoordinadorAux.isEmpty()){
+            esValido = false;
+        }
+        if(esValido){
+            //actualizarCatalogoDeAcademia(nombreAcademiaAux, nombreCoordinadorAux);
+        } else {
+            mostrarAlerta = Herramientas.creadorDeAlerta("Campos Obligatorios", "Favor de no dejar campos vacios", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
     }
+    /*
+    CatalogoDeAcademia catalogo = new CatalogoDeAcademia();
+    
+    private void actualizarCatalogoDeAcademia(String nombreAcademia, String nombreCoordinador){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try{
+                int resultado;
+                String consulta = "UPDATE catalogoDeAcademia SET nombreAcademia = ?, nombreCoordinador = ? WHERE idLicenciatura = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setString(1, nombreAcademia);
+                ps.setString(2, nombreCoordinador);
+                ps.setInt(3, catalogo.getIdLicenciatura());
+                resultado = ps.executeUpdate();
+                
+                conn.close();
+                
+                if(resultado > 0){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Registro actualizado", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                } else {
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de error", "Error al actualizar registro", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }                               
+              
+                extraerDatosDelCatalogo(catalogo.getIdLicenciatura());
+                
+            }catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }
+    }*/
 
     @FXML
     private void clicEliminar(ActionEvent event) {
@@ -173,6 +231,18 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
 
     @FXML
     private void clicFinalizarActualizacion(ActionEvent event) {
+        if(tbTabla.getItems().isEmpty()){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "Para finalizar la actualizacion, debe registrar al menos un elemento el catalogo", Alert.AlertType.INFORMATION);
+            mostrarAlerta.showAndWait();
+        } else {
+            if(rbInactivo.isSelected()){
+                String estatus = "Inactivo";
+                //cambiarEstatusDelCatalogo(estatus);
+            }
+            mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Catálogo de Academia actualizado exitosamente", Alert.AlertType.INFORMATION);
+            mostrarAlerta.showAndWait();
+            salir();
+        }
     }
     
     private void salir(){
@@ -201,4 +271,44 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
             mostrarAlerta.showAndWait();  
         }
     }
+    
+    private void llenarRadioButton(String estatus){
+        rbActivo.setSelected(false);
+        rbInactivo.setSelected(false);
+        
+        if("Activo".equals(estatus)){
+            rbActivo.setSelected(true);
+        }
+        if("Inactivo".equals(estatus))
+            rbInactivo.setSelected(true);
+    }
+    /*    
+    private void cambiarEstatusDelCatalogo(String estatus){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try{
+                int resultado;                   
+                String consulta = "UPDATE catalogoDeAcademia SET estatus = 'Inactivo' WHERE idLicenciatura = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setString(1, estatus);
+                ps.setInt(2, catalogoAInactivo.getIdLicenciatura());
+                resultado = ps.executeUpdate();
+                
+                conn.close();
+                
+                if(resultado > 0){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Se cambio el estatus", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                } else {
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de error", "No se cambio el estatus", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }                               
+                              
+            }catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }
+    }*/
+    
 }

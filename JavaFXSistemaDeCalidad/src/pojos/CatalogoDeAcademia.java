@@ -62,6 +62,5 @@ public class CatalogoDeAcademia {
     public void setEstatus(String estatus) {
         this.estatus = estatus;
     }
-      
-    
+
 }

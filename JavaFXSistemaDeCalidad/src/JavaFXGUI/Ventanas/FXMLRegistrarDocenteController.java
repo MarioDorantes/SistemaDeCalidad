@@ -16,8 +16,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import util.Herramientas;
 
 public class FXMLRegistrarDocenteController implements Initializable {
@@ -33,7 +36,17 @@ public class FXMLRegistrarDocenteController implements Initializable {
     @FXML
     private TextField tfContraseña;
     @FXML
-    private Label lbNombre;
+    private ComboBox<?> cbCuerpoAcademico; 
+    @FXML
+    private ToggleGroup gradosAcademicos;
+    @FXML
+    private RadioButton rbLicenciatura;
+    @FXML
+    private RadioButton rbMaestria;
+    @FXML
+    private RadioButton rbEspecializacion;
+    @FXML
+    private RadioButton rbDoctorado;
     
     
     Alert mostrarAlerta;
@@ -47,7 +60,9 @@ public class FXMLRegistrarDocenteController implements Initializable {
     String telefonoAuxiliar;
     String correoAuxiliar;
     String contraseñaAuxiliar;
-  
+    String gradoAcademicoAuxiliar;
+    int posicionCuerpoAcademico;
+     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -69,6 +84,11 @@ public class FXMLRegistrarDocenteController implements Initializable {
         tfTelefono.setStyle("-fx-border-color: ;");
         tfCorreo.setStyle("-fx-border-color: ;");
         tfContraseña.setStyle("-fx-border-color: ;");
+        cbCuerpoAcademico.setStyle("-fx-border-color: ;");
+        rbLicenciatura.setStyle("-fx-border-color: ;");
+        rbEspecializacion.setStyle("-fx-border-color: ;");
+        rbMaestria.setStyle("-fx-border-color: ;");
+        rbDoctorado.setStyle("-fx-border-color: ;");
         
         boolean esCorrecto = true;
         nombreAuxiliar = tfNombre.getText();
@@ -76,27 +96,53 @@ public class FXMLRegistrarDocenteController implements Initializable {
         telefonoAuxiliar = tfTelefono.getText();
         correoAuxiliar = tfCorreo.getText();
         contraseñaAuxiliar = tfContraseña.getText();
-        
+        posicionCuerpoAcademico = cbCuerpoAcademico.getSelectionModel().getSelectedIndex();
+      
         if(nombreAuxiliar.isEmpty()){
             esCorrecto = false;
             tfNombre.setStyle("-fx-border-color: red;");
         }
+        
         if(numeroPersonalAuxiliar.isEmpty()){
             esCorrecto = false;
             tfNumeroDePersonal.setStyle("-fx-border-color: red;");
         }
+        
         if(telefonoAuxiliar.isEmpty()){
             esCorrecto = false;
             tfTelefono.setStyle("-fx-border-color: red;");
         }
+        
         if(correoAuxiliar.isEmpty()){
             esCorrecto = false;
             tfCorreo.setStyle("-fx-border-color: red;");
         }
+        
         if(contraseñaAuxiliar.isEmpty()){
             esCorrecto = false;
             tfContraseña.setStyle("-fx-border-color: red;");
         }
+        
+        if(rbLicenciatura.isSelected()){
+            gradoAcademicoAuxiliar = rbLicenciatura.getText();
+        }else if(rbEspecializacion.isSelected()){
+            gradoAcademicoAuxiliar = rbEspecializacion.getText();
+        }else if(rbMaestria.isSelected()){
+            gradoAcademicoAuxiliar = rbMaestria.getText();
+        }else if(rbDoctorado.isSelected()){
+            gradoAcademicoAuxiliar = rbDoctorado.getText();
+        }else{
+            rbLicenciatura.setStyle("-fx-border-color: red;");
+            rbEspecializacion.setStyle("-fx-border-color: red;");
+            rbMaestria.setStyle("-fx-border-color: red;");
+            rbDoctorado.setStyle("-fx-border-color: red;");
+        }
+        
+        if(posicionCuerpoAcademico < 0){
+            esCorrecto = false;
+            cbCuerpoAcademico.setStyle("-fx-border-color: red;");
+        }
+      
         
         if(esCorrecto){
             registrarAcademico(numeroPersonalAuxiliar, nombreAuxiliar, telefonoAuxiliar);
@@ -108,6 +154,9 @@ public class FXMLRegistrarDocenteController implements Initializable {
                     + "intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             }
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Campos incorrectos o vacíos", "Verifique su información", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
         }
     }
     

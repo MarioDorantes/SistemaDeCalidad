@@ -5,33 +5,21 @@
 package pojos;
 
 public class CoordinadorDeAcademia extends PersonalUniversitario {
-    private String correo;
-    private String contraseña;
+   private String gradoAcademico;
 
-    public CoordinadorDeAcademia(String correo, String contraseña, int identificacion, String telefono, String numeroPersonal, String nombre) {
-        super(identificacion, telefono, numeroPersonal, nombre);
-        this.correo = correo;
-        this.contraseña = contraseña;
+    public CoordinadorDeAcademia(String gradoAcademico, int identificacion, String telefono, String numeroPersonal, String nombre, String correo, String contraseña) {
+        super(identificacion, telefono, numeroPersonal, nombre, correo, contraseña);
+        this.gradoAcademico = gradoAcademico;
     }
 
     public CoordinadorDeAcademia() {
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getGradoAcademico() {
+        return gradoAcademico;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setGradoAcademico(String gradoAcademico) {
+        this.gradoAcademico = gradoAcademico;
     }
-
-    public String getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
-    }
-    
-    
 }

@@ -24,12 +24,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import pojos.CatalogoDeAcademia;
+import pojos.Licenciatura;
 import util.Herramientas;
 
 
@@ -37,8 +39,6 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
 
     @FXML
     private Button btCancelar;
-    @FXML
-    private TextField tfNombreLicenciatura;
     @FXML
     private TextField tfNombreAcademia;
     @FXML
@@ -49,19 +49,51 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
     private TableColumn colNombreAcademia;
     @FXML
     private TableColumn colNombreCoordinador;
+    @FXML
+    private ComboBox<Licenciatura> cbNombreLicenciatura;
     
     Alert mostrarAlerta;
     
     private final String estatus = "Activo";
     
     private ObservableList<CatalogoDeAcademia> registrosDelCatalogo;
+    private ObservableList<Licenciatura> licenciaturas;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         registrosDelCatalogo = FXCollections.observableArrayList();
+        licenciaturas = FXCollections.observableArrayList();
+        cargarNombresLicenciaturas();
         this.colNombreAcademia.setCellValueFactory(new PropertyValueFactory("nombreAcademia"));
         this.colNombreCoordinador.setCellValueFactory(new PropertyValueFactory("nombreCoordinador"));
     }    
+    
+    private void cargarNombresLicenciaturas(){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        
+        if(conn != null){
+            try{
+                String consulta = "SELECT * FROM licenciatura;";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()){
+                    Licenciatura licenciatura = new Licenciatura();
+                    licenciatura.setIdLicenciatura(rs.getInt("idLicenciatura"));
+                    licenciatura.setNombreLicenciatura(rs.getString("nombreLicenciatura"));
+                    licenciaturas.add(licenciatura);
+                }
+                
+                cbNombreLicenciatura.setItems(licenciaturas);                                
+                conn.close();
+            } catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexion a la base de datos", "No hay conexión a la base de datos. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+    }
     
     @FXML
     private void cancelar(javafx.event.ActionEvent event) {
@@ -77,11 +109,11 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
     private void clicRegistrar(ActionEvent event) {
         boolean esValido = true;
         
-        String nomLicenciaturaAux = tfNombreLicenciatura.getText();
+        int posicionNombreLicenciatura = cbNombreLicenciatura.getSelectionModel().getSelectedIndex();
         String nomAcademiaAux = tfNombreAcademia.getText();
         String nomCoordinadorAux = tfNombreCoordinador.getText();
         
-        if(nomLicenciaturaAux.isEmpty()){
+        if(posicionNombreLicenciatura < 0){
             esValido = false;
         } 
         if(nomAcademiaAux.isEmpty()){
@@ -92,9 +124,9 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
         }
         
         if(esValido){
-            tfNombreLicenciatura.setEditable(false);
+            cbNombreLicenciatura.setEditable(false);
             limpiarCampos();
-            guardarCatalogoDeAcademia(nomLicenciaturaAux, nomAcademiaAux, nomCoordinadorAux, estatus);
+            guardarCatalogoDeAcademia(licenciaturas.get(posicionNombreLicenciatura).getIdLicenciatura(), nomAcademiaAux, nomCoordinadorAux, estatus);
         } else {
             mostrarAlerta = Herramientas.creadorDeAlerta("Campos Obligatorios", "Favor de no dejar campos vacios", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -112,14 +144,14 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
         int seleccion = tbTabla.getSelectionModel().getSelectedIndex();
         if (seleccion >= 0) {
             CatalogoDeAcademia registroAEliminar = registrosDelCatalogo.get(seleccion);
-            eliminarRegistro(registroAEliminar.getNombreAcademia(), registroAEliminar.getNombreCoordinador(), registroAEliminar.getNombreLicenciatura());
+            eliminarRegistro(registroAEliminar.getNombreAcademia(), registroAEliminar.getNombreCoordinador(), registroAEliminar.getIdLicenciatura());
         } else {
             Alert alertaVacio = Herramientas.creadorDeAlerta("Sin selección", "Para eliminar un registro, debe seleccionarlo de la tabla", Alert.AlertType.WARNING);
             alertaVacio.showAndWait();
         }
     }
     
-    private void eliminarRegistro(String nombreAcademia, String nombreCoordinador, String nombreLicenciatura){
+    private void eliminarRegistro(String nombreAcademia, String nombreCoordinador, int idLicenciatura){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
@@ -131,7 +163,7 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
                 conn.close();
                 
                 limpiarTabla();
-                cargarRegistrosPorLicenciatura(nombreLicenciatura);
+                cargarRegistrosPorLicenciatura(idLicenciatura);
                 
                 
             } catch(SQLException ex){
@@ -156,14 +188,14 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
     }
     
     
-    private void guardarCatalogoDeAcademia(String nombreLicenciatura, String nombreAcademia, String nombreCoordinador, String estatus){
+    private void guardarCatalogoDeAcademia(int nombreLicenciatura, String nombreAcademia, String nombreCoordinador, String estatus){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
                 int resultado;
-                String consulta = "INSERT INTO catalogoDeAcademia (nombreLicenciatura, nombreAcademia, nombreCoordinador, estatus) VALUES (?, ?, ?, ?)";
+                String consulta = "INSERT INTO catalogoDeAcademia (idLicenciatura, nombreAcademia, nombreCoordinador, estatus) VALUES (?, ?, ?, ?)";
                 PreparedStatement ps = conn.prepareStatement(consulta);
-                ps.setString(1, nombreLicenciatura);
+                ps.setInt(1, nombreLicenciatura);
                 ps.setString(2, nombreAcademia);
                 ps.setString(3, nombreCoordinador);
                 ps.setString(4, estatus);
@@ -190,20 +222,20 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
         }
     }
     
-    private void cargarRegistrosPorLicenciatura(String nombreLicenciatura){
+    private void cargarRegistrosPorLicenciatura(int idLicenciatura){
         Connection conn = ConectarBD.abrirConexionMySQL();
         
         if(conn != null){
             try{
-                String consulta = "SELECT * FROM catalogoDeAcademia WHERE nombreLicenciatura = ?";
+                String consulta = "SELECT * FROM catalogoDeAcademia WHERE idLicenciatura = ?";
                 PreparedStatement ps = conn.prepareStatement(consulta);
-                ps.setString(1, nombreLicenciatura);
+                ps.setInt(1, idLicenciatura);
                 ResultSet rs = ps.executeQuery();
                 
                 while(rs.next()){
                     CatalogoDeAcademia catalogoA = new CatalogoDeAcademia();
                     catalogoA.setIdCatalogoDeAcademia(rs.getInt("idCatalogoDeAcademia"));
-                    catalogoA.setNombreLicenciatura(rs.getString("nombreLicenciatura"));
+                    catalogoA.setIdLicenciatura(rs.getInt("idLicenciatura"));
                     catalogoA.setNombreAcademia(rs.getString("nombreAcademia"));
                     catalogoA.setNombreCoordinador(rs.getString("nombreCoordinador"));
                     catalogoA.setEstatus(rs.getString("estatus"));

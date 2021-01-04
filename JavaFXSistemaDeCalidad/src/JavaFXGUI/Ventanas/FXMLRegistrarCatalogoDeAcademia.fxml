@@ -26,7 +26,6 @@
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Label>
-      <TextField fx:id="tfNombreLicenciatura" layoutX="248.0" layoutY="112.0" prefHeight="25.0" prefWidth="410.0" />
       <TextField fx:id="tfNombreAcademia" layoutX="248.0" layoutY="164.0" prefHeight="25.0" prefWidth="307.0" />
       <TextField fx:id="tfNombreCoordinador" layoutX="248.0" layoutY="199.0" prefHeight="25.0" prefWidth="307.0" />
       <Button layoutX="50.0" layoutY="235.0" mnemonicParsing="false" onAction="#clicRegistrar" prefHeight="25.0" prefWidth="103.0" style="-fx-background-color: #FCF407;" text="Registrar">
@@ -51,5 +50,6 @@
           <TableColumn fx:id="colNombreCoordinador" prefWidth="336.0" text="Nombre del Coordinador" />
         </columns>
       </TableView>
+      <ComboBox fx:id="cbNombreLicenciatura" layoutX="248.0" layoutY="112.0" prefHeight="25.0" prefWidth="361.0" promptText="Seleccione una Licenciatura" />
    </children>
 </AnchorPane>

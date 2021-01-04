@@ -53,7 +53,6 @@ public class Estudiante {
         this.correo = correo;
     }
     
-    //Para que se vean en el combo 
     @Override
     public String toString() {
         return nombre;

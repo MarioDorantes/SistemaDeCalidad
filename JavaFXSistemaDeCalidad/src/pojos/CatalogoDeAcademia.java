@@ -7,14 +7,14 @@ package pojos;
 public class CatalogoDeAcademia {
     
     private int idCatalogoDeAcademia;
-    private String nombreLicenciatura;
+    private int idLicenciatura;
     private String nombreAcademia;
     private String nombreCoordinador;
     private String estatus;
 
-    public CatalogoDeAcademia(int idCatalogoDeAcademia, String nombreLicenciatura, String nombreAcademia, String nombreCoordinador, String estatus) {
+    public CatalogoDeAcademia(int idCatalogoDeAcademia, int idLicenciatura, String nombreAcademia, String nombreCoordinador, String estatus) {
         this.idCatalogoDeAcademia = idCatalogoDeAcademia;
-        this.nombreLicenciatura = nombreLicenciatura;
+        this.idLicenciatura = idLicenciatura;
         this.nombreAcademia = nombreAcademia;
         this.nombreCoordinador = nombreCoordinador;
         this.estatus = estatus;
@@ -31,12 +31,12 @@ public class CatalogoDeAcademia {
         this.idCatalogoDeAcademia = idCatalogoDeAcademia;
     }
 
-    public String getNombreLicenciatura() {
-        return nombreLicenciatura;
+    public int getIdLicenciatura() {
+        return idLicenciatura;
     }
 
-    public void setNombreLicenciatura(String nombreLicenciatura) {
-        this.nombreLicenciatura = nombreLicenciatura;
+    public void setIdLicenciatura(int idLicenciatura) {
+        this.idLicenciatura = idLicenciatura;
     }
 
     public String getNombreAcademia() {
@@ -63,9 +63,5 @@ public class CatalogoDeAcademia {
         this.estatus = estatus;
     }
       
-    @Override
-    public String toString() {
-        return nombreLicenciatura;
-    }
     
 }

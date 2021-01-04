@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,6 +31,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import pojos.CatalogoDeAcademia;
 import util.Herramientas;
@@ -61,8 +64,24 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        /*
         catalogos = FXCollections.observableArrayList();
+        this.colNombreAcademia.setCellValueFactory(new PropertyValueFactory("nombreAcademia"));
+        this.colNombreCoordinador.setCellValueFactory(new PropertyValueFactory("nombreCoordinador"));
+        
         cargarCatalogosDeAcademia();
+        
+        cbLicenciaturas.valueProperty().addListener(new ChangeListener <CatalogoDeAcademia>(){
+            @Override
+            public void changed(ObservableValue<? extends CatalogoDeAcademia> observable, CatalogoDeAcademia oldValue, CatalogoDeAcademia newValue) {
+                if(newValue != null){
+                    tbTabla.getItems().clear();
+                    extraerDatosDelCatalogo(newValue.getNombreLicenciatura());
+                }
+            }
+            
+        });
+    */
     } 
     
     @FXML
@@ -76,22 +95,20 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
     }
     
     private void cargarCatalogosDeAcademia(){
+        /*
         Connection conn = ConectarBD.abrirConexionMySQL();
-        
         if(conn != null){
             try{
-                String consulta = "SELECT * FROM catalogoDeAcademia;";
+                String consulta = "SELECT DISTINCT nombreLicenciatura FROM catalogoDeAcademia;";
                 PreparedStatement ps = conn.prepareStatement(consulta);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()){
                     CatalogoDeAcademia catalogoA = new CatalogoDeAcademia();
-                    catalogoA.setIdCatalogoDeAcademia(rs.getInt("idCatalogoDeAcademia"));
-                    catalogoA.setNombreLicenciatura(rs.getString("nombreLicenciatura"));
-                    catalogoA.setNombreAcademia(rs.getString("nombreAcademia"));
-                    catalogoA.setNombreCoordinador(rs.getString("nombreCoordinador"));                    
+                    catalogoA.setNombreLicenciatura(rs.getString("nombreLicenciatura"));                 
                     catalogos.add(catalogoA);
                 }
-                
+                //PRUEBA SI SI LIMPIA EL COMBO CADA QUE LO LLENA
+                cbLicenciaturas.getItems().clear();
                 cbLicenciaturas.setItems(catalogos);    
                 conn.close();
             } catch(SQLException ex){
@@ -101,9 +118,44 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexion a la base de datos", "No hay conexión a la base de datos. Intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
+        }*/
+    }
+    /*
+    private void extraerDatosDelCatalogo(String nombreLicenciatura){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        
+        if(conn != null){
+            try{
+                String consulta = "SELECT nombreAcademia, nombreCoordinador, estatus FROM catalogoDeAcademia WHERE nombreLicenciatura = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setString(1, nombreLicenciatura);
+                ResultSet rs = ps.executeQuery();
+                
+                while(rs.next()){
+                    CatalogoDeAcademia catalogoA = new CatalogoDeAcademia();
+                    //catalogoA.setIdCatalogoDeAcademia(rs.getInt("idCatalogoDeAcademia"));
+                    //catalogoA.setNombreLicenciatura(rs.getString("nombreLicenciatura"));
+                    catalogoA.setNombreAcademia(rs.getString("nombreAcademia"));
+                    catalogoA.setNombreCoordinador(rs.getString("nombreCoordinador"));
+                    catalogoA.setEstatus(rs.getString("estatus"));  
+                    catalogos.add(catalogoA);
+                }
+                //PRUEBA SI LIMPIA LA TABLA ANTES DE LLENARLA
+                //tbTabla.getItems().clear();
+                tbTabla.setItems(catalogos);
+                conn.close();
+                
+            }catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexion a la base de datos", "No hay conexión a la base de datos. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
         }
     }
-    
+    */
+       
     @FXML
     private void clicActualizar(ActionEvent event) {
     }

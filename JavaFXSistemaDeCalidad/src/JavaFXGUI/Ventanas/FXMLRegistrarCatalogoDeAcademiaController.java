@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -66,6 +68,18 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
         cargarNombresLicenciaturas();
         this.colNombreAcademia.setCellValueFactory(new PropertyValueFactory("nombreAcademia"));
         this.colNombreCoordinador.setCellValueFactory(new PropertyValueFactory("nombreCoordinador"));
+        
+        cbNombreLicenciatura.valueProperty().addListener(new ChangeListener <Licenciatura>(){
+            @Override
+            public void changed(ObservableValue<? extends Licenciatura> observable, Licenciatura oldValue, Licenciatura newValue) {
+                if(newValue != null){
+                    limpiarCampos();
+                    limpiarTabla();
+                    cargarRegistrosPorLicenciatura(newValue.getIdLicenciatura());                    
+                }
+            }
+            
+        });
     }    
     
     private void cargarNombresLicenciaturas(){

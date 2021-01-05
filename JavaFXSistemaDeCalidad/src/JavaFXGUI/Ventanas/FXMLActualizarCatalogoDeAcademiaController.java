@@ -67,6 +67,10 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
     private ObservableList<CatalogoDeAcademia> catalogos;
     private ObservableList<Licenciatura> licenciaturas;
     
+    int idLicenciaturaCatalogoAux;
+    String nombreAcademiaCatalogoAux;
+    String nombreCoordinadorCatalogoAux;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         catalogos = FXCollections.observableArrayList();
@@ -82,7 +86,7 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
             public void changed(ObservableValue<? extends Licenciatura> observable, Licenciatura oldValue, Licenciatura newValue) {
                 if(newValue != null){
                     limpiarCampos();
-                    extraerDatosDelCatalogo(newValue.getIdLicenciatura());
+                    extraerDatosDelCatalogo(newValue.getIdLicenciatura());                    
                 }
             }
             
@@ -147,7 +151,11 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
                     catalogoA.setNombreCoordinador(rs.getString("nombreCoordinador"));
                     catalogoA.setEstatus(rs.getString("estatus"));  
                     catalogos.add(catalogoA);
+                    
                     llenarRadioButton(catalogoA.getEstatus());
+                    idLicenciaturaCatalogoAux = catalogoA.getIdLicenciatura();
+                    nombreAcademiaCatalogoAux = catalogoA.getNombreAcademia();
+                    nombreCoordinadorCatalogoAux = catalogoA.getNombreCoordinador();
                 }
                 tbTabla.setItems(catalogos);
                 conn.close();
@@ -170,12 +178,12 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
     @FXML
     private void clicActualizar(ActionEvent event) {
         boolean esValido = true;
-           
+        
         int posicionTabla = tbTabla.getSelectionModel().getSelectedIndex();
         String nombreAcademiaAux = tfNombreAcademia.getText();
         String nombreCoordinadorAux = tfNombreCoordinador.getText();
-
-        if (posicionTabla < 0){
+        
+        if(posicionTabla < 0){
             esValido = false;
         }
         if(nombreAcademiaAux.isEmpty()){
@@ -185,25 +193,25 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
             esValido = false;
         }
         if(esValido){
-            //actualizarCatalogoDeAcademia(nombreAcademiaAux, nombreCoordinadorAux);
+            actualizarCatalogoDeAcademia(nombreAcademiaAux, nombreCoordinadorAux);
         } else {
-            mostrarAlerta = Herramientas.creadorDeAlerta("Campos Obligatorios", "Favor de no dejar campos vacios", Alert.AlertType.ERROR);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Alerta", "Seleccione un registro de la tabla y de clic en el botón 'Editar'. \n \nSi desea agregar un "
+                    + "nuevo registro al catalogo dirijase a la sección 'Registrar Catálogo' ", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }
-    /*
-    CatalogoDeAcademia catalogo = new CatalogoDeAcademia();
     
     private void actualizarCatalogoDeAcademia(String nombreAcademia, String nombreCoordinador){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
                 int resultado;
-                String consulta = "UPDATE catalogoDeAcademia SET nombreAcademia = ?, nombreCoordinador = ? WHERE idLicenciatura = ?";
+                String consulta = "UPDATE catalogoDeAcademia SET nombreAcademia = ?, nombreCoordinador = ? WHERE nombreAcademia = ? AND nombreCoordinador = ?";
                 PreparedStatement ps = conn.prepareStatement(consulta);
                 ps.setString(1, nombreAcademia);
                 ps.setString(2, nombreCoordinador);
-                ps.setInt(3, catalogo.getIdLicenciatura());
+                ps.setString(3, nombreAcademiaCatalogoAux);
+                ps.setString(4, nombreCoordinadorCatalogoAux);
                 resultado = ps.executeUpdate();
                 
                 conn.close();
@@ -215,29 +223,61 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
                     mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de error", "Error al actualizar registro", Alert.AlertType.ERROR);
                     mostrarAlerta.showAndWait();
                 }                               
-              
-                extraerDatosDelCatalogo(catalogo.getIdLicenciatura());
+                
+                extraerDatosDelCatalogo(idLicenciaturaCatalogoAux);
                 
             }catch(SQLException ex){
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             }
         }
-    }*/
+    }
 
     @FXML
     private void clicEliminar(ActionEvent event) {
+        int seleccion = tbTabla.getSelectionModel().getSelectedIndex();
+        if (seleccion >= 0) {
+            CatalogoDeAcademia registroAEliminar = catalogos.get(seleccion);
+            eliminarRegistro(registroAEliminar.getNombreAcademia(), registroAEliminar.getNombreCoordinador());
+        } else {
+            Alert alertaVacio = Herramientas.creadorDeAlerta("Sin selección", "Para eliminar un registro, debe seleccionarlo de la tabla", Alert.AlertType.WARNING);
+            alertaVacio.showAndWait();
+        }
+    }
+    
+    private void eliminarRegistro(String nombreAcademia, String nombreCoordinador){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try{
+                String consulta = "DELETE FROM catalogoDeAcademia WHERE nombreAcademia = ? AND nombreCoordinador = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setString(1, nombreAcademia);
+                ps.setString(2, nombreCoordinador);
+                int resultado = ps.executeUpdate();
+                conn.close();
+                
+                extraerDatosDelCatalogo(idLicenciaturaCatalogoAux);
+                                
+            } catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }
     }
 
     @FXML
     private void clicFinalizarActualizacion(ActionEvent event) {
         if(tbTabla.getItems().isEmpty()){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "Para finalizar la actualizacion, debe registrar al menos un elemento el catalogo", Alert.AlertType.INFORMATION);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "Para finalizar la actualizacion, debe modificar al menos un elemento del catalogo seleccionado", Alert.AlertType.INFORMATION);
             mostrarAlerta.showAndWait();
         } else {
             if(rbInactivo.isSelected()){
                 String estatus = "Inactivo";
-                //cambiarEstatusDelCatalogo(estatus);
+                cambiarEstatusDelCatalogo(estatus);
+            }
+            if(rbActivo.isSelected()){
+                String estatus = "Activo";
+                cambiarEstatusDelCatalogo(estatus);
             }
             mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Catálogo de Academia actualizado exitosamente", Alert.AlertType.INFORMATION);
             mostrarAlerta.showAndWait();
@@ -282,33 +322,33 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
         if("Inactivo".equals(estatus))
             rbInactivo.setSelected(true);
     }
-    /*    
+    
     private void cambiarEstatusDelCatalogo(String estatus){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
-                int resultado;                   
-                String consulta = "UPDATE catalogoDeAcademia SET estatus = 'Inactivo' WHERE idLicenciatura = ?";
+                int resultado;                
+                String consulta = "UPDATE catalogoDeAcademia SET estatus = ? WHERE idLicenciatura = ?";
                 PreparedStatement ps = conn.prepareStatement(consulta);
                 ps.setString(1, estatus);
-                ps.setInt(2, catalogoAInactivo.getIdLicenciatura());
+                ps.setInt(2, idLicenciaturaCatalogoAux);
                 resultado = ps.executeUpdate();
                 
                 conn.close();
                 
                 if(resultado > 0){
-                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Se cambio el estatus", Alert.AlertType.INFORMATION);
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Estatus del catalogo: " + estatus, Alert.AlertType.INFORMATION);
                     mostrarAlerta.showAndWait();
                 } else {
-                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de error", "No se cambio el estatus", Alert.AlertType.ERROR);
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de error", "Error al actualizar el estatus del catalogo", Alert.AlertType.ERROR);
                     mostrarAlerta.showAndWait();
                 }                               
                               
             }catch(SQLException ex){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos. Intente más tarde", ex.getMessage(), Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             }
         }
-    }*/
+    }
     
 }

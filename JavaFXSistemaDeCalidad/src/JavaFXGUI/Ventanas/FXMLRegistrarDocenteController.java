@@ -12,15 +12,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import pojos.CatalogoDeCuerpoAcademico;
 import util.Herramientas;
 
 public class FXMLRegistrarDocenteController implements Initializable {
@@ -36,7 +42,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
     @FXML
     private TextField tfContraseña;
     @FXML
-    private ComboBox<?> cbCuerpoAcademico; 
+    private ComboBox<CatalogoDeCuerpoAcademico> cbCuerpoAcademico; 
     @FXML
     private ToggleGroup gradosAcademicos;
     @FXML
@@ -53,7 +59,9 @@ public class FXMLRegistrarDocenteController implements Initializable {
     boolean registroExitoso = true;
     int idRol = 0;
     int idAcademico = 0;
+    int idCuerpoAcademico = 0;
     NotificaCambios notificacion;
+    private ObservableList<CatalogoDeCuerpoAcademico> cuerposAcademicos;
     
     String nombreAuxiliar;
     String numeroPersonalAuxiliar;
@@ -65,11 +73,80 @@ public class FXMLRegistrarDocenteController implements Initializable {
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        cuerposAcademicos = FXCollections.observableArrayList();
+        cargarCuerposAcademicos();
+        cbCuerpoAcademico.valueProperty().addListener(new ChangeListener<CatalogoDeCuerpoAcademico>(){
+            @Override
+            public void changed(ObservableValue<? extends CatalogoDeCuerpoAcademico> observable, CatalogoDeCuerpoAcademico oldValue, CatalogoDeCuerpoAcademico newValue) {
+                if(newValue != null){
+                    obtenerIdCuerpoAcademico(newValue.getIdentificacion());
+                }
+            } 
+        });
     }  
     
     public void inicializaCampos(NotificaCambios notificacion){
         this.notificacion = notificacion;
+    }
+    
+    public void cargarCuerposAcademicos(){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try {
+                String consulta = "Select * from cuerpoAcademico";
+                PreparedStatement declaracion = conn.prepareStatement(consulta);
+                ResultSet resultado = declaracion.executeQuery();
+                if(resultado.next()){
+                    CatalogoDeCuerpoAcademico cuerposRegistrados = new CatalogoDeCuerpoAcademico();
+                    cuerposRegistrados.setIdentificacion(resultado.getInt("idCuerpoAcademico"));
+                    cuerposRegistrados.setNombre(resultado.getString("nombre"));
+                    cuerposAcademicos.add(cuerposRegistrados);
+                }
+                cbCuerpoAcademico.setItems(cuerposAcademicos);
+                conn.close();
+            } catch (SQLException ex) {
+                registroExitoso = false;
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
+                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfContraseña);
+            } 
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
+        }
+    }
+    
+    public void obtenerIdCuerpoAcademico(int identificacionDeCuerpoAcademico){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try {
+                String consulta = "Select * from cuerpoAcademico where idCuerpoAcademico = ?";
+                PreparedStatement declaracion = conn.prepareStatement(consulta);
+                declaracion.setInt(1, identificacionDeCuerpoAcademico);
+                ResultSet resultado = declaracion.executeQuery();
+                if(resultado.next()){
+                    CatalogoDeCuerpoAcademico cuerposRegistrados = new CatalogoDeCuerpoAcademico();
+                    cuerposRegistrados.setIdentificacion(resultado.getInt("idCuerpoAcademico"));
+                    idCuerpoAcademico = cuerposRegistrados.getIdentificacion();
+                }
+                conn.close();
+            } catch (SQLException ex) {
+                registroExitoso = false;
+                ex.getMessage();
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
+                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfContraseña);
+            } 
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
+        }
     }
     
     @FXML
@@ -145,7 +222,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
       
         
         if(esCorrecto){
-            registrarAcademico(numeroPersonalAuxiliar, nombreAuxiliar, telefonoAuxiliar);
+            registrarAcademico(numeroPersonalAuxiliar, nombreAuxiliar, telefonoAuxiliar, gradoAcademicoAuxiliar);
             if(idRol > 0 && idAcademico > 0){
                 registrarUsuario(correoAuxiliar, contraseñaAuxiliar, idRol, idAcademico);
             }else{
@@ -160,15 +237,16 @@ public class FXMLRegistrarDocenteController implements Initializable {
         }
     }
     
-    private void registrarAcademico(String numeroDePersonal, String nombre, String telefono){
+    private void registrarAcademico(String numeroDePersonal, String nombre, String telefono, String gradoAcademico){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
-                String consulta = "INSERT INTO academico(numeroPersonal, nombre, telefono) VALUES (?, ?, ?)";
+                String consulta = "INSERT INTO academico(numeroPersonal, nombre, telefono, gradoAcademico) VALUES (?, ?, ?, ?)";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 declaracion.setString(1, numeroDePersonal);
                 declaracion.setString(2, nombre);
                 declaracion.setString(3, telefono);
+                declaracion.setString(3, gradoAcademico);
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
@@ -178,6 +256,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 conn.close();
             }catch(SQLException ex){
                 registroExitoso = false;
+                ex.getMessage();
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
                     + "en este momento, intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
@@ -267,24 +346,46 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 if(resultado == 0){
                     registroExitoso = false;
                 }else{
-                    if(registroExitoso){
-                        mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Registro exitoso", Alert.AlertType.INFORMATION);
-                        mostrarAlerta.showAndWait();
-                        Herramientas.cerrarPantalla(tfNombre);
-                        notificacion.refrescarTabla(true);
-                    }else{
-                        mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
-                            + "intente más tarde", Alert.AlertType.ERROR);
-                        mostrarAlerta.showAndWait();
-                    }
+                    vincularAcademicoACuerpoAcademico(idCuerpoAcademico, idAcademico);
                 }
                 conn.close();
             }catch(SQLException ex){
                 registroExitoso = false;
+                ex.getMessage();
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
                     + "en este momento, intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
                 Herramientas.cerrarPantalla(tfContraseña);
+            }
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
+        }
+    }
+    
+    public void vincularAcademicoACuerpoAcademico(int idCuerpoAcademico, int idAcademico) throws SQLException{
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            String consulta = "Insert into cuerpoAcademicoIntegrantes(idCuerpoAcademico, idAcademico) values (?, ?)";
+            PreparedStatement declaracion = conn.prepareStatement(consulta);
+            declaracion.setInt(1, idCuerpoAcademico);
+            declaracion.setInt(2, idAcademico);
+            int resultado = declaracion.executeUpdate();
+            if(resultado == 0){
+                registroExitoso = false;
+            }else{
+                if(registroExitoso){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Registro exitoso", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                    Herramientas.cerrarPantalla(tfNombre);
+                    notificacion.refrescarTabla(true);
+                }else{
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
+                        + "intente más tarde", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }
             }
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"

@@ -60,6 +60,7 @@ public class FXMLActualizarCoordinadorController implements Initializable {
         idCoordinador = editarCoordinador.getIdentificacion();
         tfNombre.setText(editarCoordinador.getNombre());
         tfNumeroDePersonal.setText(editarCoordinador.getNumeroPersonal());
+        tfNumeroDePersonal.setEditable(false);
         tfTelefono.setText(editarCoordinador.getTelefono());
         tfCorreo.setText(editarCoordinador.getCorreo());
         tfContraseña.setText(editarCoordinador.getContraseña());

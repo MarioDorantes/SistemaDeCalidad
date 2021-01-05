@@ -69,6 +69,7 @@ public class FXMLActualizaDocenteController implements Initializable {
         idDocente = editarDocente.getIdentificacion();
         tfNombre.setText(editarDocente.getNombre());
         tfNumeroDePersonal.setText(editarDocente.getNumeroPersonal());
+        tfNumeroDePersonal.setEditable(false);
         tfTelefono.setText(editarDocente.getTelefono());
         tfCorreo.setText(editarDocente.getCorreo());
         tfContraseña.setText(editarDocente.getContraseña());

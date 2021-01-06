@@ -76,6 +76,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cuerposAcademicos = FXCollections.observableArrayList();
+        validacionDeDocente = FXCollections.observableArrayList();
         cargarCuerposAcademicos();
         cbCuerpoAcademico.valueProperty().addListener(new ChangeListener<CatalogoDeCuerpoAcademico>(){
             @Override
@@ -159,6 +160,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
     @FXML
     private void clicRegistrar(ActionEvent event) {
         obtenerNumeroPersonalYCorreo();
+        System.out.println("Hola" + validacionDeDocente.get(1).getNumeroPersonal());
         tfNombre.setStyle("-fx-border-color: ;");
         tfNumeroDePersonal.setStyle("-fx-border-color: ;");
         tfTelefono.setStyle("-fx-border-color: ;");
@@ -228,9 +230,13 @@ public class FXMLRegistrarDocenteController implements Initializable {
         }
         
         while(iterador < tamañoDeValidacionDocente){
-            if ((validacionDeDocente.get(iterador).getNumeroPersonal().equals(numeroPersonalAuxiliar)) || 
-                (validacionDeDocente.get(iterador).getCorreo().equals(correoAuxiliar))){
+            if (validacionDeDocente.get(iterador).getNumeroPersonal().equals(numeroPersonalAuxiliar)){
                 esRepetido = true;
+                tfNumeroDePersonal.setStyle("-fx-border-color: red;");
+            }
+            if(validacionDeDocente.get(iterador).getCorreo().equals(correoAuxiliar)){
+                esRepetido = true;
+                tfCorreo.setStyle("-fx-border-color: red;");
             }
             iterador ++;
         }
@@ -248,7 +254,9 @@ public class FXMLRegistrarDocenteController implements Initializable {
                     mostrarAlerta.showAndWait();
                 }
             }else{
-                
+                mostrarAlerta = Herramientas.creadorDeAlerta("Campos repetidos", 
+                    "El campo o los campos marcados ya fueron registrados previamente", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
             }    
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Campos incorrectos o vacíos", "Verifique su información", Alert.AlertType.ERROR);

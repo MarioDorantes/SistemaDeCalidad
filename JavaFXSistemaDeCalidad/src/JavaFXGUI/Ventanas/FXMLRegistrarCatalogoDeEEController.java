@@ -138,7 +138,7 @@ public class FXMLRegistrarCatalogoDeEEController implements Initializable {
         String nombreDeLaEEAux = tfNombreEE.getText();
         String creditosAux = tfCreditos.getText();
         String bloqueAux = tfBloque.getText();
-        String periodo = tfPeriodo.getText();
+        String periodoAux = tfPeriodo.getText();
         
         if(posicionNombreLicenciatura < 0){
             esValido = false;
@@ -158,14 +158,14 @@ public class FXMLRegistrarCatalogoDeEEController implements Initializable {
         if(bloqueAux.isEmpty()){
             esValido = false;
         }
-        if(periodo.isEmpty()){
+        if(periodoAux.isEmpty()){
             esValido = false;
         }
         
         if(esValido){
             cbLicenciaturas.setEditable(false);
             limpiarCampos();
-            //guardarCatalogoDeEE();
+            guardarCatalogoDeEE(licenciaturas.get(posicionNombreLicenciatura).getIdLicenciatura(), programaAux, nrcAux, nombreDeLaEEAux, creditosAux, bloqueAux, periodoAux, estatus);
         } else {
             mostrarAlerta = Herramientas.creadorDeAlerta("Campos Obligatorios", "Favor de no dejar campos vacios", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -180,6 +180,45 @@ public class FXMLRegistrarCatalogoDeEEController implements Initializable {
         tfCreditos.setText("");
         tfBloque.setText("");
         tfPeriodo.setText("");
+    }
+    
+    private void guardarCatalogoDeEE(int idLicenciatura, String programa, String nrc, String nombreDeLaEE, String creditos, String bloque, String periodo, String estatus){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try{
+                int resultado;
+                String consulta = "INSERT INTO catalogoDeEE (idLicenciatura, programa, nrc, nombreDeLaEE, creditos, bloque, periodo, estatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setInt(1, idLicenciatura);
+                ps.setString(2, programa);
+                ps.setString(3, nrc);
+                ps.setString(4, nombreDeLaEE);
+                ps.setString(5, creditos);
+                ps.setString(6, bloque);
+                ps.setString(7, periodo);
+                ps.setString(8, estatus);
+                
+                resultado = ps.executeUpdate();
+                
+                conn.close();
+                
+                if(resultado > 0){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Registro exitoso", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                } else {
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de error", "Error al registrar", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }                               
+                
+                //limpiarTabla();
+                //cargarRegistrosPorLicenciatura(idLicenciatura);
+                    
+                
+            } catch (SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }
     }
 
     @FXML

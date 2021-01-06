@@ -47,16 +47,14 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
     private TableView<Docente> tvDocentes;
     @FXML
     private TableColumn tcConstraseña;
+    @FXML
+    private TableColumn tcGradoAcademico;
        
     Alert mostrarAlerta;
     private ObservableList<Docente> docentes;
     int idRol = 0;
     int idDocente = 0;
     boolean eliminacionExitosa = true;
-    @FXML
-    private TableColumn<?, ?> tcGradoAcademico;
-   
-    
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -64,6 +62,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
         this.tcNumeroDePersonal.setCellValueFactory(new PropertyValueFactory("numeroPersonal"));
         this.tcNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
         this.tcTelefono.setCellValueFactory(new PropertyValueFactory("telefono"));
+        this.tcGradoAcademico.setCellValueFactory(new PropertyValueFactory("gradoAcademico"));
         this.tcCorreo.setCellValueFactory(new PropertyValueFactory("correo"));
         this.tcConstraseña.setCellValueFactory(new PropertyValueFactory("contraseña"));
         

@@ -100,12 +100,11 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 ResultSet resultado = declaracion.executeQuery();
                 while(resultado.next()){
-                    CatalogoDeCuerpoAcademico cuerposRegistrados = new CatalogoDeCuerpoAcademico();
-                    cuerposRegistrados.setIdentificacion(resultado.getInt("idCuerpoAcademico"));
-                    cuerposRegistrados.setNombre(resultado.getString("nombre"));
-                    cuerposAcademicos.add(cuerposRegistrados);
+                    Docente docentesRegistrados = new Docente();
+                    docentesRegistrados.setNumeroPersonal(resultado.getString("numeroPersonal"));
+                    docentesRegistrados.setCorreo(resultado.getString("Correo"));
+                    validacionDeDocente.add(docentesRegistrados);
                 }
-                cbCuerpoAcademico.setItems(cuerposAcademicos);
                 conn.close();
             } catch (SQLException ex) {
                 registroExitoso = false;
@@ -159,6 +158,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
 
     @FXML
     private void clicRegistrar(ActionEvent event) {
+        obtenerNumeroPersonalYCorreo();
         tfNombre.setStyle("-fx-border-color: ;");
         tfNumeroDePersonal.setStyle("-fx-border-color: ;");
         tfTelefono.setStyle("-fx-border-color: ;");
@@ -171,6 +171,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
         rbDoctorado.setStyle("-fx-border-color: ;");
         
         boolean esCorrecto = true;
+        boolean esRepetido = false;
         nombreAuxiliar = tfNombre.getText();
         numeroPersonalAuxiliar = tfNumeroDePersonal.getText();
         telefonoAuxiliar = tfTelefono.getText();
@@ -223,6 +224,8 @@ public class FXMLRegistrarDocenteController implements Initializable {
             esCorrecto = false;
             cbCuerpoAcademico.setStyle("-fx-border-color: red;");
         }
+        
+        
       
         
         if(esCorrecto){

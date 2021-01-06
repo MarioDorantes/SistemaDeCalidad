@@ -172,6 +172,8 @@ public class FXMLRegistrarDocenteController implements Initializable {
         
         boolean esCorrecto = true;
         boolean esRepetido = false;
+        int iterador = 0;
+        int tamañoDeValidacionDocente = validacionDeDocente.size();
         nombreAuxiliar = tfNombre.getText();
         numeroPersonalAuxiliar = tfNumeroDePersonal.getText();
         telefonoAuxiliar = tfTelefono.getText();
@@ -225,19 +227,29 @@ public class FXMLRegistrarDocenteController implements Initializable {
             cbCuerpoAcademico.setStyle("-fx-border-color: red;");
         }
         
-        
+        while(iterador < tamañoDeValidacionDocente){
+            if ((validacionDeDocente.get(iterador).getNumeroPersonal().equals(numeroPersonalAuxiliar)) || 
+                (validacionDeDocente.get(iterador).getCorreo().equals(correoAuxiliar))){
+                esRepetido = true;
+            }
+            iterador ++;
+        }
       
         
         if(esCorrecto){
-            registrarAcademico(numeroPersonalAuxiliar, nombreAuxiliar, telefonoAuxiliar, gradoAcademicoAuxiliar);
-            if(idRol > 0 && idAcademico > 0){
-                registrarUsuario(correoAuxiliar, contraseñaAuxiliar, idRol, idAcademico);
+            if(!esRepetido){
+                registrarAcademico(numeroPersonalAuxiliar, nombreAuxiliar, telefonoAuxiliar, gradoAcademicoAuxiliar);
+                if(idRol > 0 && idAcademico > 0){
+                    registrarUsuario(correoAuxiliar, contraseñaAuxiliar, idRol, idAcademico);
+                }else{
+                    registroExitoso = false;
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
+                        + "intente más tarde", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }
             }else{
-                registroExitoso = false;
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
-                    + "intente más tarde", Alert.AlertType.ERROR);
-                mostrarAlerta.showAndWait();
-            }
+                
+            }    
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Campos incorrectos o vacíos", "Verifique su información", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();

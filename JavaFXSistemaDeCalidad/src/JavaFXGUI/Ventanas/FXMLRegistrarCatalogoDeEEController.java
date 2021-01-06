@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -89,6 +91,19 @@ public class FXMLRegistrarCatalogoDeEEController implements Initializable {
         this.colCreditos.setCellValueFactory(new PropertyValueFactory("creditos"));
         this.colBloque.setCellValueFactory(new PropertyValueFactory("bloque"));
         this.colPeriodo.setCellValueFactory(new PropertyValueFactory("periodo"));
+        
+        cbLicenciaturas.valueProperty().addListener(new ChangeListener <Licenciatura>(){
+            @Override
+            public void changed(ObservableValue<? extends Licenciatura> observable, Licenciatura oldValue, Licenciatura newValue) {
+                if(newValue != null){
+                    limpiarCampos();
+                    limpiarTabla();
+                    cargarRegistrosPorLicenciatura(newValue.getIdLicenciatura());                    
+                }
+            }
+            
+        });
+        
     }
     
     @FXML
@@ -210,14 +225,56 @@ public class FXMLRegistrarCatalogoDeEEController implements Initializable {
                     mostrarAlerta.showAndWait();
                 }                               
                 
-                //limpiarTabla();
-                //cargarRegistrosPorLicenciatura(idLicenciatura);
+                limpiarTabla();
+                cargarRegistrosPorLicenciatura(idLicenciatura);
                     
                 
             } catch (SQLException ex){
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             }
+        }
+    }
+    
+    private void limpiarTabla(){
+        tbTabla.getItems().clear();
+    }
+    
+    private void cargarRegistrosPorLicenciatura(int idLicenciatura){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        
+        if(conn != null){
+            try{
+                String consulta = "SELECT * FROM catalogoDeEE WHERE idLicenciatura = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setInt(1, idLicenciatura);
+                ResultSet rs = ps.executeQuery();
+                
+                while(rs.next()){
+                    CatalogoDeEE catalogoE = new CatalogoDeEE();
+                    catalogoE.setIdCatalogoDeEE(rs.getInt("idCatalogoDeEE"));
+                    catalogoE.setIdLicenciatura(rs.getInt("idLicenciatura"));
+                    catalogoE.setPrograma(rs.getString("programa"));
+                    catalogoE.setNrc(rs.getString("nrc"));
+                    catalogoE.setNombreDeLaEE(rs.getString("nombreDeLaEE"));
+                    catalogoE.setCreditos(rs.getString("creditos"));
+                    catalogoE.setBloque(rs.getString("bloque"));
+                    catalogoE.setPeriodo(rs.getString("periodo"));
+                    catalogoE.setEstatus(rs.getString("estatus"));
+                    
+                    registrosDelCatalogo.add(catalogoE);
+                }
+                
+                tbTabla.setItems(registrosDelCatalogo);
+                conn.close();
+                
+            }catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexion a la base de datos", "No hay conexión a la base de datos. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
         }
     }
 

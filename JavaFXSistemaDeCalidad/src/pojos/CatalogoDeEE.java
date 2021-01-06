@@ -15,8 +15,9 @@ public class CatalogoDeEE {
     private String creditos;
     private String bloque;
     private String periodo;
+    private String estatus;
 
-    public CatalogoDeEE(int idCatalogoDeEE, int idLicenciatura, String programa, String nrc, String nombreDeLaEE, String creditos, String bloque, String periodo) {
+    public CatalogoDeEE(int idCatalogoDeEE, int idLicenciatura, String programa, String nrc, String nombreDeLaEE, String creditos, String bloque, String periodo, String estatus) {
         this.idCatalogoDeEE = idCatalogoDeEE;
         this.idLicenciatura = idLicenciatura;
         this.programa = programa;
@@ -25,6 +26,7 @@ public class CatalogoDeEE {
         this.creditos = creditos;
         this.bloque = bloque;
         this.periodo = periodo;
+        this.estatus = estatus;
     }
 
     public CatalogoDeEE() {
@@ -92,6 +94,14 @@ public class CatalogoDeEE {
 
     public void setPeriodo(String periodo) {
         this.periodo = periodo;
+    }
+
+    public String getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(String estatus) {
+        this.estatus = estatus;
     }
     
     

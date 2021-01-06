@@ -54,12 +54,12 @@
          </font></Button>
       <TableView fx:id="tbTabla" layoutX="41.0" layoutY="263.0" prefHeight="178.0" prefWidth="656.0">
         <columns>
-          <TableColumn fx:id="colPrograma" prefWidth="101.0" text="Programa" />
-          <TableColumn fx:id="colNrc" text="NRC" />
-            <TableColumn fx:id="colNombreEE" prefWidth="175.0" text="Nombre de la EE" />
-            <TableColumn fx:id="colCreditos" prefWidth="87.0" text="Créditos" />
-            <TableColumn fx:id="colBloque" prefWidth="100.0" text="Bloque" />
-            <TableColumn fx:id="colPeriodo" prefWidth="112.0" text="Periodo" />
+          <TableColumn fx:id="colPrograma" prefWidth="129.0" text="Programa" />
+          <TableColumn fx:id="colNrc" prefWidth="77.0" text="NRC" />
+            <TableColumn fx:id="colNombreEE" prefWidth="216.0" text="Nombre de la EE" />
+            <TableColumn fx:id="colCreditos" prefWidth="72.0" text="Créditos" />
+            <TableColumn fx:id="colBloque" prefWidth="63.0" text="Bloque" />
+            <TableColumn fx:id="colPeriodo" prefWidth="98.0" text="Periodo" />
         </columns>
       </TableView>
       <Button fx:id="btRegistrarCatalogo" layoutX="135.0" layoutY="464.0" mnemonicParsing="false" onAction="#clicFinalizar" prefHeight="39.0" prefWidth="149.0" style="-fx-background-color: #1FDC05;" text="Finalizar Registro">

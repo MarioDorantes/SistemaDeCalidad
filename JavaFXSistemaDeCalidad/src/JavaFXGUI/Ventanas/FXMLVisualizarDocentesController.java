@@ -73,7 +73,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
         if(conn != null){
             try{
                 String consulta = "select academico.idAcademico, usuario.idUsuario, academico.numeroPersonal, nombre, "
-                    + "telefono,usuario.correo, usuario.password as contraseña from academico "
+                    + "telefono, gradoAcademico, usuario.correo, usuario.password as contraseña from academico "
                     + "inner join usuario on academico.idAcademico = usuario.idAcademico inner join rol "
                     + "on usuario.idRol = rol.idRol and rol.tipoRol = 'Docente'";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
@@ -83,6 +83,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
                     docente.setNumeroPersonal(resultado.getString("numeroPersonal"));
                     docente.setNombre(resultado.getString("nombre"));
                     docente.setTelefono(resultado.getString("telefono"));
+                    docente.setGradoAcademico(resultado.getString("gradoAcademico"));
                     docente.setCorreo(resultado.getString("usuario.correo"));
                     docente.setContraseña(resultado.getString("contraseña"));
                     docente.setIdentificacion(resultado.getInt("academico.idAcademico"));
@@ -186,10 +187,30 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
         }
     }
     
-    private void eliminarUsuario(int idDocente)throws SQLException{
+    private void eliminarIntegranteDeCuerpoAcademico(int idDocente) throws SQLException{
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             String consulta = "DELETE FROM usuario WHERE idAcademico = ?";
+            PreparedStatement declaracion = conn.prepareStatement(consulta);
+            declaracion.setInt(1, idDocente);
+            int resultado = declaracion.executeUpdate();
+            if(resultado == 0){
+                eliminacionExitosa = false;
+            }else{
+                eliminarUsuario(idDocente);
+            }
+            conn.close();
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait(); 
+        }
+    }
+    
+    private void eliminarUsuario(int idDocente)throws SQLException{
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            String consulta = "DELETE FROM cuerpoAcademicoIntegrantes WHERE idAcademico = ?";
             PreparedStatement declaracion = conn.prepareStatement(consulta);
             declaracion.setInt(1, idDocente);
             int resultado = declaracion.executeUpdate();
@@ -216,7 +237,13 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
                 ResultSet resultado = declaracion.executeQuery();
                 if(resultado.next()){
                     idRol = resultado.getInt("idRol");
-                    eliminarUsuario(idDocente);
+                    if(idRol > 0){
+                        eliminarIntegranteDeCuerpoAcademico(idDocente);
+                    }else{
+                        mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible obtener la información necesaria "
+                            + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+                        mostrarAlerta.showAndWait(); 
+                    }
                 }else{
                     mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible obtener la información necesaria "
                         + "en este momento, intente más tarde", Alert.AlertType.ERROR);

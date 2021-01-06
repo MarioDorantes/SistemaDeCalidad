@@ -6,20 +6,25 @@ package JavaFXGUI.Ventanas;
 
 import conexionBD.ConectarBD;
 import interfaz.NotificaCambios;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.scene.control.ToggleGroup;
+import pojos.CatalogoDeCuerpoAcademico;
 import pojos.Docente;
 import util.Herramientas;
 
@@ -35,23 +40,79 @@ public class FXMLActualizaDocenteController implements Initializable {
     private TextField tfCorreo;
     @FXML
     private TextField tfContraseña;
+    @FXML
+    private RadioButton rbLicenciatura;
+    @FXML
+    private ToggleGroup grupoGradosAcademicos;
+    @FXML
+    private RadioButton rbEspecializacion;
+    @FXML
+    private RadioButton rbMaestria;
+    @FXML
+    private RadioButton rbDoctorado;
+    @FXML
+    private ComboBox<CatalogoDeCuerpoAcademico> cbCuerpoAcademico;
     
     private Docente editarDocente;
     Alert mostrarAlerta;
     int idDocente = 0;
+    int idCuerpoAcademicoObtenido = 0;
+    int idNuevoCuerpoAcademico = 0;
     boolean registroExitoso = true;
     NotificaCambios notificacion;
+    private ObservableList<CatalogoDeCuerpoAcademico> cuerposAcademicos;
     
     String nombreAuxiliar;
     String numeroPersonalAuxiliar;
     String telefonoAuxiliar;
     String correoAuxiliar;
     String contraseñaAuxiliar;
+    String gradoAcademicoAuxiliar;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        cuerposAcademicos = FXCollections.observableArrayList();
+        cargarCuerposAcademicos();
+        
+        cbCuerpoAcademico.valueProperty().addListener(new ChangeListener<CatalogoDeCuerpoAcademico>(){
+            @Override
+            public void changed(ObservableValue<? extends CatalogoDeCuerpoAcademico> observable, CatalogoDeCuerpoAcademico oldValue, CatalogoDeCuerpoAcademico newValue) {
+                if(newValue != null){
+                   idNuevoCuerpoAcademico = newValue.getIdentificacion();
+                }
+            } 
+        });
     } 
+  
+    private void cargarCuerposAcademicos(){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try {
+                String consulta = "Select * from cuerpoAcademico";
+                PreparedStatement declaracion = conn.prepareStatement(consulta);
+                ResultSet resultado = declaracion.executeQuery();
+                while(resultado.next()){
+                    CatalogoDeCuerpoAcademico cuerposRegistrados = new CatalogoDeCuerpoAcademico();
+                    cuerposRegistrados.setIdentificacion(resultado.getInt("idCuerpoAcademico"));
+                    cuerposRegistrados.setNombre(resultado.getString("nombre"));
+                    cuerposAcademicos.add(cuerposRegistrados);
+                }
+                cbCuerpoAcademico.setItems(cuerposAcademicos);
+                conn.close();
+            } catch (SQLException ex) {
+                registroExitoso = false;
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
+                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfContraseña);
+            } 
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
+        }
+    }
     
     @FXML
     private void cancelar(ActionEvent e){
@@ -73,6 +134,47 @@ public class FXMLActualizaDocenteController implements Initializable {
         tfTelefono.setText(editarDocente.getTelefono());
         tfCorreo.setText(editarDocente.getCorreo());
         tfContraseña.setText(editarDocente.getContraseña());
+        obtenerIdCuerpoAcademicoVinculadoAlDocente(idDocente);
+        int posicionCuerpoAcademico = obtenerCuerpoAcademicoSeleccionado(idCuerpoAcademicoObtenido);
+        cbCuerpoAcademico.getSelectionModel().select(posicionCuerpoAcademico);
+        if(editarDocente.getGradoAcademico().equalsIgnoreCase("Licenciatura")){
+            rbLicenciatura.setSelected(true);
+        }else if(editarDocente.getGradoAcademico().equalsIgnoreCase("Especialización")){
+            rbEspecializacion.setSelected(true);
+        }else if(editarDocente.getGradoAcademico().equalsIgnoreCase("Maestría")){
+            rbMaestria.setSelected(true);
+        }else if(editarDocente.getGradoAcademico().equalsIgnoreCase("Doctorado")){
+            rbDoctorado.setSelected(true);
+        }
+    }
+    
+    private void obtenerIdCuerpoAcademicoVinculadoAlDocente(int idDocenteSeleccionado){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try {
+                String consulta = "Select idCuerpoAcademico from cuerpoAcademicoIntegrantes where idAcademico = ?";
+                PreparedStatement declaracion = conn.prepareStatement(consulta);
+                declaracion.setInt(1, idDocenteSeleccionado);
+                ResultSet resultado = declaracion.executeQuery();
+                if(resultado.next()){
+                    CatalogoDeCuerpoAcademico cuerposVinculadoAlDocente = new CatalogoDeCuerpoAcademico();
+                    cuerposVinculadoAlDocente.setIdentificacion(resultado.getInt("idCuerpoAcademico"));
+                    idCuerpoAcademicoObtenido = cuerposVinculadoAlDocente.getIdentificacion();
+                }
+                conn.close();
+            } catch (SQLException ex) {
+                registroExitoso = false;
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
+                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfContraseña);
+            } 
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
+        }
     }
 
     @FXML
@@ -110,10 +212,19 @@ public class FXMLActualizaDocenteController implements Initializable {
             esCorrecto = false;
             tfContraseña.setStyle("-fx-border-color: red;");
         }
+        if(rbLicenciatura.isSelected()){
+            gradoAcademicoAuxiliar = rbLicenciatura.getText();
+        }else if(rbEspecializacion.isSelected()){
+            gradoAcademicoAuxiliar = rbEspecializacion.getText();
+        }else if(rbMaestria.isSelected()){
+            gradoAcademicoAuxiliar = rbMaestria.getText();
+        }else if(rbDoctorado.isSelected()){
+            gradoAcademicoAuxiliar = rbDoctorado.getText();
+        }
         
         if(esCorrecto){
             if(idDocente > 0){
-                actualizarAcademico(nombreAuxiliar, numeroPersonalAuxiliar, telefonoAuxiliar, idDocente);
+                actualizarAcademico(nombreAuxiliar, numeroPersonalAuxiliar, telefonoAuxiliar, gradoAcademicoAuxiliar, idDocente);
             }else{
                 registroExitoso = false;
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
@@ -124,21 +235,23 @@ public class FXMLActualizaDocenteController implements Initializable {
         }
     }
     
-    private void actualizarAcademico(String nombre, String numeroDePersonal, String telefono, int idDocente){
+    private void actualizarAcademico(String nombre, String numeroDePersonal, String telefono, String gradoAcademico, int idDocente){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
-                String consulta = "UPDATE academico set nombre = ?, numeroPersonal = ?, telefono = ? WHERE idAcademico = ?";
+                String consulta = "UPDATE academico set nombre = ?, numeroPersonal = ?, telefono = ?, "
+                    + "gradoAcademico = ? WHERE idAcademico = ?";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 declaracion.setString(1, nombre);
                 declaracion.setString(2, numeroDePersonal);
                 declaracion.setString(3, telefono);
-                declaracion.setInt(4, idDocente);
+                declaracion.setString(4, gradoAcademico);
+                declaracion.setInt(5, idDocente);
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
                 }else{
-                    actualizarUsuario(correoAuxiliar, contraseñaAuxiliar, idDocente);
+                    actualizarVinculacionDelCatalogo(idNuevoCuerpoAcademico, idDocente);
                 }
                 conn.close();
             }catch(SQLException ex){
@@ -156,8 +269,30 @@ public class FXMLActualizaDocenteController implements Initializable {
         }
     }
     
+    private void actualizarVinculacionDelCatalogo(int idNuevoCuerpoAcademico, int idDocente) throws SQLException{
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+                String consulta = "UPDATE cuerpoAcademicoIntegrantes set idCuerpoAcademico = ?  WHERE idAcademico = ?";
+                PreparedStatement declaracion = conn.prepareStatement(consulta);
+                declaracion.setInt(1, idNuevoCuerpoAcademico);
+                declaracion.setInt(2, idDocente);
+                int resultado = declaracion.executeUpdate();
+                if(resultado == 0){
+                    registroExitoso = false;
+                }else{       
+                   actualizarUsuario(correoAuxiliar, contraseñaAuxiliar, idDocente);
+                }
+                conn.close();
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
+        }
+    }
+    
     private void actualizarUsuario(String correo, String contraseña, int idDocente) throws SQLException{
-         Connection conn = ConectarBD.abrirConexionMySQL();
+        Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
                 String consulta = "UPDATE usuario set correo = ?, password = ? WHERE idAcademico = ?";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
@@ -186,5 +321,18 @@ public class FXMLActualizaDocenteController implements Initializable {
             mostrarAlerta.showAndWait();
             Herramientas.cerrarPantalla(tfContraseña);
         }
+    }
+    
+     private int obtenerCuerpoAcademicoSeleccionado(int idCuerpoAcademico){
+        int value = 0;
+        if(cuerposAcademicos.size() > 0){
+            for (int i = 0; i < cuerposAcademicos.size(); i++) {
+                CatalogoDeCuerpoAcademico get = cuerposAcademicos.get(i);
+                if(get.getIdentificacion() == idCuerpoAcademico){
+                    return i;
+                }
+            }
+        }
+        return value;
     }
 }

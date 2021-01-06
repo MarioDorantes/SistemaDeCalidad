@@ -16,22 +16,22 @@
       </Label>
       <Button layoutX="23.0" layoutY="376.0" mnemonicParsing="false" onAction="#clicActualizar" style="-fx-background-color: #1FDC05;" text="Actualizar" />
       <Button layoutX="517.0" layoutY="376.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="6.0" prefWidth="62.0" style="-fx-background-color: #FC0707;" text="Cancelar" textFill="#f8f8f8" />
-      <Label layoutX="91.0" layoutY="322.0" text="Contraseña:">
+      <Label layoutX="91.0" layoutY="240.0" text="Contraseña:">
          <font>
             <Font name="Arial Bold" size="17.0" />
          </font>
       </Label>
-      <Label layoutX="129.0" layoutY="262.0" text="Correo:">
+      <Label layoutX="128.0" layoutY="195.0" text="Correo:">
          <font>
             <Font name="Arial Bold" size="17.0" />
          </font>
       </Label>
-      <Label layoutX="114.0" layoutY="195.0" prefHeight="20.0" prefWidth="88.0" text="Teléfono:">
+      <Label layoutX="114.0" layoutY="151.0" prefHeight="20.0" prefWidth="88.0" text="Teléfono:">
          <font>
             <Font name="Arial Bold" size="17.0" />
          </font>
       </Label>
-      <Label layoutX="23.0" layoutY="136.0" text="Número de personal:">
+      <Label layoutX="23.0" layoutY="111.0" text="Número de personal:">
          <font>
             <Font name="Arial Bold" size="17.0" />
          </font>
@@ -42,9 +42,28 @@
          </font>
       </Label>
       <TextField fx:id="tfNombre" layoutX="202.0" layoutY="73.0" prefHeight="25.0" prefWidth="360.0" />
-      <TextField fx:id="tfNumeroDePersonal" layoutX="202.0" layoutY="134.0" prefHeight="25.0" prefWidth="360.0" />
-      <TextField fx:id="tfTelefono" layoutX="202.0" layoutY="193.0" prefHeight="25.0" prefWidth="360.0" />
-      <TextField fx:id="tfCorreo" layoutX="202.0" layoutY="262.0" prefHeight="25.0" prefWidth="360.0" />
-      <TextField fx:id="tfContraseña" layoutX="202.0" layoutY="322.0" prefHeight="25.0" prefWidth="360.0" />
+      <TextField fx:id="tfNumeroDePersonal" layoutX="202.0" layoutY="109.0" prefHeight="25.0" prefWidth="360.0" />
+      <TextField fx:id="tfTelefono" layoutX="202.0" layoutY="149.0" prefHeight="25.0" prefWidth="360.0" />
+      <TextField fx:id="tfCorreo" layoutX="202.0" layoutY="193.0" prefHeight="25.0" prefWidth="360.0" />
+      <TextField fx:id="tfContraseña" layoutX="202.0" layoutY="240.0" prefHeight="25.0" prefWidth="360.0" />
+      <Label layoutX="38.0" layoutY="284.0" text="Grado Academico:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="28.0" layoutY="329.0" text="Cuerpo Academico:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cbCuerpoAcademico" layoutX="202.0" layoutY="327.0" prefHeight="25.0" prefWidth="360.0" />
+      <RadioButton fx:id="rbLicenciatura" layoutX="202.0" layoutY="286.0" mnemonicParsing="false" text="Licenciatura">
+         <toggleGroup>
+            <ToggleGroup fx:id="grupoGradosAcademicos" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="rbEspecializacion" layoutX="295.0" layoutY="286.0" mnemonicParsing="false" text="Especialización" toggleGroup="$grupoGradosAcademicos" />
+      <RadioButton fx:id="rbMaestria" layoutX="405.0" layoutY="286.0" mnemonicParsing="false" text="Maestría" toggleGroup="$grupoGradosAcademicos" />
+      <RadioButton fx:id="rbDoctorado" layoutX="482.0" layoutY="286.0" mnemonicParsing="false" text="Doctorado" toggleGroup="$grupoGradosAcademicos" />
    </children>
 </AnchorPane>

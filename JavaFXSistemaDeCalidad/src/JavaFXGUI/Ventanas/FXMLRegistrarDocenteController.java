@@ -79,7 +79,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends CatalogoDeCuerpoAcademico> observable, CatalogoDeCuerpoAcademico oldValue, CatalogoDeCuerpoAcademico newValue) {
                 if(newValue != null){
-                    obtenerIdCuerpoAcademico(newValue.getIdentificacion());
+                    idCuerpoAcademico = newValue.getIdentificacion();
                 }
             } 
         });
@@ -89,14 +89,14 @@ public class FXMLRegistrarDocenteController implements Initializable {
         this.notificacion = notificacion;
     }
     
-    public void cargarCuerposAcademicos(){
+    private void cargarCuerposAcademicos(){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try {
                 String consulta = "Select * from cuerpoAcademico";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 ResultSet resultado = declaracion.executeQuery();
-                if(resultado.next()){
+                while(resultado.next()){
                     CatalogoDeCuerpoAcademico cuerposRegistrados = new CatalogoDeCuerpoAcademico();
                     cuerposRegistrados.setIdentificacion(resultado.getInt("idCuerpoAcademico"));
                     cuerposRegistrados.setNombre(resultado.getString("nombre"));
@@ -106,36 +106,6 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 conn.close();
             } catch (SQLException ex) {
                 registroExitoso = false;
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
-                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
-                mostrarAlerta.showAndWait();
-                Herramientas.cerrarPantalla(tfContraseña);
-            } 
-        }else{
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
-                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait();
-            Herramientas.cerrarPantalla(tfContraseña);
-        }
-    }
-    
-    public void obtenerIdCuerpoAcademico(int identificacionDeCuerpoAcademico){
-        Connection conn = ConectarBD.abrirConexionMySQL();
-        if(conn != null){
-            try {
-                String consulta = "Select * from cuerpoAcademico where idCuerpoAcademico = ?";
-                PreparedStatement declaracion = conn.prepareStatement(consulta);
-                declaracion.setInt(1, identificacionDeCuerpoAcademico);
-                ResultSet resultado = declaracion.executeQuery();
-                if(resultado.next()){
-                    CatalogoDeCuerpoAcademico cuerposRegistrados = new CatalogoDeCuerpoAcademico();
-                    cuerposRegistrados.setIdentificacion(resultado.getInt("idCuerpoAcademico"));
-                    idCuerpoAcademico = cuerposRegistrados.getIdentificacion();
-                }
-                conn.close();
-            } catch (SQLException ex) {
-                registroExitoso = false;
-                ex.getMessage();
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
                     + "en este momento, intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
@@ -209,6 +179,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
         }else if(rbDoctorado.isSelected()){
             gradoAcademicoAuxiliar = rbDoctorado.getText();
         }else{
+            esCorrecto = false;
             rbLicenciatura.setStyle("-fx-border-color: red;");
             rbEspecializacion.setStyle("-fx-border-color: red;");
             rbMaestria.setStyle("-fx-border-color: red;");
@@ -246,7 +217,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 declaracion.setString(1, numeroDePersonal);
                 declaracion.setString(2, nombre);
                 declaracion.setString(3, telefono);
-                declaracion.setString(3, gradoAcademico);
+                declaracion.setString(4, gradoAcademico);
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
@@ -256,7 +227,6 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 conn.close();
             }catch(SQLException ex){
                 registroExitoso = false;
-                ex.getMessage();
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
                     + "en este momento, intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
@@ -351,7 +321,6 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 conn.close();
             }catch(SQLException ex){
                 registroExitoso = false;
-                ex.getMessage();
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
                     + "en este momento, intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
@@ -368,7 +337,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
     public void vincularAcademicoACuerpoAcademico(int idCuerpoAcademico, int idAcademico) throws SQLException{
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
-            String consulta = "Insert into cuerpoAcademicoIntegrantes(idCuerpoAcademico, idAcademico) values (?, ?)";
+            String consulta = "Insert into cuerpoAcademicoIntegrantes(idCuerpoAcademico, idAcademico, rol) values (?, ?, 'Docente')";
             PreparedStatement declaracion = conn.prepareStatement(consulta);
             declaracion.setInt(1, idCuerpoAcademico);
             declaracion.setInt(2, idAcademico);

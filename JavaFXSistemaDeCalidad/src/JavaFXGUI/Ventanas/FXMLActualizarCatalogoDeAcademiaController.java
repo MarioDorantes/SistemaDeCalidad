@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -86,7 +87,7 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
             public void changed(ObservableValue<? extends Licenciatura> observable, Licenciatura oldValue, Licenciatura newValue) {
                 if(newValue != null){
                     limpiarCampos();
-                    extraerDatosDelCatalogo(newValue.getIdLicenciatura());                    
+                    extraerDatosDelCatalogo(newValue.getIdLicenciatura());
                 }
             }
             
@@ -350,5 +351,5 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
             }
         }
     }
-    
+
 }

@@ -5,10 +5,17 @@ FechaDeCreación: 30/11/2020
 
 package JavaFXGUI.Ventanas;
 
+import conexionBD.ConectarBD;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +28,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import pojos.CatalogoDeEE;
+import pojos.Licenciatura;
 import util.Herramientas;
 
 
@@ -44,27 +54,41 @@ public class FXMLRegistrarCatalogoDeEEController implements Initializable {
     @FXML
     private TextField tfNombreEE;
     @FXML
-    private TableView<?> tbTabla;
+    private TableView<CatalogoDeEE> tbTabla;
     @FXML
-    private TableColumn<?, ?> colPrograma;
+    private TableColumn colPrograma;
     @FXML
-    private TableColumn<?, ?> colNrc;
+    private TableColumn colNrc;
     @FXML
-    private TableColumn<?, ?> colNombreEE;
+    private TableColumn colNombreEE;
     @FXML
-    private TableColumn<?, ?> colCreditos;
+    private TableColumn colCreditos;
     @FXML
-    private TableColumn<?, ?> colBloque;
+    private TableColumn colBloque;
     @FXML
-    private TableColumn<?, ?> colPeriodo;
+    private TableColumn colPeriodo;
     @FXML
-    private ComboBox<?> cbLicenciaturas;
+    private ComboBox<Licenciatura> cbLicenciaturas;
     
     Alert mostrarAlerta;
     
+    private final String estatus = "Activo";
+    
+    private ObservableList<CatalogoDeEE> registrosDelCatalogo;
+    private ObservableList<Licenciatura> licenciaturas;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        registrosDelCatalogo = FXCollections.observableArrayList();
+        licenciaturas = FXCollections.observableArrayList();
+        cargarNombresLicenciaturas();
+        
+        this.colPrograma.setCellValueFactory(new PropertyValueFactory("programa"));
+        this.colNrc.setCellValueFactory(new PropertyValueFactory("nrc"));
+        this.colNombreEE.setCellValueFactory(new PropertyValueFactory("nombreDeLaEE"));
+        this.colCreditos.setCellValueFactory(new PropertyValueFactory("creditos"));
+        this.colBloque.setCellValueFactory(new PropertyValueFactory("bloque"));
+        this.colPeriodo.setCellValueFactory(new PropertyValueFactory("periodo"));
     }
     
     @FXML
@@ -76,9 +100,86 @@ public class FXMLRegistrarCatalogoDeEEController implements Initializable {
             salir();
         }
     }
+    
+    private void cargarNombresLicenciaturas(){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        
+        if(conn != null){
+            try{
+                String consulta = "SELECT * FROM licenciatura;";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()){
+                    Licenciatura licenciatura = new Licenciatura();
+                    licenciatura.setIdLicenciatura(rs.getInt("idLicenciatura"));
+                    licenciatura.setNombreLicenciatura(rs.getString("nombreLicenciatura"));
+                    licenciaturas.add(licenciatura);
+                }
+                
+                cbLicenciaturas.setItems(licenciaturas);                                
+                conn.close();
+            } catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexion a la base de datos", "No hay conexión a la base de datos. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+    }
 
     @FXML
     private void clicRegistrar(ActionEvent event) {
+        boolean esValido = true;
+        
+        int posicionNombreLicenciatura = cbLicenciaturas.getSelectionModel().getSelectedIndex();
+        String programaAux = tfPrograma.getText();
+        String nrcAux = tfNrc.getText();
+        String nombreDeLaEEAux = tfNombreEE.getText();
+        String creditosAux = tfCreditos.getText();
+        String bloqueAux = tfBloque.getText();
+        String periodo = tfPeriodo.getText();
+        
+        if(posicionNombreLicenciatura < 0){
+            esValido = false;
+        } 
+        if(programaAux.isEmpty()){
+            esValido = false;
+        }
+        if(nrcAux.isEmpty()){
+            esValido = false;
+        }
+        if(nombreDeLaEEAux.isEmpty()){
+            esValido = false;
+        }
+        if(creditosAux.isEmpty()){
+            esValido = false;
+        }
+        if(bloqueAux.isEmpty()){
+            esValido = false;
+        }
+        if(periodo.isEmpty()){
+            esValido = false;
+        }
+        
+        if(esValido){
+            cbLicenciaturas.setEditable(false);
+            limpiarCampos();
+            //guardarCatalogoDeEE();
+        } else {
+            mostrarAlerta = Herramientas.creadorDeAlerta("Campos Obligatorios", "Favor de no dejar campos vacios", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+        
+    }
+    
+    private void limpiarCampos(){
+        tfPrograma.setText("");
+        tfNrc.setText("");
+        tfNombreEE.setText("");
+        tfCreditos.setText("");
+        tfBloque.setText("");
+        tfPeriodo.setText("");
     }
 
     @FXML

@@ -53,6 +53,8 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
     int idRol = 0;
     int idDocente = 0;
     boolean eliminacionExitosa = true;
+    @FXML
+    private TableColumn<?, ?> tcGradoAcademico;
    
     
      

@@ -27,6 +27,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import pojos.CatalogoDeCuerpoAcademico;
+import pojos.Docente;
 import util.Herramientas;
 
 public class FXMLRegistrarDocenteController implements Initializable {
@@ -62,6 +63,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
     int idCuerpoAcademico = 0;
     NotificaCambios notificacion;
     private ObservableList<CatalogoDeCuerpoAcademico> cuerposAcademicos;
+    private ObservableList<Docente> validacionDeDocente;
     
     String nombreAuxiliar;
     String numeroPersonalAuxiliar;
@@ -87,6 +89,37 @@ public class FXMLRegistrarDocenteController implements Initializable {
     
     public void inicializaCampos(NotificaCambios notificacion){
         this.notificacion = notificacion;
+    }
+    
+    private void obtenerNumeroPersonalYCorreo(){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try {
+                String consulta = "select numeroPersonal, "
+                    + "correo from academico inner join usuario on academico.idAcademico = usuario.idAcademico;";
+                PreparedStatement declaracion = conn.prepareStatement(consulta);
+                ResultSet resultado = declaracion.executeQuery();
+                while(resultado.next()){
+                    CatalogoDeCuerpoAcademico cuerposRegistrados = new CatalogoDeCuerpoAcademico();
+                    cuerposRegistrados.setIdentificacion(resultado.getInt("idCuerpoAcademico"));
+                    cuerposRegistrados.setNombre(resultado.getString("nombre"));
+                    cuerposAcademicos.add(cuerposRegistrados);
+                }
+                cbCuerpoAcademico.setItems(cuerposAcademicos);
+                conn.close();
+            } catch (SQLException ex) {
+                registroExitoso = false;
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
+                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfContraseña);
+            } 
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
+        }
     }
     
     private void cargarCuerposAcademicos(){

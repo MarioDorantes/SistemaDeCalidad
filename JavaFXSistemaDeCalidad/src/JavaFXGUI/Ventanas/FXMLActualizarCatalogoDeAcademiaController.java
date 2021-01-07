@@ -196,7 +196,7 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
             actualizarCatalogoDeAcademia(nombreAcademiaAux, nombreCoordinadorAux);
         } else {
             mostrarAlerta = Herramientas.creadorDeAlerta("Alerta", "Seleccione un registro de la tabla y de clic en el botón 'Editar'. \n \nSi desea agregar un "
-                    + "nuevo registro al catalogo dirijase a la sección 'Registrar Catálogo' ", Alert.AlertType.ERROR);
+                    + "nuevo registro al catalogo, dirijase a la sección 'Registrar Catálogo' ", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }

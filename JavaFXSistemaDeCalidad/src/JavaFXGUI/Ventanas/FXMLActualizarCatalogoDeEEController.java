@@ -5,10 +5,19 @@ FechaDeCreación: 02/12/2020
 
 package JavaFXGUI.Ventanas;
 
+import conexionBD.ConectarBD;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +32,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import pojos.CatalogoDeEE;
 import pojos.Licenciatura;
@@ -70,9 +80,38 @@ public class FXMLActualizarCatalogoDeEEController implements Initializable {
     
     Alert mostrarAlerta;
     
+    private ObservableList<CatalogoDeEE> registrosDelCatalogo;
+    private ObservableList<Licenciatura> licenciaturas;
+    
+    int idLicenciaturaCatalogoAux;
+    String nrcCatalogoAux;
+    String periodoCatalogoAux;
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        registrosDelCatalogo = FXCollections.observableArrayList();
+        licenciaturas = FXCollections.observableArrayList();
+        cargarNombresLicenciaturas();
+        
+        this.colPrograma.setCellValueFactory(new PropertyValueFactory("programa"));
+        this.colNrc.setCellValueFactory(new PropertyValueFactory("nrc"));
+        this.colNombreDeLaEE.setCellValueFactory(new PropertyValueFactory("nombreDeLaEE"));
+        this.colCreditos.setCellValueFactory(new PropertyValueFactory("creditos"));
+        this.colBloque.setCellValueFactory(new PropertyValueFactory("bloque"));
+        this.colPeriodo.setCellValueFactory(new PropertyValueFactory("periodo"));
+        
+        cbLicenciaturas.valueProperty().addListener(new ChangeListener <Licenciatura>(){
+            @Override
+            public void changed(ObservableValue<? extends Licenciatura> observable, Licenciatura oldValue, Licenciatura newValue) {
+                if(newValue != null){
+                    limpiarCampos();
+                    limpiarTabla();
+                    extraerDatosDelCatalogo(newValue.getIdLicenciatura());                    
+                }
+            }
+            
+        });
     }    
     
     @FXML
@@ -83,6 +122,101 @@ public class FXMLActualizarCatalogoDeEEController implements Initializable {
         if(opcionSeleccionada.get() == ButtonType.OK){
             salir();
         }
+    }
+    
+    private void cargarNombresLicenciaturas(){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        
+        if(conn != null){
+            try{
+                String consulta = "SELECT * FROM licenciatura;";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()){
+                    Licenciatura licenciatura = new Licenciatura();
+                    licenciatura.setIdLicenciatura(rs.getInt("idLicenciatura"));
+                    licenciatura.setNombreLicenciatura(rs.getString("nombreLicenciatura"));
+                    licenciaturas.add(licenciatura);
+                }
+                
+                cbLicenciaturas.setItems(licenciaturas);                                
+                conn.close();
+            } catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexion a la base de datos", "No hay conexión a la base de datos. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+    }
+    
+    private void limpiarCampos(){
+        tfPrograma.setText("");
+        tfNrc.setText("");
+        tfNombreEE.setText("");
+        tfCreditos.setText("");
+        tfBloque.setText("");
+        tfPeriodo.setText("");
+    }
+    
+    private void limpiarTabla(){
+        tbTabla.getItems().clear();
+    }
+    
+    private void extraerDatosDelCatalogo(int idLicenciatura){
+        limpiarTabla();
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        
+        if(conn != null){
+            try{
+                String consulta = "SELECT * FROM catalogoDeEE WHERE idLicenciatura = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setInt(1, idLicenciatura);
+                ResultSet rs = ps.executeQuery();
+                
+                while(rs.next()){
+                    CatalogoDeEE catalogoE = new CatalogoDeEE();
+                    catalogoE.setIdCatalogoDeEE(rs.getInt("idCatalogoDeEE"));
+                    catalogoE.setIdLicenciatura(rs.getInt("idLicenciatura"));
+                    catalogoE.setPrograma(rs.getString("programa"));
+                    catalogoE.setNrc(rs.getString("nrc"));
+                    catalogoE.setNombreDeLaEE(rs.getString("nombreDeLaEE"));
+                    catalogoE.setCreditos(rs.getString("creditos"));
+                    catalogoE.setBloque(rs.getString("bloque"));
+                    catalogoE.setPeriodo(rs.getString("periodo"));
+                    catalogoE.setEstatus(rs.getString("estatus"));
+                    
+                    registrosDelCatalogo.add(catalogoE);
+                    
+                    llenarRadioButton(catalogoE.getEstatus());
+                    idLicenciaturaCatalogoAux = catalogoE.getIdLicenciatura();
+                    nrcCatalogoAux = catalogoE.getNrc();
+                    periodoCatalogoAux = catalogoE.getPeriodo();
+                }
+                
+                tbTabla.setItems(registrosDelCatalogo);
+                conn.close();
+                
+            }catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexion a la base de datos", "No hay conexión a la base de datos. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+    }
+    
+    private void llenarRadioButton(String estatus){
+        rbActivo.setSelected(false);
+        rbInactivo.setSelected(false);
+        
+        if("Activo".equals(estatus)){
+            rbActivo.setSelected(true);
+        }
+        if("Inactivo".equals(estatus))
+            rbInactivo.setSelected(true);
     }
     
     private void salir(){
@@ -99,6 +233,83 @@ public class FXMLActualizarCatalogoDeEEController implements Initializable {
 
     @FXML
     private void clicActualizar(ActionEvent event) {
+         boolean esValido = true;
+        
+        int posicionTabla = tbTabla.getSelectionModel().getSelectedIndex();
+        String programaAux = tfPrograma.getText();
+        String nrcAux = tfNrc.getText();
+        String nombreDeLaEEAux = tfNombreEE.getText();
+        String creditosAux = tfCreditos.getText();
+        String bloqueAux = tfBloque.getText();
+        String periodoAux = tfPeriodo.getText();
+        
+        if(posicionTabla < 0){
+            esValido = false;
+        } 
+        if(programaAux.isEmpty()){
+            esValido = false;
+        }
+        if(nrcAux.isEmpty()){
+            esValido = false;
+        }
+        if(nombreDeLaEEAux.isEmpty()){
+            esValido = false;
+        }
+        if(creditosAux.isEmpty()){
+            esValido = false;
+        }
+        if(bloqueAux.isEmpty()){
+            esValido = false;
+        }
+        if(periodoAux.isEmpty()){
+            esValido = false;
+        }
+        
+        if(esValido){
+            actualizarCatalogoDeEE(programaAux, nrcAux, nombreDeLaEEAux, creditosAux, bloqueAux, periodoAux);
+        } else {
+            mostrarAlerta = Herramientas.creadorDeAlerta("Alerta", "Seleccione un registro de la tabla y de clic en el botón 'Editar'. \n \nSi desea agregar un "
+                    + "nuevo registro al catalogo, dirijase a la sección 'Registrar Catálogo' ", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+    }
+    
+    
+    //REVISAR ACTUALIZACION, AUN FALLA
+    private void actualizarCatalogoDeEE(String programa, String nrc, String nombreDeLaEE, String creditos, String bloque, String periodo){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try{
+                int resultado;
+                String consulta = "UPDATE catalogoDeEE SET programa = ?, nrc = ?, nombreDeLaEE = ?, creditos = ?, bloque = ?, periodo = ? WHERE nrc = ? AND periodo = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setString(1, programa);
+                ps.setString(2, nrc);
+                ps.setString(3, nombreDeLaEE);
+                ps.setString(4, creditos);
+                ps.setString(5, bloque);
+                ps.setString(6, periodo);
+                ps.setString(7, nrcCatalogoAux);
+                ps.setString(8, periodoCatalogoAux);
+                resultado = ps.executeUpdate();
+                
+                conn.close();
+                
+                if(resultado > 0){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Registro actualizado", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                } else {
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de error", "Error al actualizar registro", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }                               
+                
+                extraerDatosDelCatalogo(idLicenciaturaCatalogoAux);
+                
+            }catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }
     }
 
     @FXML
@@ -111,5 +322,21 @@ public class FXMLActualizarCatalogoDeEEController implements Initializable {
 
     @FXML
     private void clicEditar(ActionEvent event) {
+        limpiarCampos();
+        int seleccion = tbTabla.getSelectionModel().getSelectedIndex();     
+        
+        if (seleccion >= 0) {
+            CatalogoDeEE catalogoSeleccionado = registrosDelCatalogo.get(seleccion);
+            tfPrograma.setText(catalogoSeleccionado.getPrograma());
+            tfNrc.setText(catalogoSeleccionado.getNrc());
+            tfNombreEE.setText(catalogoSeleccionado.getNombreDeLaEE());
+            tfCreditos.setText(catalogoSeleccionado.getCreditos());
+            tfBloque.setText(catalogoSeleccionado.getBloque());
+            tfPeriodo.setText(catalogoSeleccionado.getPeriodo());
+            
+        } else {
+            mostrarAlerta = Herramientas.creadorDeAlerta("Sin selección", "Seleccione un registro para poder editarlo", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();  
+        }
     }
 }

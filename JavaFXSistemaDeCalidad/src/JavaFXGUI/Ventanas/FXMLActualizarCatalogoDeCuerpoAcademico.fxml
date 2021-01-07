@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLActualizarCatalogoDeAcademicosController">
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLActualizarCatalogoDeCuerpoAcademicoController">
    <children>
       <Label layoutX="127.0" layoutY="14.0" prefHeight="32.0" prefWidth="480.0" text="Actualizar catálogo de académicos" textFill="#092ae1">
          <font>

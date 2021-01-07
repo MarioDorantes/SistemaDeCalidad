@@ -10,13 +10,13 @@ public class Catalogo {
     private int identificacion;
     private String nombre;
     private String estatus;
-    private Date fechaRegistro;
+    private Date fecha;
 
-    public Catalogo(int identificacion, String nombre, String estatus, Date fechaRegistro) {
+    public Catalogo(int identificacion, String nombre, String estatus, Date fecha) {
         this.identificacion = identificacion;
         this.nombre = nombre;
         this.estatus = estatus;
-        this.fechaRegistro = fechaRegistro;
+        this.fecha = fecha;
     }
 
     public Catalogo() {
@@ -46,12 +46,12 @@ public class Catalogo {
         this.estatus = estatus;
     }
 
-    public Date getFechaRegistro() {
-        return fechaRegistro;
+    public Date getFecha() {
+        return fecha;
     }
 
-    public void setFechaRegistro(Date fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     @Override

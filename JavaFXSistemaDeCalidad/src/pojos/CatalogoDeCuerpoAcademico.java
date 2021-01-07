@@ -11,8 +11,8 @@ public class CatalogoDeCuerpoAcademico extends Catalogo{
     private String mision;
     private String nombreResponsable;
 
-    public CatalogoDeCuerpoAcademico(String descripcion, String mision, String nombreResponsable, int identificacion, String nombre, String estatus, Date fechaRegistro) {
-        super(identificacion, nombre, estatus, fechaRegistro);
+    public CatalogoDeCuerpoAcademico(String descripcion, String mision, String nombreResponsable, int identificacion, String nombre, String estatus, Date fecha) {
+        super(identificacion, nombre, estatus, fecha);
         this.descripcion = descripcion;
         this.mision = mision;
         this.nombreResponsable = nombreResponsable;

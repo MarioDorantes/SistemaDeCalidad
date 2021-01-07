@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarCatalogoDeCuerpoAcademicoController">
+   <children>
+      <Label layoutX="121.0" layoutY="14.0" text="Visualizar catálogos de cuerpo Academico" textFill="#092ae1">
+         <font>
+            <Font name="Arial Bold" size="28.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tvCatalogosDeCuerpoAcademico" layoutX="9.0" layoutY="128.0" prefHeight="345.0" prefWidth="792.0">
+        <columns>
+          <TableColumn fx:id="tcNombreDeCatalogo" prefWidth="174.0" text="Nombre del catálogo" />
+          <TableColumn fx:id="tcFechaDeRegistroCatalogo" prefWidth="151.0" text="Fecha de registro" />
+            <TableColumn fx:id="tcDescripcionCatalogo" prefWidth="145.0" text="Descripción" />
+            <TableColumn fx:id="tcMisionCatalogo" prefWidth="135.0" text="Misión" />
+            <TableColumn fx:id="tcResponsable" prefWidth="110.0" text="Responsable" />
+            <TableColumn fx:id="tcEstatusCatalogo" prefWidth="75.0" text="Estatus" />
+        </columns>
+      </TableView>
+      <Button layoutX="733.0" layoutY="487.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: FC9305;" text="Cancelar" />
+      <Button layoutX="572.0" layoutY="93.0" mnemonicParsing="false" onAction="#irARegistrarCatalogo" style="-fx-background-color: #1FDC05;" text="Registrar catálogo" />
+      <Button layoutX="727.0" layoutY="93.0" mnemonicParsing="false" onAction="#irAActualizarCatalogo" style="-fx-background-color: #FCF407;" text="Actualizar" />
+   </children>
+</AnchorPane>
+

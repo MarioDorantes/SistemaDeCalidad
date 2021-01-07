@@ -72,5 +72,10 @@ public class PersonalUniversitario {
         this.contraseña = contraseña;
     }
 
+    @Override
+    public String toString() {
+        return nombre;
+    }
+
    
 }

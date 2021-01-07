@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="465.0" prefWidth="685.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLRegistrarCatalogoDeCuerpoAcademicoController">
+   <children>
+      <Label layoutX="92.0" layoutY="14.0" text="Registrar catálogo de Cuerpo Academico" textFill="#092ae1">
+         <font>
+            <Font name="Arial Bold" size="28.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbNombre" layoutX="36.0" layoutY="70.0" prefHeight="21.0" prefWidth="80.0" text="Nombre: ">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="50.0" layoutY="111.0" prefHeight="21.0" prefWidth="62.0" text="Fecha:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="364.0" layoutY="111.0" prefHeight="21.0" prefWidth="74.0" text="Estatus:">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfNombreCatalogo" layoutX="115.0" layoutY="68.0" prefHeight="25.0" prefWidth="550.0" promptText="Aplicación estadística" />
+      <TextField fx:id="tfFechaRegistro" layoutX="115.0" layoutY="109.0" prefHeight="25.0" prefWidth="226.0" promptText="año-mes-día" />
+      <Button layoutX="36.0" layoutY="419.0" mnemonicParsing="false" onAction="#clicRegistrar" style="-fx-background-color: #1FDC05;" text="Registrar" />
+      <Button layoutX="605.0" layoutY="419.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: FC0707;" text="Cancelar" textFill="WHITE" />
+      <TextField fx:id="tfEstatus" layoutX="438.0" layoutY="109.0" prefHeight="25.0" prefWidth="226.0" promptText="Activo/Inactivo" />
+      <ComboBox fx:id="cbRepresentante" layoutX="36.0" layoutY="142.0" prefHeight="25.0" prefWidth="303.0" promptText="Seleccione un representante" />
+      <TextArea fx:id="taMision" layoutX="36.0" layoutY="179.0" prefHeight="225.0" prefWidth="303.0" promptText="Misión" />
+      <TextArea fx:id="taDescripcion" layoutX="364.0" layoutY="179.0" prefHeight="225.0" prefWidth="303.0" promptText="Descripción" />
+      <ComboBox fx:id="cbLgca" layoutX="363.0" layoutY="142.0" prefHeight="25.0" prefWidth="303.0" promptText="Seleccione un LGCA" />
+   </children>
+</AnchorPane>

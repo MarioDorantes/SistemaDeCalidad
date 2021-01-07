@@ -12,14 +12,14 @@ public class CatalogoLGCA extends Catalogo {
     private String grado;
     private String unidadAdscripcion;
 
-    public CatalogoLGCA(String clave, String adscripcion, String grado, String unidadAdscripcion, int identificacion, String nombre, String estatus, Date fechaRegistro) {
-        super(identificacion, nombre, estatus, fechaRegistro);
+    public CatalogoLGCA(String clave, String adscripcion, String grado, String unidadAdscripcion, int identificacion, String nombre, String estatus, Date fecha) {
+        super(identificacion, nombre, estatus, fecha);
         this.clave = clave;
         this.adscripcion = adscripcion;
         this.grado = grado;
         this.unidadAdscripcion = unidadAdscripcion;
     }
-
+    
     public CatalogoLGCA() {
     }
 

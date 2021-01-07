@@ -97,7 +97,7 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
     private void visulizarCatalogoDeAcademicos(ActionEvent e){
         try{
             Stage stage = (Stage) btSalir.getScene().getWindow();
-            Scene sceneVisualizarCatalogoAcademicos = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCatalogoDeAcademicos.fxml")));
+            Scene sceneVisualizarCatalogoAcademicos = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCatalogoDeCuerpoAcademico.fxml")));
             stage.setScene(sceneVisualizarCatalogoAcademicos);
             stage.show();
         }catch(IOException ex){

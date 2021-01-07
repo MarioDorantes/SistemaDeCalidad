@@ -58,10 +58,12 @@ public class FXMLRegistrarDocenteController implements Initializable {
     
     Alert mostrarAlerta;
     boolean registroExitoso = true;
+    NotificaCambios notificacion;
+    
     int idRol = 0;
     int idAcademico = 0;
     int idCuerpoAcademico = 0;
-    NotificaCambios notificacion;
+
     private ObservableList<CatalogoDeCuerpoAcademico> cuerposAcademicos;
     private ObservableList<Docente> validacionDeDocente;
     
@@ -176,6 +178,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
         boolean esRepetido = false;
         int iterador = 0;
         int tamañoDeValidacionDocente = validacionDeDocente.size();
+        
         nombreAuxiliar = tfNombre.getText();
         numeroPersonalAuxiliar = tfNumeroDePersonal.getText();
         telefonoAuxiliar = tfTelefono.getText();
@@ -259,7 +262,8 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 mostrarAlerta.showAndWait();
             }    
         }else{
-            mostrarAlerta = Herramientas.creadorDeAlerta("Campos incorrectos o vacíos", "Verifique su información", Alert.AlertType.ERROR);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Campos incorrectos o vacíos", 
+                "Verifique su información", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }
@@ -327,6 +331,8 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 ResultSet resultado = declaracion.executeQuery();
                 if(resultado.next()){
                     idAcademico = resultado.getInt("idAcademico");
+                }else{
+                    registroExitoso = false;
                 }
                 conn.close();
         }else{
@@ -347,6 +353,8 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 ResultSet resultado = declaracion.executeQuery();
                 if(resultado.next()){
                     idRol = resultado.getInt("idRol");
+                }else{
+                    registroExitoso = false;
                 }
                 conn.close();
         }else{

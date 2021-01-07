@@ -7,86 +7,94 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLActualizarCatalogoDeEEController">
+<AnchorPane id="AnchorPane" prefHeight="542.0" prefWidth="786.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLActualizarCatalogoDeEEController">
    <children>
-      <Label layoutX="149.0" layoutY="31.0" text="Actualizar Catálogo de EE" textFill="#0026ff">
+      <Label layoutX="156.0" layoutY="22.0" text="Actualizar Catálogo de EE" textFill="#0026ff">
          <font>
             <Font name="System Bold Italic" size="36.0" />
          </font>
       </Label>
-      <TextField layoutX="145.0" layoutY="152.0" prefHeight="25.0" prefWidth="229.0" />
-      <TextField layoutX="442.0" layoutY="152.0" prefHeight="25.0" prefWidth="253.0" />
-      <TextField layoutX="619.0" layoutY="108.0" prefHeight="25.0" prefWidth="77.0" />
-      <TextField layoutX="488.0" layoutY="108.0" prefHeight="25.0" prefWidth="77.0" />
-      <TextField layoutX="324.0" layoutY="108.0" prefHeight="25.0" prefWidth="101.0" />
-      <TextField layoutX="104.0" layoutY="108.0" prefHeight="25.0" prefWidth="180.0" />
-      <Label layoutX="390.0" layoutY="156.0" text="Periodo:">
+      <TextField fx:id="tfNombreEE" layoutX="168.0" layoutY="185.0" prefHeight="25.0" prefWidth="229.0" />
+      <TextField fx:id="tfPeriodo" layoutX="465.0" layoutY="185.0" prefHeight="25.0" prefWidth="253.0" />
+      <TextField fx:id="tfBloque" layoutX="642.0" layoutY="141.0" prefHeight="25.0" prefWidth="77.0" />
+      <TextField fx:id="tfCreditos" layoutX="511.0" layoutY="141.0" prefHeight="25.0" prefWidth="77.0" />
+      <TextField fx:id="tfNrc" layoutX="347.0" layoutY="141.0" prefHeight="25.0" prefWidth="101.0" />
+      <TextField fx:id="tfPrograma" layoutX="133.0" layoutY="141.0" prefHeight="25.0" prefWidth="180.0" />
+      <Label layoutX="413.0" layoutY="189.0" text="Periodo:">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="38.0" layoutY="156.0" text="Nombre de la EE:">
+      <Label layoutX="67.0" layoutY="189.0" text="Nombre de la EE:">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="574.0" layoutY="112.0" text="Bloque:">
+      <Label layoutX="597.0" layoutY="145.0" text="Bloque:">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="434.0" layoutY="112.0" text="Créditos:">
+      <Label layoutX="457.0" layoutY="145.0" text="Créditos:">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="294.0" layoutY="112.0" text="NRC:">
+      <Label layoutX="317.0" layoutY="145.0" text="NRC:">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="38.0" layoutY="112.0" text="Programa:">
+      <Label layoutX="67.0" layoutY="145.0" text="Programa:">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Button layoutX="38.0" layoutY="192.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="90.0" style="-fx-background-color: #FCF407;" text="Agregar">
+      <Button layoutX="67.0" layoutY="225.0" mnemonicParsing="false" onAction="#clicActualizar" prefHeight="32.0" prefWidth="90.0" style="-fx-background-color: #FCF407;" text="Actualizar">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="135.0" layoutY="192.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="90.0" style="-fx-background-color: #FC0707;" text="Eliminar" textFill="WHITE">
+      <Button layoutX="171.0" layoutY="225.0" mnemonicParsing="false" onAction="#clicEliminar" prefHeight="32.0" prefWidth="90.0" style="-fx-background-color: #FC0707;" text="Eliminar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="btActualizarCatalogo" layoutX="149.0" layoutY="443.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="164.0" style="-fx-background-color: #FCF407;" text="Actualizar Catálogo">
+      <Button layoutX="168.0" layoutY="473.0" mnemonicParsing="false" onAction="#clicFinalizar" prefHeight="44.0" prefWidth="164.0" style="-fx-background-color: #FCF407;" text="Finalizar Actualización">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="btCancelar" layoutX="406.0" layoutY="443.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="44.0" prefWidth="164.0" style="-fx-background-color: #FC0707;" text="Cancelar" textFill="WHITE">
+      <Button fx:id="btCancelar" layoutX="484.0" layoutY="473.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="44.0" prefWidth="164.0" style="-fx-background-color: #FC0707;" text="Cancelar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <TableView layoutX="39.0" layoutY="253.0" prefHeight="178.0" prefWidth="656.0">
+      <TableView fx:id="tbTabla" layoutX="22.0" layoutY="280.0" prefHeight="178.0" prefWidth="656.0">
          <columns>
-            <TableColumn prefWidth="112.0" text="Programa" />
-            <TableColumn prefWidth="75.0" text="NRC" />
-            <TableColumn prefWidth="193.0" text="Nombre de la EE" />
-            <TableColumn prefWidth="112.0" text="Créditos" />
-            <TableColumn prefWidth="85.0" text="Bloque" />
-            <TableColumn prefWidth="78.0" text="Periodo" />
+            <TableColumn fx:id="colPrograma" prefWidth="107.0" text="Programa" />
+            <TableColumn fx:id="colNrc" text="NRC" />
+            <TableColumn fx:id="colNombreDeLaEE" prefWidth="219.0" text="Nombre de la EE" />
+            <TableColumn fx:id="colCreditos" prefWidth="81.0" text="Créditos" />
+            <TableColumn fx:id="colBloque" prefWidth="79.0" text="Bloque" />
+            <TableColumn fx:id="colPeriodo" prefWidth="89.0" text="Periodo" />
          </columns>
       </TableView>
-      <Label layoutX="427.0" layoutY="200.0" text="Estado del Catálogo:">
+      <Label layoutX="450.0" layoutY="233.0" text="Estado del Catálogo:">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <RadioButton layoutX="558.0" layoutY="200.0" mnemonicParsing="false" text="Activo" />
-      <RadioButton layoutX="626.0" layoutY="200.0" mnemonicParsing="false" text="Inactivo" />
+      <RadioButton fx:id="rbActivo" layoutX="581.0" layoutY="233.0" mnemonicParsing="false" text="Activo">
+         <toggleGroup>
+            <ToggleGroup fx:id="tgEstatus" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="rbInactivo" layoutX="649.0" layoutY="233.0" mnemonicParsing="false" text="Inactivo" toggleGroup="$tgEstatus" />
+      <ComboBox fx:id="cbLicenciaturas" layoutX="68.0" layoutY="97.0" prefHeight="25.0" prefWidth="295.0" promptText="Seleccione una Licenciatura" />
+      <Button layoutX="688.0" layoutY="335.0" mnemonicParsing="false" onAction="#clicEditar" prefHeight="44.0" prefWidth="90.0" style="-fx-background-color: #FF6600;" text="Editar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

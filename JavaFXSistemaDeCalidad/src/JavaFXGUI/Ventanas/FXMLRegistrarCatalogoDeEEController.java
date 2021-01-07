@@ -280,10 +280,48 @@ public class FXMLRegistrarCatalogoDeEEController implements Initializable {
 
     @FXML
     private void clicEliminar(ActionEvent event) {
+        int seleccion = tbTabla.getSelectionModel().getSelectedIndex();
+        if (seleccion >= 0) {
+            CatalogoDeEE registroAEliminar = registrosDelCatalogo.get(seleccion);
+            eliminarRegistro(registroAEliminar.getNrc(), registroAEliminar.getPeriodo(), registroAEliminar.getIdLicenciatura());
+        } else {
+            Alert alertaVacio = Herramientas.creadorDeAlerta("Sin selección", "Para eliminar un registro, debe seleccionarlo de la tabla", Alert.AlertType.WARNING);
+            alertaVacio.showAndWait();
+        }
+    }
+    
+    private void eliminarRegistro(String nrc, String periodo, int idLicenciatura){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try{
+                String consulta = "DELETE FROM catalogoDeEE WHERE nrc = ? AND periodo = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setString(1, nrc);
+                ps.setString(2, periodo);
+                int resultado = ps.executeUpdate();
+                conn.close();
+                
+                limpiarTabla();
+                cargarRegistrosPorLicenciatura(idLicenciatura);
+                
+                
+            } catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }
     }
 
     @FXML
     private void clicFinalizar(ActionEvent event) {
+        if(tbTabla.getItems().isEmpty()){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "Para finalizar el registro, debe registrar al menos un elemento", Alert.AlertType.INFORMATION);
+            mostrarAlerta.showAndWait();
+        } else {
+            mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Catálogo de EE registrado exitosamente", Alert.AlertType.INFORMATION);
+            mostrarAlerta.showAndWait();
+            salir();
+        }
     }
 
     private void salir(){

@@ -92,7 +92,7 @@ public class FXMLRegistrarCatalogoDeCuerpoAcademicoController implements Initial
         });
     }   
     
-    private void cargarLgca(){
+    private void cargarRepresentantes(){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
@@ -123,7 +123,7 @@ public class FXMLRegistrarCatalogoDeCuerpoAcademicoController implements Initial
         }
     }
     
-    private void cargarRepresentantes(){
+    private void cargarLgca(){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{

@@ -9,7 +9,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="465.0" prefWidth="685.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLRegistrarCatalogoDeCuerpoAcademicoController">
    <children>
-      <Label layoutX="92.0" layoutY="14.0" text="Registrar catálogo de Cuerpo Academico" textFill="#092ae1">
+      <Label layoutX="92.0" layoutY="14.0" text="Registrar catálogo de Cuerpo Académico" textFill="#092ae1">
          <font>
             <Font name="Arial Bold" size="28.0" />
          </font>
@@ -35,8 +35,8 @@
       <Button layoutX="605.0" layoutY="419.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: FC0707;" text="Cancelar" textFill="WHITE" />
       <TextField fx:id="tfEstatus" layoutX="438.0" layoutY="109.0" prefHeight="25.0" prefWidth="226.0" promptText="Activo/Inactivo" />
       <ComboBox fx:id="cbRepresentante" layoutX="36.0" layoutY="142.0" prefHeight="25.0" prefWidth="303.0" promptText="Seleccione un representante" />
-      <TextArea fx:id="taMision" layoutX="36.0" layoutY="179.0" prefHeight="225.0" prefWidth="303.0" promptText="Misión" />
-      <TextArea fx:id="taDescripcion" layoutX="364.0" layoutY="179.0" prefHeight="225.0" prefWidth="303.0" promptText="Descripción" />
+      <TextArea fx:id="taMision" layoutX="36.0" layoutY="179.0" prefHeight="225.0" prefWidth="303.0" promptText="Misión" wrapText="true" />
+      <TextArea fx:id="taDescripcion" layoutX="364.0" layoutY="179.0" prefHeight="225.0" prefWidth="303.0" promptText="Descripción" wrapText="true" />
       <ComboBox fx:id="cbLgca" layoutX="363.0" layoutY="142.0" prefHeight="25.0" prefWidth="303.0" promptText="Seleccione un LGCA" />
    </children>
 </AnchorPane>

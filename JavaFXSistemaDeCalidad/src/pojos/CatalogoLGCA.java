@@ -19,6 +19,7 @@ public class CatalogoLGCA extends Catalogo {
         this.grado = grado;
         this.unidadAdscripcion = unidadAdscripcion;
     }
+
     
     public CatalogoLGCA() {
     }

@@ -9,13 +9,15 @@ import java.util.Date;
 public class CatalogoDeCuerpoAcademico extends Catalogo{
     private String descripcion;
     private String mision;
-    private String nombreResponsable;
+    private String responsable;
+    private int idLgca;
 
-    public CatalogoDeCuerpoAcademico(String descripcion, String mision, String nombreResponsable, int identificacion, String nombre, String estatus, Date fecha) {
+    public CatalogoDeCuerpoAcademico(String descripcion, String mision, String responsable, int idLgca, int identificacion, String nombre, String estatus, Date fecha) {
         super(identificacion, nombre, estatus, fecha);
         this.descripcion = descripcion;
         this.mision = mision;
-        this.nombreResponsable = nombreResponsable;
+        this.responsable = responsable;
+        this.idLgca = idLgca;
     }
 
     public CatalogoDeCuerpoAcademico() {
@@ -37,12 +39,21 @@ public class CatalogoDeCuerpoAcademico extends Catalogo{
         this.mision = mision;
     }
 
-    public String getNombreResponsable() {
-        return nombreResponsable;
+    public String getResponsable() {
+        return responsable;
     }
 
-    public void setNombreResponsable(String nombreResponsable) {
-        this.nombreResponsable = nombreResponsable;
-    }   
+    public void setResponsable(String responsable) {
+        this.responsable = responsable;
+    }
 
+    public int getIdLgca() {
+        return idLgca;
+    }
+
+    public void setIdLgca(int idLgca) {
+        this.idLgca = idLgca;
+    }
+
+  
 }

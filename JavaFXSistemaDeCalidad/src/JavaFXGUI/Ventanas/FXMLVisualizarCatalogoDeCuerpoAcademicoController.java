@@ -28,7 +28,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pojos.CatalogoDeCuerpoAcademico;
-import pojos.Docente;
 import util.Herramientas;
 
 public class FXMLVisualizarCatalogoDeCuerpoAcademicoController implements Initializable, NotificaCambios {
@@ -54,12 +53,12 @@ public class FXMLVisualizarCatalogoDeCuerpoAcademicoController implements Initia
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        catalogosDeCuerpoacademico = FXCollections.observableArrayList();
+        catalogosDeCuerpoacademico = FXCollections.observableArrayList(); 
         this.tcNombreDeCatalogo.setCellValueFactory(new PropertyValueFactory("nombre"));
         this.tcFechaDeRegistroCatalogo.setCellValueFactory(new PropertyValueFactory("fecha"));
         this.tcDescripcionCatalogo.setCellValueFactory(new PropertyValueFactory("Descripcion"));
         this.tcMisionCatalogo.setCellValueFactory(new PropertyValueFactory("mision"));
-        this.tcResponsable.setCellValueFactory(new PropertyValueFactory("academico.nombre"));
+        this.tcResponsable.setCellValueFactory(new PropertyValueFactory("responsable"));
         this.tcEstatusCatalogo.setCellValueFactory(new PropertyValueFactory("estatus"));
         
         obtenerCatalogos();
@@ -69,17 +68,24 @@ public class FXMLVisualizarCatalogoDeCuerpoAcademicoController implements Initia
          Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
-                String consulta = "select * from cuerpoAcademico";
+                String consulta = "select cuerpoAcademico.idCuerpoAcademico, cuerpoAcademico.idLgca, cuerpoAcademico.nombre as nombre, "
+                    + "cuerpoAcademico.fecha, cuerpoAcademico.descripcion, cuerpoAcademico.mision, cuerpoAcademico. estatus, "
+                    + "academico.nombre as responsable from cuerpoAcademico inner join academico "
+                    + "inner join cuerpoAcademicoIntegrantes on cuerpoAcademicoIntegrantes.rol = 'Representante' "
+                    + "and cuerpoAcademico.idCuerpoAcademico = cuerpoAcademicoIntegrantes.idCuerpoAcademico "
+                    + "and academico.idAcademico = cuerpoAcademicoIntegrantes.idAcademico";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 ResultSet resultado = declaracion.executeQuery();
                 while(resultado.next()){
                     CatalogoDeCuerpoAcademico catalogosObtenidos = new CatalogoDeCuerpoAcademico();
-                    catalogosObtenidos.setIdentificacion(resultado.getInt("idCuerpoAcademico"));
+                    catalogosObtenidos.setIdentificacion(resultado.getInt("cuerpoAcademico.idCuerpoAcademico"));
+                    catalogosObtenidos.setIdLgca(resultado.getInt("idLgca"));
                     catalogosObtenidos.setNombre(resultado.getString("nombre"));
                     catalogosObtenidos.setFecha(resultado.getDate("fecha"));
                     catalogosObtenidos.setDescripcion(resultado.getString("descripcion"));
                     catalogosObtenidos.setMision(resultado.getString("mision"));
                     catalogosObtenidos.setEstatus(resultado.getString("estatus"));
+                    catalogosObtenidos.setResponsable(resultado.getString("responsable"));
                     catalogosDeCuerpoacademico.add(catalogosObtenidos);
                 }
                 tvCatalogosDeCuerpoAcademico.setItems(catalogosDeCuerpoacademico);
@@ -88,6 +94,7 @@ public class FXMLVisualizarCatalogoDeCuerpoAcademicoController implements Initia
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se puede acceder a la base de datos en este momento, "
                     + "intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
+                System.out.println(ex.getMessage());
                 
             }
         }else{
@@ -130,24 +137,33 @@ public class FXMLVisualizarCatalogoDeCuerpoAcademicoController implements Initia
 
     @FXML
     private void irAActualizarCatalogo(ActionEvent event) {
-        try {
-            FXMLLoader cargaPantalla = new FXMLLoader(getClass().getResource("FXMLActualizarCatalogoDeCuerpoAcademico.fxml"));
-            Parent root = cargaPantalla.load();
-            FXMLActualizarCatalogoDeCuerpoAcademicoController controlador = cargaPantalla.getController();
-            controlador.inicializaCampos(this);
-            Scene escenaActualizarCatalogo = new Scene(root);
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(escenaActualizarCatalogo);
-            stage.showAndWait();
-        }catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error al cargar la escena", ex.getMessage(), Alert.AlertType.ERROR);
+        int seleccion = tvCatalogosDeCuerpoAcademico.getSelectionModel().getSelectedIndex();
+        if(seleccion >= 0){
+            CatalogoDeCuerpoAcademico editarCatalogo = catalogosDeCuerpoacademico.get(seleccion);
+            try {
+                FXMLLoader cargaPantalla = new FXMLLoader(getClass().getResource("FXMLActualizarCatalogoDeCuerpoAcademico.fxml"));
+                Parent root = cargaPantalla.load();
+                FXMLActualizarCatalogoDeCuerpoAcademicoController controlador = cargaPantalla.getController();
+                controlador.inicializaCampos(this, editarCatalogo);
+                Scene escenaActualizarCatalogo = new Scene(root);
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setScene(escenaActualizarCatalogo);
+                stage.showAndWait();
+            }catch(IOException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error al cargar la escena", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Atención", "Para editar un registro, "
+                + "primero seleccionelo", Alert.AlertType.INFORMATION);
             mostrarAlerta.showAndWait();
-        }
+        }    
     }   
 
     @Override
     public void refrescarTabla(boolean carga) {
+       tvCatalogosDeCuerpoAcademico.getItems().clear();
        obtenerCatalogos();
     }
 }

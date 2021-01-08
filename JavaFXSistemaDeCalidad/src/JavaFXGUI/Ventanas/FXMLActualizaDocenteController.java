@@ -53,7 +53,6 @@ public class FXMLActualizaDocenteController implements Initializable {
     @FXML
     private ComboBox<CatalogoDeCuerpoAcademico> cbCuerpoAcademico;
     
-    private Docente editarDocente;
     Alert mostrarAlerta;
     int idDocente = 0;
     int idCuerpoAcademicoObtenido = 0;
@@ -61,6 +60,7 @@ public class FXMLActualizaDocenteController implements Initializable {
     boolean registroExitoso = true;
     NotificaCambios notificacion;
     private ObservableList<CatalogoDeCuerpoAcademico> cuerposAcademicos;
+    private Docente editarDocente;
     
     String nombreAuxiliar;
     String numeroPersonalAuxiliar;
@@ -134,9 +134,11 @@ public class FXMLActualizaDocenteController implements Initializable {
         tfTelefono.setText(editarDocente.getTelefono());
         tfCorreo.setText(editarDocente.getCorreo());
         tfContraseña.setText(editarDocente.getContraseña());
+        
         obtenerIdCuerpoAcademicoVinculadoAlDocente(idDocente);
-        int posicionCuerpoAcademico = obtenerCuerpoAcademicoSeleccionado(idCuerpoAcademicoObtenido);
+        int posicionCuerpoAcademico = obtenerPosicionDeCuerpoAcademicoSeleccionado(idCuerpoAcademicoObtenido);
         cbCuerpoAcademico.getSelectionModel().select(posicionCuerpoAcademico);
+        
         if(editarDocente.getGradoAcademico().equalsIgnoreCase("Licenciatura")){
             rbLicenciatura.setSelected(true);
         }else if(editarDocente.getGradoAcademico().equalsIgnoreCase("Especialización")){
@@ -323,7 +325,7 @@ public class FXMLActualizaDocenteController implements Initializable {
         }
     }
     
-     private int obtenerCuerpoAcademicoSeleccionado(int idCuerpoAcademico){
+    private int obtenerPosicionDeCuerpoAcademicoSeleccionado(int idCuerpoAcademico){
         int value = 0;
         if(cuerposAcademicos.size() > 0){
             for (int i = 0; i < cuerposAcademicos.size(); i++) {

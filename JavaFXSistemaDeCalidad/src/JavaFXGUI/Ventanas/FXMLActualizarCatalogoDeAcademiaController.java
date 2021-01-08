@@ -68,8 +68,6 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
     private ObservableList<Licenciatura> licenciaturas;
     
     int idLicenciaturaCatalogoAux;
-    String nombreAcademiaCatalogoAux;
-    String nombreCoordinadorCatalogoAux;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -154,8 +152,6 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
                     
                     llenarRadioButton(catalogoA.getEstatus());
                     idLicenciaturaCatalogoAux = catalogoA.getIdLicenciatura();
-                    nombreAcademiaCatalogoAux = catalogoA.getNombreAcademia();
-                    nombreCoordinadorCatalogoAux = catalogoA.getNombreCoordinador();
                 }
                 tbTabla.setItems(catalogos);
                 conn.close();
@@ -193,7 +189,8 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
             esValido = false;
         }
         if(esValido){
-            actualizarCatalogoDeAcademia(nombreAcademiaAux, nombreCoordinadorAux);
+            CatalogoDeAcademia registroAActualizar = catalogos.get(posicionTabla);
+            actualizarCatalogoDeAcademia(nombreAcademiaAux, nombreCoordinadorAux, registroAActualizar.getNombreAcademia(), registroAActualizar.getNombreCoordinador());
         } else {
             mostrarAlerta = Herramientas.creadorDeAlerta("Alerta", "Seleccione un registro de la tabla y de clic en el botón 'Editar'. \n \nSi desea agregar un "
                     + "nuevo registro al catalogo, dirijase a la sección 'Registrar Catálogo' ", Alert.AlertType.ERROR);
@@ -201,7 +198,7 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
         }
     }
     
-    private void actualizarCatalogoDeAcademia(String nombreAcademia, String nombreCoordinador){
+    private void actualizarCatalogoDeAcademia(String nombreAcademia, String nombreCoordinador, String nombreAcademiaParametro, String nombreCoordinadorParametro){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
@@ -210,8 +207,8 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
                 PreparedStatement ps = conn.prepareStatement(consulta);
                 ps.setString(1, nombreAcademia);
                 ps.setString(2, nombreCoordinador);
-                ps.setString(3, nombreAcademiaCatalogoAux);
-                ps.setString(4, nombreCoordinadorCatalogoAux);
+                ps.setString(3, nombreAcademiaParametro);
+                ps.setString(4, nombreCoordinadorParametro);
                 resultado = ps.executeUpdate();
                 
                 conn.close();
@@ -224,6 +221,7 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
                     mostrarAlerta.showAndWait();
                 }                               
                 
+                limpiarCampos();
                 extraerDatosDelCatalogo(idLicenciaturaCatalogoAux);
                 
             }catch(SQLException ex){

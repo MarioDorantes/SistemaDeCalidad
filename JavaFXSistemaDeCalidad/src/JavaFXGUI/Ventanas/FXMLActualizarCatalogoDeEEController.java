@@ -84,9 +84,6 @@ public class FXMLActualizarCatalogoDeEEController implements Initializable {
     private ObservableList<Licenciatura> licenciaturas;
     
     int idLicenciaturaCatalogoAux;
-    String nrcCatalogoAux;
-    String periodoCatalogoAux;
-    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -191,8 +188,7 @@ public class FXMLActualizarCatalogoDeEEController implements Initializable {
                     
                     llenarRadioButton(catalogoE.getEstatus());
                     idLicenciaturaCatalogoAux = catalogoE.getIdLicenciatura();
-                    nrcCatalogoAux = catalogoE.getNrc();
-                    periodoCatalogoAux = catalogoE.getPeriodo();
+                    
                 }
                 
                 tbTabla.setItems(registrosDelCatalogo);
@@ -266,22 +262,21 @@ public class FXMLActualizarCatalogoDeEEController implements Initializable {
         }
         
         if(esValido){
-            actualizarCatalogoDeEE(programaAux, nrcAux, nombreDeLaEEAux, creditosAux, bloqueAux, periodoAux);
+            CatalogoDeEE registroAActualizar = registrosDelCatalogo.get(posicionTabla);
+            actualizarCatalogoDeEE(programaAux, nrcAux, nombreDeLaEEAux, creditosAux, bloqueAux, periodoAux, registroAActualizar.getNrc(), registroAActualizar.getNombreDeLaEE(), registroAActualizar.getPeriodo());
         } else {
             mostrarAlerta = Herramientas.creadorDeAlerta("Alerta", "Seleccione un registro de la tabla y de clic en el botón 'Editar'. \n \nSi desea agregar un "
                     + "nuevo registro al catalogo, dirijase a la sección 'Registrar Catálogo' ", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }
-    
-    
-    //REVISAR ACTUALIZACION, AUN FALLA
-    private void actualizarCatalogoDeEE(String programa, String nrc, String nombreDeLaEE, String creditos, String bloque, String periodo){
+
+    private void actualizarCatalogoDeEE(String programa, String nrc, String nombreDeLaEE, String creditos, String bloque, String periodo, String nrcParametro, String nombreEEParametro, String periodoParametro){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
                 int resultado;
-                String consulta = "UPDATE catalogoDeEE SET programa = ?, nrc = ?, nombreDeLaEE = ?, creditos = ?, bloque = ?, periodo = ? WHERE nrc = ? AND periodo = ?";
+                String consulta = "UPDATE catalogoDeEE SET programa = ?, nrc = ?, nombreDeLaEE = ?, creditos = ?, bloque = ?, periodo = ? WHERE nrc = ? AND nombreDeLaEE = ? AND periodo = ?";
                 PreparedStatement ps = conn.prepareStatement(consulta);
                 ps.setString(1, programa);
                 ps.setString(2, nrc);
@@ -289,8 +284,9 @@ public class FXMLActualizarCatalogoDeEEController implements Initializable {
                 ps.setString(4, creditos);
                 ps.setString(5, bloque);
                 ps.setString(6, periodo);
-                ps.setString(7, nrcCatalogoAux);
-                ps.setString(8, periodoCatalogoAux);
+                ps.setString(7, nrcParametro);
+                ps.setString(8, nombreEEParametro);
+                ps.setString(9, periodoParametro);
                 resultado = ps.executeUpdate();
                 
                 conn.close();
@@ -303,6 +299,7 @@ public class FXMLActualizarCatalogoDeEEController implements Initializable {
                     mostrarAlerta.showAndWait();
                 }                               
                 
+                limpiarCampos();
                 extraerDatosDelCatalogo(idLicenciaturaCatalogoAux);
                 
             }catch(SQLException ex){
@@ -314,10 +311,83 @@ public class FXMLActualizarCatalogoDeEEController implements Initializable {
 
     @FXML
     private void clicEliminar(ActionEvent event) {
+        int seleccion = tbTabla.getSelectionModel().getSelectedIndex();
+        if (seleccion >= 0) {
+            CatalogoDeEE registroAEliminar = registrosDelCatalogo.get(seleccion);
+            eliminarRegistro(registroAEliminar.getNrc(), registroAEliminar.getNombreDeLaEE(), registroAEliminar.getPeriodo());
+        } else {
+            Alert alertaVacio = Herramientas.creadorDeAlerta("Sin selección", "Para eliminar un registro, debe seleccionarlo de la tabla", Alert.AlertType.WARNING);
+            alertaVacio.showAndWait();
+        }
+    }
+    
+    private void eliminarRegistro(String nrc, String nombreDeLaEE, String periodo){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try{
+                String consulta = "DELETE FROM catalogoDeEE WHERE nrc = ? AND nombreDeLaEE = ? AND periodo = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setString(1, nrc);
+                ps.setString(2, nombreDeLaEE);
+                ps.setString(3, periodo);
+                int resultado = ps.executeUpdate();
+                conn.close();
+                
+                extraerDatosDelCatalogo(idLicenciaturaCatalogoAux);
+                                
+            } catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }
     }
 
     @FXML
     private void clicFinalizar(ActionEvent event) {
+        if(tbTabla.getItems().isEmpty()){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "Para finalizar la actualizacion, debe modificar al menos un elemento del catalogo seleccionado", Alert.AlertType.INFORMATION);
+            mostrarAlerta.showAndWait();
+        } else {
+            if(rbInactivo.isSelected()){
+                String estatus = "Inactivo";
+                cambiarEstatusDelCatalogo(estatus);
+            }
+            if(rbActivo.isSelected()){
+                String estatus = "Activo";
+                cambiarEstatusDelCatalogo(estatus);
+            }
+            mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Catálogo de EE actualizado exitosamente", Alert.AlertType.INFORMATION);
+            mostrarAlerta.showAndWait();
+            salir();
+        }
+    }
+    
+    private void cambiarEstatusDelCatalogo(String estatus){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try{
+                int resultado;                
+                String consulta = "UPDATE catalogoDeEE SET estatus = ? WHERE idLicenciatura = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setString(1, estatus);
+                ps.setInt(2, idLicenciaturaCatalogoAux);
+                resultado = ps.executeUpdate();
+                
+                conn.close();
+                
+                if(resultado > 0){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Estatus del catalogo: " + estatus, Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                } else {
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de error", "Error al actualizar el estatus del catalogo", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }                               
+                              
+            }catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos. Intente más tarde", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }
     }
 
     @FXML

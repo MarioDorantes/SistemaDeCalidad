@@ -107,6 +107,7 @@ public class FXMLActualizaDocenteController implements Initializable {
                 Herramientas.cerrarPantalla(tfContraseña);
             } 
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -172,6 +173,7 @@ public class FXMLActualizaDocenteController implements Initializable {
                 Herramientas.cerrarPantalla(tfContraseña);
             } 
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -229,11 +231,22 @@ public class FXMLActualizaDocenteController implements Initializable {
                 actualizarAcademico(nombreAuxiliar, numeroPersonalAuxiliar, telefonoAuxiliar, gradoAcademicoAuxiliar, idDocente);
             }else{
                 registroExitoso = false;
+            }
+            
+            if(registroExitoso){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Actualizacion exitosa", Alert.AlertType.INFORMATION);
+                mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfNombre);
+                notificacion.refrescarTabla(true);
+            }else{
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
                     + "intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
-            }
-            
+            }   
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Campos incorrectos o vacíos", 
+                "Verifique su información", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
         }
     }
     
@@ -264,6 +277,7 @@ public class FXMLActualizaDocenteController implements Initializable {
                 Herramientas.cerrarPantalla(tfContraseña);
             }
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -286,6 +300,7 @@ public class FXMLActualizaDocenteController implements Initializable {
                 }
                 conn.close();
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -304,20 +319,10 @@ public class FXMLActualizaDocenteController implements Initializable {
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
-                }else{       
-                    if(registroExitoso){
-                        mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Actualizacion exitosa", Alert.AlertType.INFORMATION);
-                        mostrarAlerta.showAndWait();
-                        Herramientas.cerrarPantalla(tfNombre);
-                        notificacion.refrescarTabla(true);
-                    }else{
-                        mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
-                            + "intente más tarde", Alert.AlertType.ERROR);
-                        mostrarAlerta.showAndWait();
-                    }
                 }
                 conn.close();
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();

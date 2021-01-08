@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,10 +21,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import pojos.CatalogoDeCuerpoAcademico;
 import pojos.CatalogoLGCA;
 import pojos.RepresentanteDeCuerpoAcademico;
 import util.Herramientas;
@@ -116,6 +113,7 @@ public class FXMLRegistrarCatalogoDeCuerpoAcademicoController implements Initial
                 Herramientas.cerrarPantalla(tfEstatus);
             }
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -146,6 +144,7 @@ public class FXMLRegistrarCatalogoDeCuerpoAcademicoController implements Initial
                 Herramientas.cerrarPantalla(tfEstatus);
             }
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -209,7 +208,23 @@ public class FXMLRegistrarCatalogoDeCuerpoAcademicoController implements Initial
         }
         
         if(esCorrecto){
-            registrarCuerpoAcademico(nombreAuxiliar, fechaAuxiliar, descripcionAuxiliar, misionAuxiliar, estatusAuxiliar, idLgca);
+            if(idLgca > 0){
+                registrarCuerpoAcademico(nombreAuxiliar, fechaAuxiliar, descripcionAuxiliar, misionAuxiliar, estatusAuxiliar, idLgca);
+            }else{
+                registroExitoso = false;
+            }
+            
+            if(registroExitoso){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Registro exitoso", Alert.AlertType.INFORMATION);
+                mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfEstatus);
+                notificacion.refrescarTabla(true);
+            }else{
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
+                    + "intente más tarde", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+            
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Campos incorrectos o vacíos", 
                 "Verifique su información", Alert.AlertType.ERROR);
@@ -245,6 +260,7 @@ public class FXMLRegistrarCatalogoDeCuerpoAcademicoController implements Initial
                 Herramientas.cerrarPantalla(tfEstatus);
             }
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -270,6 +286,7 @@ public class FXMLRegistrarCatalogoDeCuerpoAcademicoController implements Initial
                 }
                 conn.close();
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -288,19 +305,9 @@ public class FXMLRegistrarCatalogoDeCuerpoAcademicoController implements Initial
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
-                }else{
-                    if(registroExitoso){
-                        mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Registro exitoso", Alert.AlertType.INFORMATION);
-                        mostrarAlerta.showAndWait();
-                        Herramientas.cerrarPantalla(tfEstatus);
-                        notificacion.refrescarTabla(true);
-                    }else{
-                        mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
-                            + "intente más tarde", Alert.AlertType.ERROR);
-                        mostrarAlerta.showAndWait();
-                    }
                 }
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();

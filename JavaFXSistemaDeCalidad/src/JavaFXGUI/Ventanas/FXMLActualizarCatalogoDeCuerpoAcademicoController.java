@@ -66,16 +66,20 @@ public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initia
     NotificaCambios notificacion;
     boolean actualizacionExitosa = true;
     
-    int idCuerpoAcademicoSeleccionado = 0;
-    int idResponsableSeleccionado = 0;
-    int idNuevoResponsableSeleccionado = 0;
-    int idLgcaSeleccionado = 0;
-    int idNuevoLgcaSeleccionado = 0;
-    
+    int idCuerpoAcademico = 0;
+    int idResponsable = 0;
+    int idLgca = 0;
+   
     private CatalogoDeCuerpoAcademico editarCatalogo;
     private ObservableList<RepresentanteDeCuerpoAcademico> responsables;
     private ObservableList<CatalogoLGCA> catalogosLgca;
     private ObservableList<Docente> integrantesDeCuerpoAcademico;
+    
+    String nombreAuxiliar;
+    String estatusAuxiliar;
+    String fechaAuxiliar;
+    String descripcionAuxiliar;
+    String misionAuxiliar;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -93,7 +97,7 @@ public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initia
             @Override
             public void changed(ObservableValue<? extends RepresentanteDeCuerpoAcademico> observable, RepresentanteDeCuerpoAcademico oldValue, RepresentanteDeCuerpoAcademico newValue) {
                 if(newValue != null){
-                    idNuevoResponsableSeleccionado = newValue.getIdentificacion();
+                    idResponsable = newValue.getIdentificacion();
                 }
             }  
         });
@@ -105,7 +109,7 @@ public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initia
             @Override
             public void changed(ObservableValue<? extends CatalogoLGCA> observable, CatalogoLGCA oldValue, CatalogoLGCA newValue) {
                 if(newValue != null){
-                    idNuevoLgcaSeleccionado = newValue.getIdentificacion();
+                    idLgca = newValue.getIdentificacion();
                 }
             }
         });     
@@ -135,6 +139,7 @@ public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initia
                 Herramientas.cerrarPantalla(tfEstatus);
             }
         }else{
+            actualizacionExitosa = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -165,6 +170,7 @@ public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initia
                 Herramientas.cerrarPantalla(tfEstatus);
             }
         }else{
+            actualizacionExitosa = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -180,23 +186,22 @@ public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initia
     }
     
     private void obtenerCatalogoSeleccionado(){
-        idCuerpoAcademicoSeleccionado = editarCatalogo.getIdentificacion();
+        idCuerpoAcademico = editarCatalogo.getIdentificacion();
         tfNombre.setText(editarCatalogo.getNombre());
         tfFecha.setText(editarCatalogo.getFecha().toString());
         tfEstatus.setText(editarCatalogo.getEstatus());
         taDescripcion.setText(editarCatalogo.getDescripcion());
         taMision.setText(editarCatalogo.getMision());
         
-        obtenerIdResponsableSeleccionado(idCuerpoAcademicoSeleccionado);
-        int posicionSelecciodaDelComboBoxResponsables = obtenerPosicionDeResponsableSeleccionado(idResponsableSeleccionado);
+        obtenerIdResponsableSeleccionado(idCuerpoAcademico);
+        int posicionSelecciodaDelComboBoxResponsables = obtenerPosicionDeResponsableSeleccionado(idResponsable);
         cbResponsable.getSelectionModel().select(posicionSelecciodaDelComboBoxResponsables);
         
-        idLgcaSeleccionado = editarCatalogo.getIdLgca();
-        int posicionDelComboBoxLgcaSeleccionado = obtenerPosicionDeLgcaSeleccionado(idLgcaSeleccionado);
+        idLgca = editarCatalogo.getIdLgca();
+        int posicionDelComboBoxLgcaSeleccionado = obtenerPosicionDeLgcaSeleccionado(idLgca);
         cbLgca.getSelectionModel().select(posicionDelComboBoxLgcaSeleccionado);
         
-        System.out.println(idCuerpoAcademicoSeleccionado);
-        obtenerIntegrantesDeCuerpoAcademico(idCuerpoAcademicoSeleccionado);
+        obtenerIntegrantesDeCuerpoAcademico(idCuerpoAcademico);
     }
     
     private void obtenerIdResponsableSeleccionado(int idCuerpoAcademicoSeleccionado){
@@ -208,7 +213,7 @@ public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initia
                 declaracion.setInt(1, idCuerpoAcademicoSeleccionado);
                 ResultSet resultado = declaracion.executeQuery();
                 if(resultado.next()){
-                    idResponsableSeleccionado = resultado.getInt("idAcademico");
+                    idResponsable = resultado.getInt("idAcademico");
                 }
                 conn.close();
             } catch (SQLException ex) {
@@ -219,6 +224,7 @@ public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initia
                 Herramientas.cerrarPantalla(tfEstatus);
             } 
         }else{
+            actualizacionExitosa = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -253,13 +259,13 @@ public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initia
                 conn.close();
             } catch (SQLException ex) {
                 actualizacionExitosa = false;
-                System.out.println(ex.getMessage());
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
                     + "en este momento, intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
                 Herramientas.cerrarPantalla(tfEstatus);
             } 
         }else{
+            actualizacionExitosa = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -274,6 +280,126 @@ public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initia
     @FXML
     private void cancelar(ActionEvent event) {
         Herramientas.cerrarPantalla(tfNombre);
+    }
+    
+    @FXML
+    private void clicActualizar(ActionEvent event) {
+        tfNombre.setStyle("-fx-border-color: ;");
+        tfEstatus.setStyle(("-fx-border-color: ;"));
+        tfFecha.setStyle("-fx-border-color: ;");
+        taDescripcion.setStyle("-fx-border-color: ;");
+        taMision.setStyle("-fx-border-color: ;");
+        
+        boolean esCorrecto = true;
+        nombreAuxiliar = tfNombre.getText();
+        estatusAuxiliar = tfEstatus.getText();
+        fechaAuxiliar = tfFecha.getText();
+        descripcionAuxiliar = taDescripcion.getText();
+        misionAuxiliar = taMision.getText();
+        
+        if(nombreAuxiliar.isEmpty()){
+            esCorrecto = false;
+            tfNombre.setStyle("-fx-border-color: red;");
+        }
+        if(estatusAuxiliar.isEmpty()){
+            esCorrecto = false;
+            tfEstatus.setStyle(("-fx-border-color: red;"));
+        }
+        if(fechaAuxiliar.isEmpty()){
+            esCorrecto = false;
+            tfFecha.setStyle("-fx-border-color: red;");
+        }
+        if(descripcionAuxiliar.isEmpty()){
+            esCorrecto = false;
+            taDescripcion.setStyle("-fx-border-color: red;");
+        }
+        if(misionAuxiliar.isEmpty()){
+            esCorrecto = false;
+            taMision.setStyle("-fx-border-color: red;");
+        }
+        
+        if(esCorrecto){
+            if(idLgca>0){
+                actualizarCuerpoAcademico(nombreAuxiliar, fechaAuxiliar, descripcionAuxiliar, 
+                        misionAuxiliar, estatusAuxiliar,  idLgca, idCuerpoAcademico);
+            }else{
+                actualizacionExitosa = false;
+            }
+            
+            if(actualizacionExitosa){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Actualizacion exitosa", Alert.AlertType.INFORMATION);
+                mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfNombre);
+                notificacion.refrescarTabla(true);
+            }else{
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
+                    + "intente más tarde", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();    
+            } 
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Campos incorrectos o vacíos", 
+                "Verifique su información", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+    }
+    
+    private void actualizarCuerpoAcademico(String nombre, String fecha, String descripcion, String mision, 
+        String estatus, int idLgca, int idCuerpoAcademico){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try{
+                String consulta = "update cuerpoAcademico set nombre = ?, fecha = ?, descripcion = ?,  mision = ?, "
+                    + "estatus = ?, idLgca = ? where idCuerpoAcademico = ?";
+                    PreparedStatement declaracion = conn.prepareStatement(consulta);
+                    declaracion.setString(1, nombre);
+                    declaracion.setString(2, fecha);
+                    declaracion.setString(3, descripcion);
+                    declaracion.setString(4, mision);
+                    declaracion.setString(5, estatus);
+                    declaracion.setInt(6, idLgca);
+                    declaracion.setInt(7, idCuerpoAcademico);
+                    int resultado = declaracion.executeUpdate();
+                    if(resultado == 0){
+                        actualizacionExitosa = false;
+                    }else{
+                        vincularUnNuevoRepresentante(idResponsable, idCuerpoAcademico);
+                    }
+            }catch(SQLException ex){
+                actualizacionExitosa = false;
+                System.out.println(ex.getMessage());
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
+                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfEstatus);
+            }
+        }else{
+            actualizacionExitosa = false;
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfEstatus);
+        }
+    }
+    
+    private void vincularUnNuevoRepresentante(int idRepresentanteNuevo, int idCuerpoAcademico) throws SQLException{
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+                String consulta = "update cuerpoAcademicoIntegrantes set idAcademico = ? where idCuerpoAcademico = ? "
+                    + "and rol = 'Representante'";
+                    PreparedStatement declaracion = conn.prepareStatement(consulta);
+                    declaracion.setInt(1, idRepresentanteNuevo);
+                    declaracion.setInt(2, idCuerpoAcademico);
+                    int resultado = declaracion.executeUpdate();
+                    if(resultado == 0){
+                        actualizacionExitosa = false;
+                    }
+        }else{
+            actualizacionExitosa = false;
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfEstatus);
+        }
     }
     
     private int obtenerPosicionDeResponsableSeleccionado(int idRepresentanteSeleccionado){

@@ -15,7 +15,7 @@
          </font>
       </Label>
       <TextField fx:id="tfNombre" layoutX="87.0" layoutY="63.0" prefHeight="25.0" prefWidth="349.0" />
-      <Button layoutX="19.0" layoutY="467.0" mnemonicParsing="false" style="-fx-background-color: #1FDC05;" text="Actualizar" />
+      <Button layoutX="19.0" layoutY="467.0" mnemonicParsing="false" onAction="#clicActualizar" style="-fx-background-color: #1FDC05;" text="Actualizar" />
       <Button layoutX="653.0" layoutY="467.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC9305;" text="Cancelar" />
       <ComboBox fx:id="cbResponsable" layoutX="311.0" layoutY="91.0" prefHeight="25.0" prefWidth="175.0" />
       <ComboBox fx:id="cbLgca" layoutX="542.0" layoutY="91.0" prefHeight="25.0" prefWidth="175.0" />
@@ -67,7 +67,6 @@
             <TableColumn fx:id="tcCorreo" prefWidth="174.0" text="Correo" />
         </columns>
       </TableView>
-      <Button layoutX="594.0" layoutY="259.0" mnemonicParsing="false" onAction="#irAVisualizarDocentes" style="-fx-background-color: #FFFF00;" text="Visualizar Docentes" />
       <Label layoutX="23.0" layoutY="263.0" prefHeight="25.0" prefWidth="251.0" text="Integrantes del Cuerpo Académico">
          <font>
             <Font name="Arial Bold" size="15.0" />

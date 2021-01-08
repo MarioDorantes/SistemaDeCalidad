@@ -12,8 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -117,6 +115,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 Herramientas.cerrarPantalla(tfContraseña);
             } 
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -147,6 +146,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 Herramientas.cerrarPantalla(tfContraseña);
             } 
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -252,6 +252,13 @@ public class FXMLRegistrarDocenteController implements Initializable {
                     registrarUsuario(correoAuxiliar, contraseñaAuxiliar, idRol, idAcademico);
                 }else{
                     registroExitoso = false;
+                }
+                if(registroExitoso){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Registro exitoso", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                    Herramientas.cerrarPantalla(tfNombre);
+                    notificacion.refrescarTabla(true);
+                }else{
                     mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
                         + "intente más tarde", Alert.AlertType.ERROR);
                     mostrarAlerta.showAndWait();
@@ -293,6 +300,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 Herramientas.cerrarPantalla(tfContraseña);
             }
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -315,6 +323,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 }
                 conn.close();
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -336,6 +345,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 }
                 conn.close();
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -358,6 +368,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 }
                 conn.close();
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -391,6 +402,7 @@ public class FXMLRegistrarDocenteController implements Initializable {
                 Herramientas.cerrarPantalla(tfContraseña);
             }
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -408,19 +420,9 @@ public class FXMLRegistrarDocenteController implements Initializable {
             int resultado = declaracion.executeUpdate();
             if(resultado == 0){
                 registroExitoso = false;
-            }else{
-                if(registroExitoso){
-                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Registro exitoso", Alert.AlertType.INFORMATION);
-                    mostrarAlerta.showAndWait();
-                    Herramientas.cerrarPantalla(tfNombre);
-                    notificacion.refrescarTabla(true);
-                }else{
-                    mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
-                        + "intente más tarde", Alert.AlertType.ERROR);
-                    mostrarAlerta.showAndWait();
-                }
             }
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();

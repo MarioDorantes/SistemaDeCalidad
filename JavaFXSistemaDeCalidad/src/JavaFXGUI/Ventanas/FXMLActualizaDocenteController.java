@@ -55,8 +55,7 @@ public class FXMLActualizaDocenteController implements Initializable {
     
     Alert mostrarAlerta;
     int idDocente = 0;
-    int idCuerpoAcademicoObtenido = 0;
-    int idNuevoCuerpoAcademico = 0;
+    int idCuerpoAcademico = 0;
     boolean registroExitoso = true;
     NotificaCambios notificacion;
     private ObservableList<CatalogoDeCuerpoAcademico> cuerposAcademicos;
@@ -78,7 +77,7 @@ public class FXMLActualizaDocenteController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends CatalogoDeCuerpoAcademico> observable, CatalogoDeCuerpoAcademico oldValue, CatalogoDeCuerpoAcademico newValue) {
                 if(newValue != null){
-                   idNuevoCuerpoAcademico = newValue.getIdentificacion();
+                   idCuerpoAcademico = newValue.getIdentificacion();
                 }
             } 
         });
@@ -137,7 +136,7 @@ public class FXMLActualizaDocenteController implements Initializable {
         tfContraseña.setText(editarDocente.getContraseña());
         
         obtenerIdCuerpoAcademicoVinculadoAlDocente(idDocente);
-        int posicionCuerpoAcademico = obtenerPosicionDeCuerpoAcademicoSeleccionado(idCuerpoAcademicoObtenido);
+        int posicionCuerpoAcademico = obtenerPosicionDeCuerpoAcademicoSeleccionado(idCuerpoAcademico);
         cbCuerpoAcademico.getSelectionModel().select(posicionCuerpoAcademico);
         
         if(editarDocente.getGradoAcademico().equalsIgnoreCase("Licenciatura")){
@@ -162,7 +161,7 @@ public class FXMLActualizaDocenteController implements Initializable {
                 if(resultado.next()){
                     CatalogoDeCuerpoAcademico cuerposVinculadoAlDocente = new CatalogoDeCuerpoAcademico();
                     cuerposVinculadoAlDocente.setIdentificacion(resultado.getInt("idCuerpoAcademico"));
-                    idCuerpoAcademicoObtenido = cuerposVinculadoAlDocente.getIdentificacion();
+                    idCuerpoAcademico = cuerposVinculadoAlDocente.getIdentificacion();
                 }
                 conn.close();
             } catch (SQLException ex) {
@@ -266,7 +265,7 @@ public class FXMLActualizaDocenteController implements Initializable {
                 if(resultado == 0){
                     registroExitoso = false;
                 }else{
-                    actualizarVinculacionDelCatalogo(idNuevoCuerpoAcademico, idDocente);
+                    actualizarVinculacionDelCatalogo(idCuerpoAcademico, idDocente);
                 }
                 conn.close();
             }catch(SQLException ex){

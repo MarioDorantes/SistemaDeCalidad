@@ -12,11 +12,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaCalidad/JavaFXSistemaDeCalidad/src/pojos/Catalogo.java</file>
-            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLVisualizarCatalogoDeCuerpoAcademicoController.java</file>
-            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLVisualizarDocentesController.java</file>
-            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLRegistrarCatalogoDeCuerpoAcademicoController.java</file>
-            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLRegistrarDocenteController.java</file>
+            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLActualizaDocenteController.java</file>
+            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLRegistrarCatalogoDeCuerpoAcademicoController.java</file>
+            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLRegistrarDocenteController.java</file>
+            <file>file:/C:/Users/tbc_h/OneDrive/Documentos/ESCUELA/5to%20semestre/PrincipiosConstruccion/NeatbeansProyects/SistemaDeCalidad/JavaFXSistemaDeCalidad/src/JavaFXGUI/Ventanas/FXMLActualizarCatalogoDeCuerpoAcademicoController.java</file>
         </group>
     </open-files>
 </project-private>

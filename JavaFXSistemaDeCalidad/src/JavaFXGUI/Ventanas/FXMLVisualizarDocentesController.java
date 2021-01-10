@@ -52,6 +52,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
        
     Alert mostrarAlerta;
     private ObservableList<Docente> docentes;
+    
     int idRol = 0;
     int idDocente = 0;
     boolean eliminacionExitosa = true;

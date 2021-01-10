@@ -65,7 +65,7 @@ public class FXMLVisualizarCatalogoDeCuerpoAcademicoController implements Initia
     }
     
     private void obtenerCatalogos(){
-         Connection conn = ConectarBD.abrirConexionMySQL();
+        Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
                 String consulta = "select cuerpoAcademico.idCuerpoAcademico, cuerpoAcademico.idLgca, cuerpoAcademico.nombre as nombre, "
@@ -94,8 +94,6 @@ public class FXMLVisualizarCatalogoDeCuerpoAcademicoController implements Initia
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se puede acceder a la base de datos en este momento, "
                     + "intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
-                System.out.println(ex.getMessage());
-                
             }
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se puede conectar con la base de datos en este momento, "
@@ -106,13 +104,18 @@ public class FXMLVisualizarCatalogoDeCuerpoAcademicoController implements Initia
     
     @FXML
     private void cancelar(ActionEvent e){
+        irAVentanaInicial();
+    }
+    
+     private void irAVentanaInicial(){
         try{
             Stage stage = (Stage) tvCatalogosDeCuerpoAcademico.getScene().getWindow();
             Scene cancelar = new Scene(FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDirectorDeLaFacultad.fxml")));
             stage.setScene(cancelar);
             stage.show();
         }catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible acceder a la siguiente ventana, "
+                + "intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }
@@ -130,7 +133,8 @@ public class FXMLVisualizarCatalogoDeCuerpoAcademicoController implements Initia
             stage.setScene(escenaRegistrarCatalogo);
             stage.showAndWait();
         }catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error al cargar la escena", ex.getLocalizedMessage(), Alert.AlertType.ERROR);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error al cargar la escena", "No fue posible acceder a la siguiente ventana, "
+                + "intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }
@@ -151,7 +155,8 @@ public class FXMLVisualizarCatalogoDeCuerpoAcademicoController implements Initia
                 stage.setScene(escenaActualizarCatalogo);
                 stage.showAndWait();
             }catch(IOException ex){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error al cargar la escena", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error al cargar la escena", "No fue posible acceder a la siguiente ventana, "
+                + "intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             }
         }else{

@@ -7,22 +7,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarCatalogoLGCAController">
+<AnchorPane id="AnchorPane" prefHeight="528.0" prefWidth="778.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarCatalogoLGCAController">
    <children>
       <Label layoutX="188.0" layoutY="14.0" text="Visualizar catálogos LGCA" textFill="#092ae1">
          <font>
             <Font name="Arial Bold" size="28.0" />
          </font>
       </Label>
-      <TableView fx:id="tvContenedor" layoutX="146.0" layoutY="116.0" prefHeight="363.0" prefWidth="441.0">
+      <TableView fx:id="tvCatalogosLgca" layoutX="8.0" layoutY="116.0" prefHeight="363.0" prefWidth="764.0">
         <columns>
-          <TableColumn fx:id="tcClave" prefWidth="241.0" text="Nombre del actálogo" />
-          <TableColumn fx:id="tcFechaRegistro" prefWidth="199.0" text="Fecha de registro" />
+          <TableColumn fx:id="tcClave" text="Clave" />
+          <TableColumn fx:id="tcNombre" prefWidth="170.0" text="Nombre" />
+            <TableColumn fx:id="tcFechaRegistro" prefWidth="82.0" text="Fecha" />
+            <TableColumn fx:id="tcGrado" prefWidth="51.0" text="Grado" />
+            <TableColumn fx:id="tcAdscripcion" prefWidth="151.0" text="Adscripción" />
+            <TableColumn fx:id="tcUnidad" prefWidth="146.0" text="Unidad de adscripción" />
+            <TableColumn fx:id="tcEstatus" prefWidth="83.0" text="Estatus" />
         </columns>
       </TableView>
-      <Button layoutX="367.0" layoutY="74.0" mnemonicParsing="false" onAction="#irARegistrarCatalogo" style="-fx-background-color: #1FDC05;" text="Registrar catálogo" />
-      <Button layoutX="519.0" layoutY="74.0" mnemonicParsing="false" onAction="#irAActualizarCatalogo" style="-fx-background-color: #FCF407;" text="Actualizar" />
-      <Button layoutX="664.0" layoutY="479.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC9305;" text="Cancelar" />
+      <Button layoutX="545.0" layoutY="74.0" mnemonicParsing="false" onAction="#irARegistrarCatalogo" style="-fx-background-color: #1FDC05;" text="Registrar catálogo" />
+      <Button layoutX="699.0" layoutY="74.0" mnemonicParsing="false" onAction="#irAActualizarCatalogo" style="-fx-background-color: #FCF407;" text="Actualizar" />
+      <Button layoutX="702.0" layoutY="492.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC9305;" text="Cancelar" />
    </children>
 </AnchorPane>

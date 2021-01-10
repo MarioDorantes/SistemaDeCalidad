@@ -54,12 +54,15 @@ public class FXMLActualizaDocenteController implements Initializable {
     private ComboBox<CatalogoDeCuerpoAcademico> cbCuerpoAcademico;
     
     Alert mostrarAlerta;
+    NotificaCambios notificacion;
+    private Docente editarDocente;
+    
     int idDocente = 0;
     int idCuerpoAcademico = 0;
     boolean registroExitoso = true;
-    NotificaCambios notificacion;
+    
     private ObservableList<CatalogoDeCuerpoAcademico> cuerposAcademicos;
-    private Docente editarDocente;
+    private ObservableList<Docente> validacionDeCorreo;
     
     String nombreAuxiliar;
     String numeroPersonalAuxiliar;
@@ -189,6 +192,11 @@ public class FXMLActualizaDocenteController implements Initializable {
         tfContraseña.setStyle("-fx-border-color: ;");
         
         boolean esCorrecto = true;
+        boolean esRepetido = false;
+        
+        int iterador = 0;
+        int tamañoDeValidacionCorreo = validacionDeCorreo.size();
+        
         nombreAuxiliar = tfNombre.getText();
         numeroPersonalAuxiliar = tfNumeroDePersonal.getText();
         telefonoAuxiliar = tfTelefono.getText();
@@ -225,23 +233,36 @@ public class FXMLActualizaDocenteController implements Initializable {
             gradoAcademicoAuxiliar = rbDoctorado.getText();
         }
         
-        if(esCorrecto){
-            if(idDocente > 0){
-                actualizarAcademico(nombreAuxiliar, numeroPersonalAuxiliar, telefonoAuxiliar, gradoAcademicoAuxiliar, idDocente);
-            }else{
-                registroExitoso = false;
+        while(iterador < tamañoDeValidacionCorreo){
+            if(validacionDeCorreo.get(iterador).getCorreo().equalsIgnoreCase(correoAuxiliar)){
+                tfCorreo.setStyle("-fx-border-color: red;");
+                esRepetido = true;
             }
-            
-            if(registroExitoso){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Actualizacion exitosa", Alert.AlertType.INFORMATION);
-                mostrarAlerta.showAndWait();
-                Herramientas.cerrarPantalla(tfNombre);
-                notificacion.refrescarTabla(true);
+        }
+        
+        if(esCorrecto){
+            if(!esRepetido){
+                if(idDocente > 0){
+                    actualizarAcademico(nombreAuxiliar, telefonoAuxiliar, gradoAcademicoAuxiliar, idDocente);
+                }else{
+                    registroExitoso = false;
+                }
+                
+                if(registroExitoso){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Actualizacion exitosa", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                    Herramientas.cerrarPantalla(tfNombre);
+                    notificacion.refrescarTabla(true);
+                }else{
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
+                        + "intente más tarde", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                } 
+                
             }else{
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
-                    + "intente más tarde", Alert.AlertType.ERROR);
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error", "correo previamente registrado", Alert.AlertType.INFORMATION);
                 mostrarAlerta.showAndWait();
-            }   
+            }    
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Campos incorrectos o vacíos", 
                 "Verifique su información", Alert.AlertType.ERROR);
@@ -249,18 +270,46 @@ public class FXMLActualizaDocenteController implements Initializable {
         }
     }
     
-    private void actualizarAcademico(String nombre, String numeroDePersonal, String telefono, String gradoAcademico, int idDocente){
+    private void obtenerCorreosRegistrados(){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try {
+                String consulta = "select correo from academico";
+                PreparedStatement declaracion = conn.prepareStatement(consulta);
+                ResultSet resultado = declaracion.executeQuery();
+                while(resultado.next()){
+                    Docente docentesRegistrados = new Docente();
+                    docentesRegistrados.setCorreo(resultado.getString("Correo"));
+                    validacionDeCorreo.add(docentesRegistrados);
+                }
+                conn.close();
+            } catch (SQLException ex) {
+                registroExitoso = false;
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
+                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfContraseña);
+            } 
+        }else{
+            registroExitoso = false;
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
+        }
+    }
+    
+    private void actualizarAcademico(String nombre, String telefono, String gradoAcademico, int idDocente){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
-                String consulta = "UPDATE academico set nombre = ?, numeroPersonal = ?, telefono = ?, "
+                String consulta = "UPDATE academico set nombre = ?,  telefono = ?, "
                     + "gradoAcademico = ? WHERE idAcademico = ?";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 declaracion.setString(1, nombre);
-                declaracion.setString(2, numeroDePersonal);
-                declaracion.setString(3, telefono);
-                declaracion.setString(4, gradoAcademico);
-                declaracion.setInt(5, idDocente);
+                declaracion.setString(2, telefono);
+                declaracion.setString(3, gradoAcademico);
+                declaracion.setInt(4, idDocente);
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;

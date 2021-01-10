@@ -7,27 +7,68 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLActualizarCatalogoLGCAController">
+<AnchorPane id="AnchorPane" prefHeight="470.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLActualizarCatalogoLGCAController">
    <children>
-      <Label layoutX="195.0" layoutY="14.0" text="Actualizar catálogo LGCA" textFill="#092ae1">
+      <Label layoutX="158.0" layoutY="7.0" text="Actualizar catálogo LGCA" textFill="#092ae1">
          <font>
             <Font name="Arial Bold" size="28.0" />
          </font>
       </Label>
-      <TableView fx:id="tvContenedor" layoutX="14.0" layoutY="99.0" prefHeight="343.0" prefWidth="702.0">
+      <Button layoutX="23.0" layoutY="431.0" mnemonicParsing="false" onAction="#clicActualizar" style="-fx-background-color: #1FDC05;" text="Actualizar" />
+      <Button layoutX="576.0" layoutY="431.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC9305;" text="Cancelar" />
+      <TextField fx:id="tfEstatus" layoutX="431.0" layoutY="233.0" prefHeight="25.0" prefWidth="210.0" />
+      <Label layoutX="364.0" layoutY="236.0" text="Estatus:">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfFecha" layoutX="416.0" layoutY="46.0" prefHeight="25.0" prefWidth="226.0" />
+      <TextField fx:id="tfGradoConsolidacion" layoutX="210.0" layoutY="233.0" prefHeight="25.0" prefWidth="136.0" />
+      <TextField fx:id="tfAdscripcion" layoutX="207.0" layoutY="144.0" prefHeight="25.0" prefWidth="434.0" />
+      <TextField fx:id="tfUnidadDeAdscripcion" layoutX="207.0" layoutY="188.0" prefHeight="25.0" prefWidth="434.0" />
+      <TextField fx:id="tfClave" layoutX="207.0" layoutY="46.0" prefHeight="25.0" prefWidth="136.0" />
+      <TextField fx:id="tfNombre" layoutX="206.0" layoutY="97.0" prefHeight="25.0" prefWidth="434.0" />
+      <Label layoutX="158.0" layoutY="48.0" text="Clave:">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="138.0" layoutY="99.0" text="Nombre:">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="190.0" prefHeight="20.0" prefWidth="196.0" text="Unidad de adscripción:">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="107.0" layoutY="146.0" prefHeight="20.0" prefWidth="103.0" text="Adscripción:">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="19.0" layoutY="235.0" text="Grado de consolidación:">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="364.0" layoutY="48.0" text="Fecha:">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="25.0" layoutY="280.0" text="Cuerpos académicos integrantes:">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tvCuerposAcademicos" layoutX="23.0" layoutY="296.0" prefHeight="121.0" prefWidth="614.0">
         <columns>
-          <TableColumn fx:id="tcClave" prefWidth="84.0" text="Clave" />
-          <TableColumn fx:id="tcGradoConsolidacion" prefWidth="70.0" text="Grado" />
-            <TableColumn fx:id="tcDesDeAdscripcion" prefWidth="119.0" text="DES de adscripción" />
-            <TableColumn fx:id="tcUnidadDeAdscripcion" prefWidth="97.0" text="Unidad" />
-            <TableColumn fx:id="tcResponsable" prefWidth="161.0" text="Responsable" />
-            <TableColumn fx:id="tcCorreoDelResponsable" prefWidth="170.0" text="Correo del responsable" />
+          <TableColumn fx:id="tcNombre" prefWidth="324.0" text="Nombre" />
+          <TableColumn fx:id="tcFecha" prefWidth="175.0" text="Fecha" />
+            <TableColumn fx:id="tcEstatus" prefWidth="114.0" text="Estatus" />
         </columns>
       </TableView>
-      <TextField fx:id="tcNombreCatalogo" layoutX="14.0" layoutY="55.0" prefHeight="25.0" prefWidth="380.0" promptText="Nombre de catálogo" />
-      <ComboBox fx:id="cbCatalogos" layoutX="472.0" layoutY="55.0" prefHeight="25.0" prefWidth="245.0" promptText="Seleccione un catálogo" />
-      <Button layoutX="14.0" layoutY="463.0" mnemonicParsing="false" style="-fx-background-color: #1FDC05;" text="Actualizar" />
-      <Button layoutX="654.0" layoutY="463.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC9305;" text="Cancelar" />
    </children>
 </AnchorPane>

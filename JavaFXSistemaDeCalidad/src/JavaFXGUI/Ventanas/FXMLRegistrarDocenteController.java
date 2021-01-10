@@ -243,7 +243,6 @@ public class FXMLRegistrarDocenteController implements Initializable {
             }
             iterador ++;
         }
-      
         
         if(esCorrecto){
             if(!esRepetido){

@@ -49,7 +49,8 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
             stage.setScene(sceneVisualizarCoordinadores);
             stage.show(); 
         }catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente,"
+                + " intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }
@@ -62,7 +63,8 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
             stage.setScene(sceneVisualizarCatalogoDeAcademia);
             stage.show(); 
         } catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente,"
+                + " intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }
@@ -75,7 +77,8 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
             stage.setScene(sceneVisualizarCatalogoDeEE);
             stage.show(); 
         } catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente,"
+                + " Intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait(); 
         }
     }
@@ -88,7 +91,8 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
             stage.setScene(sceneVisualizarDocentes);
             stage.show();
         }catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente,"
+                + " intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }
@@ -101,7 +105,8 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
             stage.setScene(sceneVisualizarCatalogoAcademicos);
             stage.show();
         }catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error","No se pudo cargar la ventana siguiente,"
+                + " intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }
@@ -114,21 +119,10 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
             stage.setScene(sceneVisualizarCatalogoLGCA);
             stage.show();
         }catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente,"
+                + " intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }
     
-    @FXML
-    private void irAObtenerIndicadorDeInvestigacion(ActionEvent event) {
-        try{
-            Stage stage = (Stage) btSalir.getScene().getWindow();
-            Scene obtenerIndicadorDeInvestigacion = new Scene(FXMLLoader.load(getClass().getResource("FXMLObtenerIndicadorDeInvestigacion.fxml")));
-            stage.setScene(obtenerIndicadorDeInvestigacion);
-            stage.show();
-        }catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait();
-        }
-    }
 }

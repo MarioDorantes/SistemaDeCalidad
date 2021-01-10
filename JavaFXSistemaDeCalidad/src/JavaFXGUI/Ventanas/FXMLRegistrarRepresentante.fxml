@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLRegistrarRepresentanteController">
+   <children>
+      <Label layoutX="27.0" layoutY="294.0" text="Grado Academico:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="rbDoctorado" layoutX="487.0" layoutY="295.0" mnemonicParsing="false" text="Doctorado">
+         <toggleGroup>
+            <ToggleGroup fx:id="gradosAcademicos" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="rbEspecializacion" layoutX="286.0" layoutY="295.0" mnemonicParsing="false" text="Especialización" toggleGroup="$gradosAcademicos" />
+      <RadioButton fx:id="rbMaestria" layoutX="401.0" layoutY="295.0" mnemonicParsing="false" text="Maestría" toggleGroup="$gradosAcademicos" />
+      <RadioButton fx:id="rbLicenciatura" layoutX="193.0" layoutY="295.0" mnemonicParsing="false" text="Licenciatura" toggleGroup="$gradosAcademicos" />
+      <TextField fx:id="tfContraseña" layoutX="191.0" layoutY="250.0" prefHeight="25.0" prefWidth="374.0" promptText="8-10 carácteres" />
+      <TextField fx:id="tfCorreo" layoutX="191.0" layoutY="201.0" prefHeight="25.0" prefWidth="374.0" promptText="\@gmail/@uv.mx" />
+      <TextField fx:id="tfTelefono" layoutX="191.0" layoutY="153.0" prefHeight="25.0" prefWidth="374.0" promptText="10 dígitos" />
+      <TextField fx:id="tfNumeroDePersonal" layoutX="191.0" layoutY="109.0" prefHeight="25.0" prefWidth="374.0" promptText="5 dígitos" />
+      <TextField fx:id="tfNombre" layoutX="191.0" layoutY="66.0" prefHeight="25.0" prefWidth="374.0" promptText="Brandon Adalit Trujillo Capistran" />
+      <Label layoutX="78.0" layoutY="252.0" text="Contraseña:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="116.0" layoutY="203.0" text="Correo:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="103.0" layoutY="155.0" prefHeight="20.0" prefWidth="88.0" text="Teléfono:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="12.0" layoutY="111.0" text="Número de personal:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="113.0" layoutY="68.0" text="Nombre:">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Button layoutX="509.0" layoutY="354.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC0707;" text="Cancelar" textFill="#fffdfd" />
+      <Button layoutX="27.0" layoutY="354.0" mnemonicParsing="false" onAction="#clicRegistrar" style="-fx-background-color: #1FDC05;" text="Registrar" />
+      <Label layoutX="134.0" layoutY="14.0" prefHeight="41.0" prefWidth="332.0" text="Registrar Representante" textFill="#092ae1">
+         <font>
+            <Font name="Arial Bold" size="28.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

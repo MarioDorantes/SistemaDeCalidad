@@ -9,7 +9,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="433.0" prefWidth="615.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLRegistrarDocenteController">
    <children>
-      <Label layoutX="210.0" layoutY="7.0" prefHeight="41.0" prefWidth="256.0" text="Registrar Docente" textFill="#092ae1">
+      <Label layoutX="210.0" layoutY="8.0" prefHeight="41.0" prefWidth="256.0" text="Registrar Docente" textFill="#092ae1">
          <font>
             <Font name="Arial Bold" size="28.0" />
          </font>
@@ -42,10 +42,10 @@
          </font>
       </Label>
       <TextField fx:id="tfNombre" layoutX="193.0" layoutY="65.0" prefHeight="25.0" prefWidth="374.0" promptText="Brandon Adalit Trujillo Capistran" />
-      <TextField fx:id="tfNumeroDePersonal" layoutX="193.0" layoutY="108.0" prefHeight="25.0" prefWidth="374.0" promptText="54678" />
-      <TextField fx:id="tfTelefono" layoutX="193.0" layoutY="152.0" prefHeight="25.0" prefWidth="374.0" promptText="2791240918" />
-      <TextField fx:id="tfCorreo" layoutX="193.0" layoutY="200.0" prefHeight="25.0" prefWidth="374.0" promptText="brandon@gmail.com" />
-      <TextField fx:id="tfContraseña" layoutX="193.0" layoutY="249.0" prefHeight="25.0" prefWidth="374.0" promptText="Brandon17." />
+      <TextField fx:id="tfNumeroDePersonal" layoutX="193.0" layoutY="108.0" prefHeight="25.0" prefWidth="374.0" promptText="5 dígitos" />
+      <TextField fx:id="tfTelefono" layoutX="193.0" layoutY="152.0" prefHeight="25.0" prefWidth="374.0" promptText="10 dígitos" />
+      <TextField fx:id="tfCorreo" layoutX="193.0" layoutY="200.0" prefHeight="25.0" prefWidth="374.0" promptText="\@gmail/@uv.mx" />
+      <TextField fx:id="tfContraseña" layoutX="193.0" layoutY="249.0" prefHeight="25.0" prefWidth="374.0" promptText="8-10 carácteres" />
       <RadioButton fx:id="rbLicenciatura" layoutX="195.0" layoutY="294.0" mnemonicParsing="false" text="Licenciatura">
          <toggleGroup>
             <ToggleGroup fx:id="gradosAcademicos" />

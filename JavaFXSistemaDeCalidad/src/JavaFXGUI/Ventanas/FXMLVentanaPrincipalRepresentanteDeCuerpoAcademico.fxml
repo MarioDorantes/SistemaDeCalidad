@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="344.0" prefWidth="532.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLVentanaPrincipalRepresentanteDeCuerpoAcademicoController">
+   <children>
+      <Label layoutX="105.0" layoutY="8.0" prefHeight="65.0" prefWidth="323.0" text="Principal Representante de Cuerpo Académico" textAlignment="CENTER" textFill="#092ae1" wrapText="true">
+         <font>
+            <Font name="Arial Bold" size="23.0" />
+         </font>
+      </Label>
+      <Button fx:id="btCerrarSesion" layoutX="412.0" layoutY="294.0" mnemonicParsing="false" onAction="#cerrarSesion" style="-fx-background-color: #3b83bd;" text="Cerrar Sesión" textFill="#f8f8f8">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="174.0" layoutY="140.0" mnemonicParsing="false" onAction="#visualizarRepresentantes" prefHeight="65.0" prefWidth="184.0" style="-fx-background-color: #009900;" text="Visualizar Representantes de Cuerpo Académico" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -73,7 +73,7 @@ public class FXMLInicioDeSesionController implements Initializable {
         if(conn != null){
             try{
                 String consulta = "select correo, password, rol.tipoRol from usuario inner join rol "
-                    + "on correo = ? and password = ? and usuario.idUsuario = rol.idRol";
+                    + "on correo = ? and password = ? and usuario.idRol = rol.idRol";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 declaracion.setString(1, correo);
                 declaracion.setString(2, contraseña);
@@ -129,6 +129,18 @@ public class FXMLInicioDeSesionController implements Initializable {
                 Stage stage = (Stage) tfCorreo.getScene().getWindow();
                 Scene ventanaDeDirector = new Scene(FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDirectorDeLaFacultad.fxml")));
                 stage.setScene(ventanaDeDirector);
+                stage.show();
+            } catch (IOException ex) {
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la siguiente ventana, "
+                    + "intente más tarde", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }
+        if(rol.equalsIgnoreCase("Representante")){
+            try {
+                Stage stage = (Stage) tfCorreo.getScene().getWindow();
+                Scene ventanaDeRepresentante = new Scene(FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalRepresentanteDeCuerpoAcademico.fxml")));
+                stage.setScene(ventanaDeRepresentante);
                 stage.show();
             } catch (IOException ex) {
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la siguiente ventana, "

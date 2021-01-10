@@ -119,7 +119,8 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
             stage.setScene(escenaRegistrarDocente);
             stage.showAndWait();
         }catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error al cargar la escena", ex.getMessage(), Alert.AlertType.ERROR);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error al cargar la escena", "No se pudo cargar la ventana siguiente, "
+                + "intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }
@@ -140,7 +141,8 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
             stage.setScene(escenaActualizarDocente);
             stage.showAndWait();
             }catch(IOException ex){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error al cargar la escena", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error al cargar la escena", "No se pudo cargar la ventana siguiente, "
+                    + "intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             }
         }else{
@@ -305,7 +307,8 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
             stage.setScene(cancelar);
             stage.show();
         } catch (IOException ex) {
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente, "
+                + "intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         } 
     }

@@ -9,7 +9,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="533.0" prefWidth="847.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarDocentesController">
    <children>
-      <Label layoutX="257.0" layoutY="14.0" prefHeight="27.0" prefWidth="265.0" text="Visualizar Docentes" textFill="#092ae1">
+      <Label layoutX="291.0" layoutY="14.0" prefHeight="27.0" prefWidth="265.0" text="Visualizar Docentes" textFill="#092ae1">
          <font>
             <Font name="Arial Bold" size="28.0" />
          </font>

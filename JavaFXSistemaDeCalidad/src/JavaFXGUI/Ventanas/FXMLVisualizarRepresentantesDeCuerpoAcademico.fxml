@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="509.0" prefWidth="829.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLVisualizarRepresentantesDeCuerpoAcademicoController">
+   <children>
+      <Button layoutX="739.0" layoutY="66.0" mnemonicParsing="false" onAction="#clicEliminarRepresentante" style="-fx-background-color: #FC0707;" text="Eliminar" />
+      <Button layoutX="645.0" layoutY="66.0" mnemonicParsing="false" onAction="#irAActualizarRepresentante" style="-fx-background-color: #FCF407;" text="Actualizar" />
+      <Button layoutX="481.0" layoutY="66.0" mnemonicParsing="false" onAction="#irARegistrarRepresentante" style="-fx-background-color: #1FDC05;" text="Registrar Representante" />
+      <Button layoutX="738.0" layoutY="470.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC9305;" text="Cancelar" />
+      <TableView fx:id="tvRepresentantes" layoutX="11.0" layoutY="101.0" prefHeight="358.0" prefWidth="807.0">
+         <columns>
+            <TableColumn fx:id="tcNombre" prefWidth="141.0" text="Nombre" />
+            <TableColumn fx:id="tcNumeroDePersonal" prefWidth="126.0" text="Número de personal" />
+            <TableColumn fx:id="tcTelefono" minWidth="0.0" prefWidth="113.0" text="Teléfono" />
+            <TableColumn fx:id="tcGradoAcademico" prefWidth="122.0" text="Grado Académico" />
+            <TableColumn fx:id="tcCorreo" minWidth="0.0" prefWidth="180.0" text="Correo" />
+            <TableColumn fx:id="tcConstraseña" minWidth="0.0" prefWidth="125.0" text="Contraseña" />
+         </columns>
+      </TableView>
+      <Label layoutX="230.0" layoutY="14.0" prefHeight="32.0" prefWidth="370.0" text="Visualizar Representantes" textFill="#092ae1">
+         <font>
+            <Font name="Arial Bold" size="28.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

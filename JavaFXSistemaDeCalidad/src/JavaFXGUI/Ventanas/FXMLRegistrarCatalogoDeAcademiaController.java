@@ -35,6 +35,7 @@ import javafx.stage.Stage;
 import pojos.CatalogoDeAcademia;
 import pojos.Licenciatura;
 import util.Herramientas;
+import validaciones.Validaciones;
 
 
 public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable {
@@ -139,13 +140,28 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
         
         if(esValido){
             cbNombreLicenciatura.setEditable(false);
-            limpiarCampos();
-            guardarCatalogoDeAcademia(licenciaturas.get(posicionNombreLicenciatura).getIdLicenciatura(), nomAcademiaAux, nomCoordinadorAux, estatus);
+            //limpiarCampos();
+            validarCampos();
+            //guardarCatalogoDeAcademia(licenciaturas.get(posicionNombreLicenciatura).getIdLicenciatura(), nomAcademiaAux, nomCoordinadorAux, estatus);
         } else {
             mostrarAlerta = Herramientas.creadorDeAlerta("Campos Obligatorios", "Favor de no dejar campos vacios", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
         
+    }
+    
+    //PRUEBA PARA VALIDAR CAMPOS
+    private void validarCampos(){
+        Validaciones datoAValidar = new Validaciones();
+        
+        String nombreCoordinador = tfNombreCoordinador.getText();
+        
+        if(!datoAValidar.validarNombre(nombreCoordinador)){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Nombre Incorrecto", "Formato: 1 o 2 nombres y apellidos. Sin acentos. Primeras letras en mayúscula. \nEjemplo: Manuel Reyes Ochoa", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+        
+        //AQUI SI SON CORRECTOS MANDO A LLAMAR AL LIMPIAR CAMPOS Y AL GUARDAR CATALOGO DE ACADEMIA
     }
     
     private void limpiarCampos(){

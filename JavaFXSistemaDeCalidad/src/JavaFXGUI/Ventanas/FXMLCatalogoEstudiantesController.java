@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +23,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -185,14 +187,148 @@ public class FXMLCatalogoEstudiantesController implements Initializable {
 
     @FXML
     private void clicEditar(ActionEvent event) {
+        limpiarCampos();
+        int seleccion = tbTablaEstudiantes.getSelectionModel().getSelectedIndex();     
+        
+        if (seleccion >= 0) {
+            Estudiante estudianteSeleccionado = estudiantes.get(seleccion);
+            tfNombreEstudiante.setText(estudianteSeleccionado.getNombre());
+            tfMatricula.setText(estudianteSeleccionado.getMatricula());
+            tfCorreo.setText(estudianteSeleccionado.getCorreo());
+        } else {
+            mostrarAlerta = Herramientas.creadorDeAlerta("Sin selección", "Seleccione un registro para poder editarlo", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();  
+        }
     }
 
     @FXML
     private void clicActualizar(ActionEvent event) {
+        boolean esValido = true;
+        
+        int posicionTabla = tbTablaEstudiantes.getSelectionModel().getSelectedIndex();
+        String nombreEstudianteAux = tfNombreEstudiante.getText();
+        String matriculaAux = tfMatricula.getText();
+        String correoAux = tfCorreo.getText();
+        
+        if(posicionTabla < 0){
+            esValido = false;
+        }
+        if(nombreEstudianteAux.isEmpty()){
+            esValido = false;
+        }
+        if(matriculaAux.isEmpty()){
+            esValido = false;
+        }
+        if(correoAux.isEmpty()){
+            esValido = false;
+        }
+        
+        if(esValido){
+            Validaciones datoAValidar = new Validaciones();
+            
+            if(!datoAValidar.validarNombre(nombreEstudianteAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Formato de nombre incorrecto", "Formato: 1 o 2 nombres y apellidos. Sin acentos. Primeras letras en mayúscula. \nEjemplo: Carlos Herrera Garcia ", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            } else if(!datoAValidar.validarMatricula(matriculaAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Formato de matrícula incorrecto", "Formato: ZS + 8 dígitos numericos.  \nEjemplo: ZS18018456 ", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            } else if(!datoAValidar.validarCorreo(correoAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Formato de Correo incorrecto", "Formato: correo + @ + [gmail.com, estudiantes.uv.mx, uv.mx] \nEjemplo: Carlos@gmail.com", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+            if(datoAValidar.validarNombre(nombreEstudianteAux) && datoAValidar.validarMatricula(matriculaAux) && datoAValidar.validarCorreo(correoAux)){
+                limpiarCampos();
+                Estudiante estudianteAActualizar = estudiantes.get(posicionTabla);
+                actualizarEstudiante(nombreEstudianteAux, matriculaAux, correoAux, estudianteAActualizar.getNombre(), estudianteAActualizar.getMatricula());
+            }
+            
+        } else {
+            mostrarAlerta = Herramientas.creadorDeAlerta("Alerta", "Seleccione un registro de la tabla y de clic en el botón 'Editar'. \nRealice los cambios y de clic en el botón 'Actualizar'", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+    }
+    
+    private void actualizarEstudiante (String nombre, String matricula, String correo, String nombreParametro, String matriculaParametro){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try{
+                int resultado;
+                String consulta = "UPDATE estudiante SET nombre = ?, matricula = ?, correo = ? WHERE nombre = ? AND matricula = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setString(1, nombre);
+                ps.setString(2, matricula);
+                ps.setString(3, correo);
+                ps.setString(4, nombreParametro);
+                ps.setString(5, matriculaParametro);
+                resultado = ps.executeUpdate();
+                
+                conn.close();
+                
+                if(resultado > 0){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Registro actualizado", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                } else {
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de error", "Error al actualizar registro", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }                               
+                
+                limpiarTabla();
+                cargarEstudiantesBD();
+                
+            }catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }
     }
 
     @FXML
     private void clicEliminar(ActionEvent event) {
+        int posicionNombreEstudiante = tbTablaEstudiantes.getSelectionModel().getSelectedIndex();
+        if(posicionNombreEstudiante >= 0){
+            Estudiante estudianteAEliminar = estudiantes.get(posicionNombreEstudiante);
+            
+            mostrarAlerta = Herramientas.creadorDeAlerta("Confirmar Eliminación", "¿Seguro desea eliminar al estudiante seleccionado?", Alert.AlertType.CONFIRMATION);
+            Optional<ButtonType> opcionSeleccionada = mostrarAlerta.showAndWait();
+            
+            if(opcionSeleccionada.get() == ButtonType.OK){
+                eliminarEstudiante(estudianteAEliminar.getIdEstudiante());
+            }
+            
+        } else {
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "Seleccione un estudiante para poder eliminarlo", Alert.AlertType.WARNING);
+            mostrarAlerta.showAndWait();
+        }
+    }
+    
+    private void eliminarEstudiante(int idEstudiante){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try{
+                int resultado;                
+                String consulta = "UPDATE estudiante SET estatus = 'Inactivo' WHERE idEstudiante = ?";
+                PreparedStatement ps = conn.prepareStatement(consulta);
+                ps.setInt(1, idEstudiante);
+                resultado = ps.executeUpdate();
+                
+                conn.close();
+                
+                if(resultado > 0){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de confirmación", "Estudiante eliminado exitosamente", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                } else {
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje de error", "Error al eliminar a estudiante", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }   
+                
+                limpiarTabla();
+                cargarEstudiantesBD();
+                              
+            }catch(SQLException ex){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error en la conexión a la base de datos. Intente más tarde", ex.getMessage(), Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+        }
     }
 
     @FXML

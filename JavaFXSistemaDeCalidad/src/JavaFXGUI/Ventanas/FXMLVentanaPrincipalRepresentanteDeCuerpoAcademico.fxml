@@ -19,7 +19,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="174.0" layoutY="140.0" mnemonicParsing="false" onAction="#visualizarRepresentantes" prefHeight="65.0" prefWidth="184.0" style="-fx-background-color: #009900;" text="Visualizar Representantes de Cuerpo Académico" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+      <Button layoutX="174.0" layoutY="140.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="184.0" style="-fx-background-color: #009900;" text="Visualizar Trabajo Recepcional" textAlignment="CENTER" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>

@@ -15,7 +15,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import pojos.CoordinadorDeAcademia;
 import util.Herramientas;
 
@@ -31,6 +33,16 @@ public class FXMLActualizarCoordinadorController implements Initializable {
     private TextField tfNumeroDePersonal;
     @FXML
     private TextField tfNombre;
+    @FXML
+    private RadioButton rbDoctorado;
+    @FXML
+    private ToggleGroup gradosAcademicos;
+    @FXML
+    private RadioButton rbMaestria;
+    @FXML
+    private RadioButton rbEspecializacion;
+    @FXML
+    private RadioButton rbLicenciatura;
 
     private CoordinadorDeAcademia editarCoordinador;
     Alert mostrarAlerta;
@@ -39,10 +51,11 @@ public class FXMLActualizarCoordinadorController implements Initializable {
     NotificaCambios notificacion;
     
     String nombreAuxiliar;
-    String numeroPersonalAuxiliar;
     String telefonoAuxiliar;
-    String correoAuxiliar;
     String contraseñaAuxiliar;
+    String gradoAcademicoAuxiliar;
+    
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -63,7 +76,18 @@ public class FXMLActualizarCoordinadorController implements Initializable {
         tfNumeroDePersonal.setEditable(false);
         tfTelefono.setText(editarCoordinador.getTelefono());
         tfCorreo.setText(editarCoordinador.getCorreo());
+        tfCorreo.setEditable(false);
         tfContraseña.setText(editarCoordinador.getContraseña());
+        
+        if(editarCoordinador.getGradoAcademico().equalsIgnoreCase("Licenciatura")){
+            rbLicenciatura.setSelected(true);
+        }else if(editarCoordinador.getGradoAcademico().equalsIgnoreCase("Especialización")){
+            rbEspecializacion.setSelected(true);
+        }else if(editarCoordinador.getGradoAcademico().equalsIgnoreCase("Maestría")){
+            rbMaestria.setSelected(true);
+        }else if(editarCoordinador.getGradoAcademico().equalsIgnoreCase("Doctorado")){
+            rbDoctorado.setSelected(true);
+        }
     }
     
     @FXML
@@ -80,61 +104,73 @@ public class FXMLActualizarCoordinadorController implements Initializable {
         tfContraseña.setStyle("-fx-border-color: ;");
         
         boolean esCorrecto = true;
+        
         nombreAuxiliar = tfNombre.getText();
-        numeroPersonalAuxiliar = tfNumeroDePersonal.getText();
         telefonoAuxiliar = tfTelefono.getText();
-        correoAuxiliar = tfCorreo.getText();
         contraseñaAuxiliar = tfContraseña.getText();
         
         if(nombreAuxiliar.isEmpty()){
             esCorrecto = false;
             tfNombre.setStyle("-fx-border-color: red;");
         }
-        if(numeroPersonalAuxiliar.isEmpty()){
-            esCorrecto = false;
-            tfNumeroDePersonal.setStyle("-fx-border-color: red;");
-        }
         if(telefonoAuxiliar.isEmpty()){
             esCorrecto = false;
             tfTelefono.setStyle("-fx-border-color: red;");
-        }
-        if(correoAuxiliar.isEmpty()){
-            esCorrecto = false;
-            tfCorreo.setStyle("-fx-border-color: red;");
         }
         if(contraseñaAuxiliar.isEmpty()){
             esCorrecto = false;
             tfContraseña.setStyle("-fx-border-color: red;");
         }
+        if(rbLicenciatura.isSelected()){
+            gradoAcademicoAuxiliar = rbLicenciatura.getText();
+        }else if(rbEspecializacion.isSelected()){
+            gradoAcademicoAuxiliar = rbEspecializacion.getText();
+        }else if(rbMaestria.isSelected()){
+            gradoAcademicoAuxiliar = rbMaestria.getText();
+        }else if(rbDoctorado.isSelected()){
+            gradoAcademicoAuxiliar = rbDoctorado.getText();
+        }
         
         if(esCorrecto){
-            if(idCoordinador > 0){
-                actualizarAcademico(nombreAuxiliar, numeroPersonalAuxiliar, telefonoAuxiliar, idCoordinador);
+            if(idCoordinador> 0){
+                actualizarAcademico(nombreAuxiliar, telefonoAuxiliar, gradoAcademicoAuxiliar, idCoordinador);
             }else{
                 registroExitoso = false;
+            }
+                
+            if(registroExitoso){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Actualizacion exitosa", Alert.AlertType.INFORMATION);
+                mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfNombre);
+                notificacion.refrescarTabla(true);
+            }else{
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
                     + "intente más tarde", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
-            }
-            
+            } 
+                
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "correo previamente registrado", Alert.AlertType.INFORMATION);
+            mostrarAlerta.showAndWait();
         }
     }
     
-    private void actualizarAcademico(String nombre, String numeroDePersonal, String telefono, int idCoordinador){
+    private void actualizarAcademico(String nombre, String telefono, String gradoAcademico, int idCoordinador){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
-                String consulta = "UPDATE academico set nombre = ?, numeroPersonal = ?, telefono = ? WHERE idAcademico = ?";
+                String consulta = "UPDATE academico set nombre = ?,  telefono = ?, "
+                    + "gradoAcademico = ? WHERE idAcademico = ?";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 declaracion.setString(1, nombre);
-                declaracion.setString(2, numeroDePersonal);
-                declaracion.setString(3, telefono);
+                declaracion.setString(2, telefono);
+                declaracion.setString(3, gradoAcademico);
                 declaracion.setInt(4, idCoordinador);
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
                 }else{
-                    actualizarUsuario(correoAuxiliar, contraseñaAuxiliar, idCoordinador);
+                    actualizarUsuario(contraseñaAuxiliar, idCoordinador);
                 }
                 conn.close();
             }catch(SQLException ex){
@@ -145,6 +181,7 @@ public class FXMLActualizarCoordinadorController implements Initializable {
                 Herramientas.cerrarPantalla(tfContraseña);
             }
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -152,31 +189,20 @@ public class FXMLActualizarCoordinadorController implements Initializable {
         }
     }
     
-    private void actualizarUsuario(String correo, String contraseña, int idCoordinador) throws SQLException{
-         Connection conn = ConectarBD.abrirConexionMySQL();
+    private void actualizarUsuario(String contraseña, int idDocente) throws SQLException{
+        Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
-                String consulta = "UPDATE usuario set correo = ?, password = ? WHERE idAcademico = ?";
+                String consulta = "UPDATE usuario set password = ? WHERE idAcademico = ?";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
-                declaracion.setString(1, correo);
-                declaracion.setString(2, contraseña);
-                declaracion.setInt(3, idCoordinador);
+                declaracion.setString(1, contraseña);
+                declaracion.setInt(2, idDocente);
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
-                }else{       
-                    if(registroExitoso){
-                        mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Actualizacion exitosa", Alert.AlertType.INFORMATION);
-                        mostrarAlerta.showAndWait();
-                        Herramientas.cerrarPantalla(tfNombre);
-                        notificacion.refrescarTabla(true);
-                    }else{
-                        mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
-                            + "intente más tarde", Alert.AlertType.ERROR);
-                        mostrarAlerta.showAndWait();
-                    }
                 }
                 conn.close();
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();

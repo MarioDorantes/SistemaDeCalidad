@@ -20,15 +20,14 @@ import util.Herramientas;
 
 
 public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initializable {
-
+    
     @FXML
-    private Button btSalir;
-    @FXML
-    private Button btVisualizarAcademias;
+    private Button btCerrarSesion;
     @FXML
     private Button btVisualizarCatalogoDeAcademia;
 
     Alert mostrarAlerta;
+   
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -36,21 +35,42 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
     }    
     
     @FXML
-    private void salir(javafx.event.ActionEvent event) {
-        Stage stage = (Stage) btSalir.getScene().getWindow();
-        stage.close();
+    private void cerrarSesion(javafx.event.ActionEvent event) {
+        try{
+            Stage stage = (Stage) btCerrarSesion.getScene().getWindow();
+            Scene sceneCerrarSesion = new Scene(FXMLLoader.load(getClass().getResource("FXMLInicioDeSesion.fxml")));
+            stage.setScene(sceneCerrarSesion);
+            stage.show();
+        }catch(IOException ex){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible cerrar la sesión", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
     }
     
     @FXML
     private void visualizarCoordinadores(javafx.event.ActionEvent event) {
         try{
-            Stage stage = (Stage) btSalir.getScene().getWindow();
+            Stage stage = (Stage) btCerrarSesion.getScene().getWindow();
             Scene sceneVisualizarCoordinadores = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCoordinadores.fxml")));
             stage.setScene(sceneVisualizarCoordinadores);
             stage.show(); 
         }catch(IOException ex){
             mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente,"
                 + " intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+    }
+    
+    @FXML
+    private void visualizarRepresentantesDeCuerpoAcademico(ActionEvent e){
+        try{
+            Stage stage = (Stage) btCerrarSesion.getScene().getWindow();
+            Scene sceneVisualizarRepresentantes = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarRepresentantesDeCuerpoAcademico.fxml")));
+            stage.setScene(sceneVisualizarRepresentantes);
+            stage.show();
+        }catch(IOException ex){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente, "
+                + "intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }
@@ -72,7 +92,7 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
     @FXML
     private void visualizarCatalogoDeEE(javafx.event.ActionEvent event) {
         try{
-            Stage stage = (Stage) btSalir.getScene().getWindow();
+            Stage stage = (Stage) btCerrarSesion.getScene().getWindow();
             Scene sceneVisualizarCatalogoDeEE = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCatalogoDeEE.fxml")));
             stage.setScene(sceneVisualizarCatalogoDeEE);
             stage.show(); 
@@ -86,7 +106,7 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
     @FXML 
     private void visualizarDocentes(ActionEvent e){
         try{
-            Stage stage = (Stage) btSalir.getScene().getWindow();
+            Stage stage = (Stage) btCerrarSesion.getScene().getWindow();
             Scene sceneVisualizarDocentes = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarDocentes.fxml")));
             stage.setScene(sceneVisualizarDocentes);
             stage.show();
@@ -100,7 +120,7 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
     @FXML
     private void visulizarCatalogoDeAcademicos(ActionEvent e){
         try{
-            Stage stage = (Stage) btSalir.getScene().getWindow();
+            Stage stage = (Stage) btCerrarSesion.getScene().getWindow();
             Scene sceneVisualizarCatalogoAcademicos = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCatalogoDeCuerpoAcademico.fxml")));
             stage.setScene(sceneVisualizarCatalogoAcademicos);
             stage.show();
@@ -114,7 +134,7 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
     @FXML
     private void visualizarCatalogoLGCA(ActionEvent e){
         try{
-            Stage stage = (Stage) btSalir.getScene().getWindow();
+            Stage stage = (Stage) btCerrarSesion.getScene().getWindow();
             Scene sceneVisualizarCatalogoLGCA = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCatalogoLGCA.fxml")));
             stage.setScene(sceneVisualizarCatalogoLGCA);
             stage.show();

@@ -86,7 +86,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
                     docente.setNombre(resultado.getString("nombre"));
                     docente.setTelefono(resultado.getString("telefono"));
                     docente.setGradoAcademico(resultado.getString("gradoAcademico"));
-                    docente.setCorreo(resultado.getString("usuario.correo"));
+                    docente.setCorreo(resultado.getString("correo"));
                     docente.setContraseña(resultado.getString("contraseña"));
                     docente.setIdentificacion(resultado.getInt("academico.idAcademico"));
                     docentes.add(docente);
@@ -162,6 +162,15 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
             Optional<ButtonType> resultadoDialogo = alertConfirmacion.showAndWait();
             if(resultadoDialogo.get() == ButtonType.OK){
                 obtenerIdRol(idDocente);
+                if(eliminacionExitosa){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Eliminacion exitosa", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                    this.refrescarTabla(true);
+                }else{
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo completar la eliminación, "
+                        + "intente más tarde", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }
             }
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Sin seleccion", "Para eliminar un registro, "
@@ -185,6 +194,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
             }
             conn.close();
         }else{
+            eliminacionExitosa = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait(); 
@@ -192,26 +202,6 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
     }
     
     private void eliminarIntegranteDeCuerpoAcademico(int idDocente) throws SQLException{
-        Connection conn = ConectarBD.abrirConexionMySQL();
-        if(conn != null){
-            String consulta = "DELETE FROM usuario WHERE idAcademico = ?";
-            PreparedStatement declaracion = conn.prepareStatement(consulta);
-            declaracion.setInt(1, idDocente);
-            int resultado = declaracion.executeUpdate();
-            if(resultado == 0){
-                eliminacionExitosa = false;
-            }else{
-                eliminarUsuario(idDocente);
-            }
-            conn.close();
-        }else{
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
-                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait(); 
-        }
-    }
-    
-    private void eliminarUsuario(int idDocente)throws SQLException{
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             String consulta = "DELETE FROM cuerpoAcademicoIntegrantes WHERE idAcademico = ?";
@@ -225,6 +215,28 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
             }
             conn.close();
         }else{
+            eliminacionExitosa = false;
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait(); 
+        }
+    }
+    
+    private void eliminarUsuario(int idDocente)throws SQLException{
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            String consulta = "DELETE FROM usuario WHERE idAcademico = ?";
+            PreparedStatement declaracion = conn.prepareStatement(consulta);
+            declaracion.setInt(1, idDocente);
+            int resultado = declaracion.executeUpdate();
+            if(resultado == 0){
+                eliminacionExitosa = false;
+            }else{
+                eliminarIntegranteDeCuerpoAcademico(idDocente);
+            }
+            conn.close();
+        }else{
+            eliminacionExitosa = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait(); 
@@ -242,13 +254,15 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
                 if(resultado.next()){
                     idRol = resultado.getInt("idRol");
                     if(idRol > 0){
-                        eliminarIntegranteDeCuerpoAcademico(idDocente);
+                        eliminarUsuario(idDocente);
                     }else{
+                        eliminacionExitosa = false;
                         mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible obtener la información necesaria "
                             + "en este momento, intente más tarde", Alert.AlertType.ERROR);
                         mostrarAlerta.showAndWait(); 
                     }
                 }else{
+                    eliminacionExitosa = false;
                     mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible obtener la información necesaria "
                         + "en este momento, intente más tarde", Alert.AlertType.ERROR);
                     mostrarAlerta.showAndWait();
@@ -261,6 +275,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
                 mostrarAlerta.showAndWait();
             }
         }else{
+            eliminacionExitosa = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
@@ -276,19 +291,10 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
             int resultado = declaracion.executeUpdate();
             if(resultado == 0){
                 eliminacionExitosa = false;
-            }else{
-                if(eliminacionExitosa){
-                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Eliminacion exitosa", Alert.AlertType.INFORMATION);
-                    mostrarAlerta.showAndWait();
-                    this.refrescarTabla(true);
-                }else{
-                    mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo completar la eliminación, "
-                        + "intente más tarde", Alert.AlertType.ERROR);
-                    mostrarAlerta.showAndWait();
-                }
             }
             conn.close();
         }else{
+            eliminacionExitosa = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait(); 

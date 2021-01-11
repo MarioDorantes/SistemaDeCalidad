@@ -62,12 +62,9 @@ public class FXMLActualizaDocenteController implements Initializable {
     boolean registroExitoso = true;
     
     private ObservableList<CatalogoDeCuerpoAcademico> cuerposAcademicos;
-    private ObservableList<Docente> validacionDeCorreo;
     
     String nombreAuxiliar;
-    String numeroPersonalAuxiliar;
     String telefonoAuxiliar;
-    String correoAuxiliar;
     String contraseñaAuxiliar;
     String gradoAcademicoAuxiliar;
     
@@ -136,6 +133,7 @@ public class FXMLActualizaDocenteController implements Initializable {
         tfNumeroDePersonal.setEditable(false);
         tfTelefono.setText(editarDocente.getTelefono());
         tfCorreo.setText(editarDocente.getCorreo());
+        tfCorreo.setEditable(false);
         tfContraseña.setText(editarDocente.getContraseña());
         
         obtenerIdCuerpoAcademicoVinculadoAlDocente(idDocente);
@@ -192,32 +190,18 @@ public class FXMLActualizaDocenteController implements Initializable {
         tfContraseña.setStyle("-fx-border-color: ;");
         
         boolean esCorrecto = true;
-        boolean esRepetido = false;
-        
-        int iterador = 0;
-        int tamañoDeValidacionCorreo = validacionDeCorreo.size();
         
         nombreAuxiliar = tfNombre.getText();
-        numeroPersonalAuxiliar = tfNumeroDePersonal.getText();
         telefonoAuxiliar = tfTelefono.getText();
-        correoAuxiliar = tfCorreo.getText();
         contraseñaAuxiliar = tfContraseña.getText();
         
         if(nombreAuxiliar.isEmpty()){
             esCorrecto = false;
             tfNombre.setStyle("-fx-border-color: red;");
         }
-        if(numeroPersonalAuxiliar.isEmpty()){
-            esCorrecto = false;
-            tfNumeroDePersonal.setStyle("-fx-border-color: red;");
-        }
         if(telefonoAuxiliar.isEmpty()){
             esCorrecto = false;
             tfTelefono.setStyle("-fx-border-color: red;");
-        }
-        if(correoAuxiliar.isEmpty()){
-            esCorrecto = false;
-            tfCorreo.setStyle("-fx-border-color: red;");
         }
         if(contraseñaAuxiliar.isEmpty()){
             esCorrecto = false;
@@ -233,69 +217,27 @@ public class FXMLActualizaDocenteController implements Initializable {
             gradoAcademicoAuxiliar = rbDoctorado.getText();
         }
         
-        while(iterador < tamañoDeValidacionCorreo){
-            if(validacionDeCorreo.get(iterador).getCorreo().equalsIgnoreCase(correoAuxiliar)){
-                tfCorreo.setStyle("-fx-border-color: red;");
-                esRepetido = true;
-            }
-        }
-        
         if(esCorrecto){
-            if(!esRepetido){
-                if(idDocente > 0){
-                    actualizarAcademico(nombreAuxiliar, telefonoAuxiliar, gradoAcademicoAuxiliar, idDocente);
-                }else{
-                    registroExitoso = false;
-                }
-                
-                if(registroExitoso){
-                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Actualizacion exitosa", Alert.AlertType.INFORMATION);
-                    mostrarAlerta.showAndWait();
-                    Herramientas.cerrarPantalla(tfNombre);
-                    notificacion.refrescarTabla(true);
-                }else{
-                    mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
-                        + "intente más tarde", Alert.AlertType.ERROR);
-                    mostrarAlerta.showAndWait();
-                } 
-                
+            if(idDocente > 0){
+                actualizarAcademico(nombreAuxiliar, telefonoAuxiliar, gradoAcademicoAuxiliar, idDocente);
             }else{
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error", "correo previamente registrado", Alert.AlertType.INFORMATION);
-                mostrarAlerta.showAndWait();
-            }    
-        }else{
-            mostrarAlerta = Herramientas.creadorDeAlerta("Campos incorrectos o vacíos", 
-                "Verifique su información", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait();
-        }
-    }
-    
-    private void obtenerCorreosRegistrados(){
-        Connection conn = ConectarBD.abrirConexionMySQL();
-        if(conn != null){
-            try {
-                String consulta = "select correo from academico";
-                PreparedStatement declaracion = conn.prepareStatement(consulta);
-                ResultSet resultado = declaracion.executeQuery();
-                while(resultado.next()){
-                    Docente docentesRegistrados = new Docente();
-                    docentesRegistrados.setCorreo(resultado.getString("Correo"));
-                    validacionDeCorreo.add(docentesRegistrados);
-                }
-                conn.close();
-            } catch (SQLException ex) {
                 registroExitoso = false;
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
-                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            }
+                
+            if(registroExitoso){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Actualizacion exitosa", Alert.AlertType.INFORMATION);
                 mostrarAlerta.showAndWait();
-                Herramientas.cerrarPantalla(tfContraseña);
+                Herramientas.cerrarPantalla(tfNombre);
+                notificacion.refrescarTabla(true);
+            }else{
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
+                    + "intente más tarde", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
             } 
+                
         }else{
-            registroExitoso = false;
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
-                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "correo previamente registrado", Alert.AlertType.INFORMATION);
             mostrarAlerta.showAndWait();
-            Herramientas.cerrarPantalla(tfContraseña);
         }
     }
     
@@ -344,7 +286,7 @@ public class FXMLActualizaDocenteController implements Initializable {
                 if(resultado == 0){
                     registroExitoso = false;
                 }else{       
-                   actualizarUsuario(correoAuxiliar, contraseñaAuxiliar, idDocente);
+                   actualizarUsuario(contraseñaAuxiliar, idDocente);
                 }
                 conn.close();
         }else{
@@ -356,14 +298,13 @@ public class FXMLActualizaDocenteController implements Initializable {
         }
     }
     
-    private void actualizarUsuario(String correo, String contraseña, int idDocente) throws SQLException{
+    private void actualizarUsuario(String contraseña, int idDocente) throws SQLException{
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
-                String consulta = "UPDATE usuario set correo = ?, password = ? WHERE idAcademico = ?";
+                String consulta = "UPDATE usuario set password = ? WHERE idAcademico = ?";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
-                declaracion.setString(1, correo);
-                declaracion.setString(2, contraseña);
-                declaracion.setInt(3, idDocente);
+                declaracion.setString(1, contraseña);
+                declaracion.setInt(2, idDocente);
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;

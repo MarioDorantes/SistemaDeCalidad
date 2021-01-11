@@ -46,12 +46,15 @@ public class FXMLVisualizarCoordinadoresController implements Initializable, Not
     private TableColumn tcCorreo;
     @FXML
     private TableColumn tcConstraseña;
+    @FXML
+    private TableColumn tcGradoAcademico;
     
     Alert mostrarAlerta;
     private ObservableList<CoordinadorDeAcademia> coordinadores;
     int idCoordinador = 0;
     int idRol = 0;
     boolean eliminacionExitosa = true;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -61,6 +64,7 @@ public class FXMLVisualizarCoordinadoresController implements Initializable, Not
         this.tcTelefono.setCellValueFactory(new PropertyValueFactory("telefono"));
         this.tcCorreo.setCellValueFactory(new PropertyValueFactory("correo"));
         this.tcConstraseña.setCellValueFactory(new PropertyValueFactory("contraseña"));
+        this.tcGradoAcademico.setCellValueFactory(new PropertyValueFactory("gradoAcademico"));
         
         obtenerCoordinadores();
     }   
@@ -69,8 +73,8 @@ public class FXMLVisualizarCoordinadoresController implements Initializable, Not
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
-                String consulta = "select academico.idAcademico, usuario.idUsuario, academico.numeroPersonal, nombre, "
-                    + "telefono,usuario.correo, usuario.password as contraseña from academico "
+                String consulta =  "select academico.idAcademico, usuario.idUsuario, academico.numeroPersonal, nombre, "
+                    + "telefono, gradoAcademico, usuario.correo, usuario.password as contraseña from academico "
                     + "inner join usuario on academico.idAcademico = usuario.idAcademico inner join rol "
                     + "on usuario.idRol = rol.idRol and rol.tipoRol = 'Coordinador'";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
@@ -80,7 +84,8 @@ public class FXMLVisualizarCoordinadoresController implements Initializable, Not
                     coordinador.setNumeroPersonal(resultado.getString("numeroPersonal"));
                     coordinador.setNombre(resultado.getString("nombre"));
                     coordinador.setTelefono(resultado.getString("telefono"));
-                    coordinador.setCorreo(resultado.getString("usuario.correo"));
+                    coordinador.setGradoAcademico(resultado.getString("gradoAcademico"));
+                    coordinador.setCorreo(resultado.getString("correo"));
                     coordinador.setContraseña(resultado.getString("contraseña"));
                     coordinador.setIdentificacion(resultado.getInt("academico.idAcademico"));
                     coordinadores.add(coordinador);

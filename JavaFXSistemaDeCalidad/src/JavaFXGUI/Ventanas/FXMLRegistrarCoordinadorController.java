@@ -12,12 +12,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import pojos.CoordinadorDeAcademia;
+import pojos.Docente;
 import util.Herramientas;
 
 public class FXMLRegistrarCoordinadorController implements Initializable {
@@ -33,7 +39,15 @@ public class FXMLRegistrarCoordinadorController implements Initializable {
     @FXML
     private TextField tfNombre;
     @FXML
-    private Label lbNombre;
+    private RadioButton rbLicenciatura;
+    @FXML
+    private ToggleGroup gradosAcademicos;
+    @FXML
+    private RadioButton rbEspecializacion;
+    @FXML
+    private RadioButton rbMaestria;
+    @FXML
+    private RadioButton rbDoctorado;
     
     Alert mostrarAlerta;
     int idRol = 0;
@@ -41,19 +55,53 @@ public class FXMLRegistrarCoordinadorController implements Initializable {
     boolean registroExitoso = true;
     NotificaCambios notificacion;
     
+    private ObservableList<CoordinadorDeAcademia> validacionDeCoordinador;
+    
     String nombreAuxiliar;
     String numeroPersonalAuxiliar;
     String telefonoAuxiliar;
     String correoAuxiliar;
     String contraseñaAuxiliar;
+    String gradoAcademicoAuxiliar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+       validacionDeCoordinador = FXCollections.observableArrayList();
     }    
     
     public void inicializaCampos(NotificaCambios notificacion){
         this.notificacion = notificacion;
+    }
+    
+    private void obtenerNumeroPersonalYCorreo(){
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            try {
+                String consulta = "select numeroPersonal, "
+                    + "correo from academico inner join usuario on academico.idAcademico = usuario.idAcademico;";
+                PreparedStatement declaracion = conn.prepareStatement(consulta);
+                ResultSet resultado = declaracion.executeQuery();
+                while(resultado.next()){
+                    CoordinadorDeAcademia coordinadoresRegistrados = new CoordinadorDeAcademia();
+                    coordinadoresRegistrados.setNumeroPersonal(resultado.getString("numeroPersonal"));
+                    coordinadoresRegistrados.setCorreo(resultado.getString("Correo"));
+                    validacionDeCoordinador.add(coordinadoresRegistrados);
+                }
+                conn.close();
+            } catch (SQLException ex) {
+                registroExitoso = false;
+                mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
+                    + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+                Herramientas.cerrarPantalla(tfContraseña);
+            } 
+        }else{
+            registroExitoso = false;
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+            Herramientas.cerrarPantalla(tfContraseña);
+        }
     }
 
     @FXML
@@ -63,13 +111,22 @@ public class FXMLRegistrarCoordinadorController implements Initializable {
 
     @FXML
     private void clicRegistrar(ActionEvent event) {
+        obtenerNumeroPersonalYCorreo();
         tfNombre.setStyle("-fx-border-color: ;");
         tfNumeroDePersonal.setStyle("-fx-border-color: ;");
         tfTelefono.setStyle("-fx-border-color: ;");
         tfCorreo.setStyle("-fx-border-color: ;");
         tfContraseña.setStyle("-fx-border-color: ;");
+        rbLicenciatura.setStyle("-fx-border-color: ;");
+        rbEspecializacion.setStyle("-fx-border-color: ;");
+        rbMaestria.setStyle("-fx-border-color: ;");
+        rbDoctorado.setStyle("-fx-border-color: ;");
         
         boolean esCorrecto = true;
+        boolean esRepetido = false;
+        int iterador = 0;
+        int tamañoDeValidacionDocente = validacionDeCoordinador.size();
+        
         nombreAuxiliar = tfNombre.getText();
         numeroPersonalAuxiliar = tfNumeroDePersonal.getText();
         telefonoAuxiliar = tfTelefono.getText();
@@ -96,29 +153,74 @@ public class FXMLRegistrarCoordinadorController implements Initializable {
             esCorrecto = false;
             tfContraseña.setStyle("-fx-border-color: red;");
         }
+         if(rbLicenciatura.isSelected()){
+            gradoAcademicoAuxiliar = rbLicenciatura.getText();
+        }else if(rbEspecializacion.isSelected()){
+            gradoAcademicoAuxiliar = rbEspecializacion.getText();
+        }else if(rbMaestria.isSelected()){
+            gradoAcademicoAuxiliar = rbMaestria.getText();
+        }else if(rbDoctorado.isSelected()){
+            gradoAcademicoAuxiliar = rbDoctorado.getText();
+        }else{
+            esCorrecto = false;
+            rbLicenciatura.setStyle("-fx-border-color: red;");
+            rbEspecializacion.setStyle("-fx-border-color: red;");
+            rbMaestria.setStyle("-fx-border-color: red;");
+            rbDoctorado.setStyle("-fx-border-color: red;");
+        }
         
-         if(esCorrecto){
-            registrarAcademico(numeroPersonalAuxiliar, nombreAuxiliar, telefonoAuxiliar);
-            if(idRol > 0 && idAcademico > 0){
-                registrarUsuario(correoAuxiliar, contraseñaAuxiliar, idRol, idAcademico);
-            }else{
-                registroExitoso = false;
-                mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
-                    + "intente más tarde", Alert.AlertType.ERROR);
-                mostrarAlerta.showAndWait();
+        while(iterador < tamañoDeValidacionDocente){
+            if (validacionDeCoordinador.get(iterador).getNumeroPersonal().equals(numeroPersonalAuxiliar)){
+                esRepetido = true;
+                tfNumeroDePersonal.setStyle("-fx-border-color: red;");
             }
+            if(validacionDeCoordinador.get(iterador).getCorreo().equals(correoAuxiliar)){
+                esRepetido = true;
+                tfCorreo.setStyle("-fx-border-color: red;");
+            }
+            iterador ++;
+        }
+        
+      if(esCorrecto){
+            if(!esRepetido){
+                registrarAcademico(numeroPersonalAuxiliar, nombreAuxiliar, telefonoAuxiliar, gradoAcademicoAuxiliar);
+                if(idRol > 0 && idAcademico > 0){
+                    registrarUsuario(correoAuxiliar, contraseñaAuxiliar, idRol, idAcademico);
+                }else{
+                    registroExitoso = false;
+                }
+                if(registroExitoso){
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Registro exitoso", Alert.AlertType.INFORMATION);
+                    mostrarAlerta.showAndWait();
+                    Herramientas.cerrarPantalla(tfNombre);
+                    notificacion.refrescarTabla(true);
+                }else{
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
+                        + "intente más tarde", Alert.AlertType.ERROR);
+                    mostrarAlerta.showAndWait();
+                }
+            }else{
+                mostrarAlerta = Herramientas.creadorDeAlerta("Campos repetidos", 
+                    "El campo o los campos marcados ya fueron registrados previamente", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }    
+        }else{
+            mostrarAlerta = Herramientas.creadorDeAlerta("Campos incorrectos o vacíos", 
+                "Verifique su información", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
         }
     }
     
-    private void registrarAcademico(String numeroDePersonal, String nombre, String telefono){
+    private void registrarAcademico(String numeroDePersonal, String nombre, String telefono, String gradoAcademico){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try{
-                String consulta = "INSERT INTO academico(numeroPersonal, nombre, telefono) VALUES (?, ?, ?)";
+                String consulta = "INSERT INTO academico(numeroPersonal, nombre, telefono, gradoAcademico) VALUES (?, ?, ?, ?)";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 declaracion.setString(1, numeroDePersonal);
                 declaracion.setString(2, nombre);
                 declaracion.setString(3, telefono);
+                declaracion.setString(4, gradoAcademico);
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
@@ -134,12 +236,14 @@ public class FXMLRegistrarCoordinadorController implements Initializable {
                 Herramientas.cerrarPantalla(tfContraseña);
             }
         }else{
+            registroExitoso = false;
             mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
                 + "en este momento, intente más tarde", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
             Herramientas.cerrarPantalla(tfContraseña);
         }
     }
+
     
     private void registrarRolAcademico(String numeroPersonal) throws SQLException{
         Connection conn = ConectarBD.abrirConexionMySQL();
@@ -217,17 +321,6 @@ public class FXMLRegistrarCoordinadorController implements Initializable {
                 int resultado = declaracion.executeUpdate();
                 if(resultado == 0){
                     registroExitoso = false;
-                }else{
-                    if(registroExitoso){
-                        mostrarAlerta = Herramientas.creadorDeAlerta("Mensaje", "Registro exitoso", Alert.AlertType.INFORMATION);
-                        mostrarAlerta.showAndWait();
-                        Herramientas.cerrarPantalla(tfNombre);
-                        notificacion.refrescarTabla(true);
-                    }else{
-                        mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible completar el registro, "
-                            + "intente más tarde", Alert.AlertType.ERROR);
-                        mostrarAlerta.showAndWait();
-                    }
                 }
                 conn.close();
             }catch(SQLException ex){

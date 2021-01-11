@@ -45,7 +45,7 @@
       <TextField fx:id="tfNumeroDePersonal" layoutX="193.0" layoutY="108.0" prefHeight="25.0" prefWidth="374.0" promptText="5 dígitos" />
       <TextField fx:id="tfTelefono" layoutX="193.0" layoutY="152.0" prefHeight="25.0" prefWidth="374.0" promptText="10 dígitos" />
       <TextField fx:id="tfCorreo" layoutX="193.0" layoutY="200.0" prefHeight="25.0" prefWidth="374.0" promptText="\@gmail/@uv.mx" />
-      <TextField fx:id="tfContraseña" layoutX="193.0" layoutY="249.0" prefHeight="25.0" prefWidth="374.0" promptText="8-10 carácteres" />
+      <TextField fx:id="tfContraseña" layoutX="193.0" layoutY="249.0" prefHeight="25.0" prefWidth="374.0" promptText="8-10 caracteres" />
       <RadioButton fx:id="rbLicenciatura" layoutX="195.0" layoutY="294.0" mnemonicParsing="false" text="Licenciatura">
          <toggleGroup>
             <ToggleGroup fx:id="gradosAcademicos" />

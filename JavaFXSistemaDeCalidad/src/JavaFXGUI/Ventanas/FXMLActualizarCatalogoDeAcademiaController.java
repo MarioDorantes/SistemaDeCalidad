@@ -37,6 +37,7 @@ import javafx.stage.Stage;
 import pojos.CatalogoDeAcademia;
 import pojos.Licenciatura;
 import util.Herramientas;
+import validaciones.Validaciones;
 
 
 public class FXMLActualizarCatalogoDeAcademiaController implements Initializable {
@@ -189,8 +190,22 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
             esValido = false;
         }
         if(esValido){
-            CatalogoDeAcademia registroAActualizar = catalogos.get(posicionTabla);
-            actualizarCatalogoDeAcademia(nombreAcademiaAux, nombreCoordinadorAux, registroAActualizar.getNombreAcademia(), registroAActualizar.getNombreCoordinador());
+            
+            Validaciones datoAValidar = new Validaciones();
+            
+            if(!datoAValidar.validarNombreAcademia(nombreAcademiaAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Nombre de Academia Incorrecto", "Formato: Solo letras. Sin acentos. \nEjemplo: Bases de Datos", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+            if(!datoAValidar.validarNombre(nombreCoordinadorAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Nombre de Coordinador Incorrecto", "Formato: 1 o 2 nombres y apellidos. Sin acentos. Primeras letras en mayúscula. \nEjemplo: Manuel Reyes Ochoa", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+            if(datoAValidar.validarNombreAcademia(nombreAcademiaAux) && datoAValidar.validarNombre(nombreCoordinadorAux)){
+                CatalogoDeAcademia registroAActualizar = catalogos.get(posicionTabla);
+                actualizarCatalogoDeAcademia(nombreAcademiaAux, nombreCoordinadorAux, registroAActualizar.getNombreAcademia(), registroAActualizar.getNombreCoordinador());
+            }
+            
         } else {
             mostrarAlerta = Herramientas.creadorDeAlerta("Alerta", "Seleccione un registro de la tabla y de clic en el botón 'Editar'. \n \nSi desea agregar un "
                     + "nuevo registro al catalogo, dirijase a la sección 'Registrar Catálogo' ", Alert.AlertType.ERROR);

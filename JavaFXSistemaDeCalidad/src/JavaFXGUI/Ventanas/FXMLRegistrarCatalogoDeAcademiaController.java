@@ -140,28 +140,26 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
         
         if(esValido){
             cbNombreLicenciatura.setEditable(false);
-            //limpiarCampos();
-            validarCampos();
-            //guardarCatalogoDeAcademia(licenciaturas.get(posicionNombreLicenciatura).getIdLicenciatura(), nomAcademiaAux, nomCoordinadorAux, estatus);
+            Validaciones datoAValidar = new Validaciones();
+            
+            if(!datoAValidar.validarNombreAcademia(nomAcademiaAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Nombre de Academia Incorrecto", "Formato: Solo letras. Sin acentos. \nEjemplo: Bases de Datos", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+            if(!datoAValidar.validarNombre(nomCoordinadorAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Nombre de Coordinador Incorrecto", "Formato: 1 o 2 nombres y apellidos. Sin acentos. Primeras letras en mayúscula. \nEjemplo: Manuel Reyes Ochoa", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+            if(datoAValidar.validarNombreAcademia(nomAcademiaAux) && datoAValidar.validarNombre(nomCoordinadorAux)){
+                limpiarCampos();
+                guardarCatalogoDeAcademia(licenciaturas.get(posicionNombreLicenciatura).getIdLicenciatura(), nomAcademiaAux, nomCoordinadorAux, estatus);
+            }
+            
         } else {
             mostrarAlerta = Herramientas.creadorDeAlerta("Campos Obligatorios", "Favor de no dejar campos vacios", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
         
-    }
-    
-    //PRUEBA PARA VALIDAR CAMPOS
-    private void validarCampos(){
-        Validaciones datoAValidar = new Validaciones();
-        
-        String nombreCoordinador = tfNombreCoordinador.getText();
-        
-        if(!datoAValidar.validarNombre(nombreCoordinador)){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Nombre Incorrecto", "Formato: 1 o 2 nombres y apellidos. Sin acentos. Primeras letras en mayúscula. \nEjemplo: Manuel Reyes Ochoa", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait();
-        }
-        
-        //AQUI SI SON CORRECTOS MANDO A LLAMAR AL LIMPIAR CAMPOS Y AL GUARDAR CATALOGO DE ACADEMIA
     }
     
     private void limpiarCampos(){

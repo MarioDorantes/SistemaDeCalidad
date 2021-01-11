@@ -17,6 +17,8 @@ public class Validaciones {
     private boolean creditosValido;
     private boolean bloqueValido;
     private boolean nombreDeLaEEValido;
+    private boolean correoValido;
+    private boolean matriculaValida;
     
     
     public boolean validarNombre (String nombre) {
@@ -57,6 +59,14 @@ public class Validaciones {
     
     public boolean validarNombreDeLaEE (String nombreDeLaEE){
         return nombreDeLaEEValido = nombreDeLaEE.matches("^([A-ZÑa-zñ]+[ ]?)+$");
+    }
+    
+    public boolean validarCorreo (String correo){
+        return correoValido = correo.matches("^[(A-Z)(a-z)(0-9)]{5,20}[@]{1}[g|m|a|i|l|e|s|t|u|d|n]+[.|c|o|m|x|u|v]{3,6}$");
+    }
+    
+    public boolean validarMatricula (String matricula){
+        return matriculaValida = matricula.matches("^[z|Z]{1}[s|S]{1}[0-9]{8}$");
     }
      
 }

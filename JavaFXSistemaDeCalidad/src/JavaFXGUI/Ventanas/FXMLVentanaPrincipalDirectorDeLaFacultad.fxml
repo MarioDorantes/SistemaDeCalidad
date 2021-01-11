@@ -26,6 +26,7 @@
       <Button fx:id="btVisualizarCatalogoDeAcademia" layoutX="439.0" layoutY="97.0" mnemonicParsing="false" onAction="#visualizarCatalogoDeAcademia" prefHeight="53.0" prefWidth="189.0" style="-fx-background-color: #2AD759;" text="Visualizar Catálogo de Academia" />
       <Button layoutX="439.0" layoutY="177.0" mnemonicParsing="false" onAction="#visualizarCatalogoDeEE" prefHeight="53.0" prefWidth="189.0" style="-fx-background-color: #2AD759;" text="Visualizar Catálogo de EE" />
       <Button layoutX="439.0" layoutY="325.0" mnemonicParsing="false" onAction="#visualizarCatalogoLGCA" prefHeight="53.0" prefWidth="189.0" style="-fx-background-color: #2AD759;" text="Visualizar Catálogo LGCA" />
+      <Button fx:id="btCatalogoEstudiantes" layoutX="82.0" layoutY="325.0" mnemonicParsing="false" onAction="#visualizarCatalogoDeEstudiantes" prefHeight="53.0" prefWidth="189.0" style="-fx-background-color: #2AD759;" text="Visualizar Estudiantes" textAlignment="CENTER" wrapText="true"/>
       
    </children>
 </AnchorPane>

@@ -27,6 +27,10 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
     private Button btVisualizarCatalogoDeAcademia;
 
     Alert mostrarAlerta;
+    @FXML
+    private Button btVisualizarAcademias;
+    @FXML
+    private Button btCatalogoEstudiantes;
    
     
     @Override
@@ -137,6 +141,20 @@ public class FXMLVentanaPrincipalDirectorDeLaFacultadController implements Initi
             Stage stage = (Stage) btCerrarSesion.getScene().getWindow();
             Scene sceneVisualizarCatalogoLGCA = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarCatalogoLGCA.fxml")));
             stage.setScene(sceneVisualizarCatalogoLGCA);
+            stage.show();
+        }catch(IOException ex){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente,"
+                + " intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+    }
+    
+    @FXML
+    private void visualizarCatalogoDeEstudiantes(ActionEvent e){
+        try{
+            Stage stage = (Stage) btCatalogoEstudiantes.getScene().getWindow();
+            Scene sceneVisualizarCatalogoEstudiantes = new Scene(FXMLLoader.load(getClass().getResource("FXMLCatalogoEstudiantes.fxml")));
+            stage.setScene(sceneVisualizarCatalogoEstudiantes);
             stage.show();
         }catch(IOException ex){
             mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente,"

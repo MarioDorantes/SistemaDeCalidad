@@ -86,7 +86,7 @@ public class FXMLActualizarCenevalController implements Initializable {
         
         if(conn != null){
             try{
-                String consulta = "SELECT * FROM estudiante INNER JOIN ceneval ON estudiante.idEstudiante = ceneval.idAlumno;";
+                String consulta = "SELECT * FROM estudiante INNER JOIN ceneval ON estudiante.idEstudiante = ceneval.idAlumno AND estatus = 'Activo';";
                 PreparedStatement ps = conn.prepareStatement(consulta);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()){

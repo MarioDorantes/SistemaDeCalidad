@@ -10,12 +10,14 @@ public class Estudiante {
     private String nombre;
     private String matricula;
     private String correo;
+    private String estatus;
 
-    public Estudiante(int idEstudiante, String nombre, String matricula, String correo) {
+    public Estudiante(int idEstudiante, String nombre, String matricula, String correo, String estatus) {
         this.idEstudiante = idEstudiante;
         this.nombre = nombre;
         this.matricula = matricula;
         this.correo = correo;
+        this.estatus = estatus;
     }
 
     public Estudiante() {
@@ -51,6 +53,14 @@ public class Estudiante {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public String getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(String estatus) {
+        this.estatus = estatus;
     }
     
     @Override

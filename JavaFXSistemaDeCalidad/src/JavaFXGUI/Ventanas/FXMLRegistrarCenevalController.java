@@ -72,7 +72,7 @@ public class FXMLRegistrarCenevalController implements Initializable {
         
         if(conn != null){
             try{
-                String consulta = "SELECT * FROM estudiante LEFT JOIN ceneval ON estudiante.idEstudiante = ceneval.idAlumno WHERE ceneval.idAlumno IS NULL;";
+                String consulta = "SELECT * FROM estudiante LEFT JOIN ceneval ON estudiante.idEstudiante = ceneval.idAlumno WHERE ceneval.idAlumno IS NULL AND estatus = 'Activo';";
                 PreparedStatement ps = conn.prepareStatement(consulta);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()){

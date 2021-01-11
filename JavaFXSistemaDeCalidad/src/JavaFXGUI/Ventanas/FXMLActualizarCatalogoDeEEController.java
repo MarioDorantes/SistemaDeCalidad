@@ -37,6 +37,7 @@ import javafx.stage.Stage;
 import pojos.CatalogoDeEE;
 import pojos.Licenciatura;
 import util.Herramientas;
+import validaciones.Validaciones;
 
 
 public class FXMLActualizarCatalogoDeEEController implements Initializable {
@@ -262,8 +263,37 @@ public class FXMLActualizarCatalogoDeEEController implements Initializable {
         }
         
         if(esValido){
-            CatalogoDeEE registroAActualizar = registrosDelCatalogo.get(posicionTabla);
-            actualizarCatalogoDeEE(programaAux, nrcAux, nombreDeLaEEAux, creditosAux, bloqueAux, periodoAux, registroAActualizar.getNrc(), registroAActualizar.getNombreDeLaEE(), registroAActualizar.getPeriodo());
+            
+            Validaciones datoAValidar = new Validaciones();
+            
+            if(!datoAValidar.validarPrograma(programaAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Formato de programa incorrecto", "Ejemplo formato correcto: ISOF-14-E-CR", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            } else if(!datoAValidar.validarNrc(nrcAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("NRC incorrecto", "Formato: NRC de 5 digitos \nEjemplo: 80612", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            } else if(!datoAValidar.validarNombreDeLaEE(nombreDeLaEEAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Nombre de la EE incorrecto", "Formato: Solo letras. Sin acentos. \nEjemplo: Introduccion a la programacion", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            } else if(!datoAValidar.validarCreditos(creditosAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Creditos incorrecto", "Formato: Solo numeros \nEjemplo: 8", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            } else if(!datoAValidar.validarBloque(bloqueAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Bloque incorrecto", "Formato: Bloque 1 o 2 \nEjemplo: 2", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            } else if(!datoAValidar.validarPeriodo(periodoAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Periodo incorrecto", "Formato: Periodo de 6 digitos \nEjemplo: 202101", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+            
+            if(datoAValidar.validarPrograma(programaAux) && datoAValidar.validarNrc(nrcAux) && datoAValidar.validarNombreDeLaEE(nombreDeLaEEAux)
+                    && datoAValidar.validarCreditos(creditosAux) && datoAValidar.validarBloque(bloqueAux) && datoAValidar.validarPeriodo(periodoAux)){
+                
+                CatalogoDeEE registroAActualizar = registrosDelCatalogo.get(posicionTabla);
+                actualizarCatalogoDeEE(programaAux, nrcAux, nombreDeLaEEAux, creditosAux, bloqueAux, periodoAux, registroAActualizar.getNrc(), registroAActualizar.getNombreDeLaEE(), registroAActualizar.getPeriodo());
+                
+            }
+            
         } else {
             mostrarAlerta = Herramientas.creadorDeAlerta("Alerta", "Seleccione un registro de la tabla y de clic en el botón 'Editar'. \n \nSi desea agregar un "
                     + "nuevo registro al catalogo, dirijase a la sección 'Registrar Catálogo' ", Alert.AlertType.ERROR);

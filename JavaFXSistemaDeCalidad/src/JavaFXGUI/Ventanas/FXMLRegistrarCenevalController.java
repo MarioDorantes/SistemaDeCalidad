@@ -29,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import pojos.Estudiante;
 import util.Herramientas;
+import validaciones.Validaciones;
 
 
 public class FXMLRegistrarCenevalController implements Initializable {
@@ -119,7 +120,22 @@ public class FXMLRegistrarCenevalController implements Initializable {
         }
         
         if(esValido){
-            guardarCeneval(estudiantes.get(posicionNombreEstudiante).getIdEstudiante(), fechaAux, periodoAux, puntajeAux);
+            Validaciones datoAValidar = new Validaciones();
+            
+            if(!datoAValidar.validarFechaExamen(fechaAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Formato de fecha incorrecto", "Formato: Año-Mes-Dia \nEjemplo: 2018-05-13", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            } else if(!datoAValidar.validarPeriodo(periodoAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Periodo incorrecto", "Formato: Periodo de 6 digitos \nEjemplo: 202101", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            } else if(!datoAValidar.validarPuntajeObtenido(puntajeAux)){
+                mostrarAlerta = Herramientas.creadorDeAlerta("Puntaje incorrecto", "Formato: Numero y decimal \nEjemplo: 9.50", Alert.AlertType.ERROR);
+                mostrarAlerta.showAndWait();
+            }
+            if(datoAValidar.validarFechaExamen(fechaAux) && datoAValidar.validarPeriodo(periodoAux) && datoAValidar.validarPuntajeObtenido(puntajeAux)){
+                guardarCeneval(estudiantes.get(posicionNombreEstudiante).getIdEstudiante(), fechaAux, periodoAux, puntajeAux);
+            }
+            
         } else {
             mostrarAlerta = Herramientas.creadorDeAlerta("Campos Obligatorios", "Favor de no dejar campos vacios", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();

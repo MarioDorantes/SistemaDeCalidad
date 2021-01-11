@@ -196,8 +196,7 @@ public class FXMLActualizarCatalogoDeAcademiaController implements Initializable
             if(!datoAValidar.validarNombreAcademia(nombreAcademiaAux)){
                 mostrarAlerta = Herramientas.creadorDeAlerta("Nombre de Academia Incorrecto", "Formato: Solo letras. Sin acentos. \nEjemplo: Bases de Datos", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
-            }
-            if(!datoAValidar.validarNombre(nombreCoordinadorAux)){
+            } else if(!datoAValidar.validarNombre(nombreCoordinadorAux)){
                 mostrarAlerta = Herramientas.creadorDeAlerta("Nombre de Coordinador Incorrecto", "Formato: 1 o 2 nombres y apellidos. Sin acentos. Primeras letras en mayúscula. \nEjemplo: Manuel Reyes Ochoa", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             }

@@ -148,7 +148,16 @@ public class FXMLVisualizarRepresentantesDeCuerpoAcademicoController implements 
                 if(resultado.next()){
                     idRol = resultado.getInt("idRol");
                     if(idRol > 0){
-                        eliminarUsuario(idRepresentante);
+                        verificarVinculacionDeRepresentante(idRepresentante);
+                        if(estaVinculadoAUnCuerpoAcademico){
+                            eliminacionExitosa = false;
+                            mostrarAlerta = Herramientas.creadorDeAlerta("No se puede eliminar", 
+                                "El representante a eliminar esta vinculado a uno o más cuerpos académicos,"
+                                + " para eliminarlo primero actualice el/los cuerpos académicos vinculados a este", Alert.AlertType.WARNING);
+                            mostrarAlerta.showAndWait();
+                        }else{
+                            eliminarUsuario(idRepresentante);
+                        }   
                     }else{
                         eliminacionExitosa = false;
                         mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible obtener la información necesaria "
@@ -204,33 +213,6 @@ public class FXMLVisualizarRepresentantesDeCuerpoAcademicoController implements 
             int resultado = declaracion.executeUpdate();
             if(resultado == 0){
                 eliminacionExitosa = false;
-            }else{
-                verificarVinculacionDeRepresentante(idRepresentante);
-                if(estaVinculadoAUnCuerpoAcademico){
-                    eliminarRepresentanteDeCuerpoAcademico(idRepresentante);
-                }else{
-                    eliminarAcademico(idRepresentante);
-                }    
-            }
-            conn.close();
-        }else{
-            eliminacionExitosa = false;
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
-                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait(); 
-        }
-    }
-    
-    private void eliminarRepresentanteDeCuerpoAcademico(int idRepresentante) throws SQLException{
-        Connection conn = ConectarBD.abrirConexionMySQL();
-        if(conn != null){
-            String consulta = "DELETE FROM cuerpoAcademicoIntegrantes WHERE idAcademico = ?";
-            PreparedStatement declaracion = conn.prepareStatement(consulta);
-            declaracion.setInt(1, idRepresentante);
-            int resultado = declaracion.executeUpdate();
-            if(resultado == 0){
-                eliminacionExitosa = false;
-                System.out.println("entre al falso");
             }else{
                 eliminarAcademico(idRepresentante);
             }
@@ -333,7 +315,7 @@ public class FXMLVisualizarRepresentantesDeCuerpoAcademicoController implements 
     private void cancelar(ActionEvent event) {
         try {
             Stage stage = (Stage) tvRepresentantes.getScene().getWindow();
-            Scene cancelar = new Scene(FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalRepresentanteDeCuerpoAcademico.fxml")));
+            Scene cancelar = new Scene(FXMLLoader.load(getClass().getResource("FXMLVentanaPrincipalDirectorDeLaFacultad.fxml")));
             stage.setScene(cancelar);
             stage.show();
         } catch (IOException ex) {

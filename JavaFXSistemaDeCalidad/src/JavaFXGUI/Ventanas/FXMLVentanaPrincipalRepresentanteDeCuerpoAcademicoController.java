@@ -41,5 +41,19 @@ public class FXMLVentanaPrincipalRepresentanteDeCuerpoAcademicoController implem
             mostrarAlerta.showAndWait();
         }
     }
+
+    @FXML
+    private void irAVisualizarTrabajosRecepcionales(ActionEvent event) {
+        try{
+            Stage stage = (Stage) btCerrarSesion.getScene().getWindow();
+            Scene sceneVisualizarTrabajos = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarTrabajosRecepcionales.fxml")));
+            stage.setScene(sceneVisualizarTrabajos);
+            stage.show();
+        }catch(IOException ex){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible cargar la siguiente ventana,"
+                + " intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait();
+        }
+    }
     
 }

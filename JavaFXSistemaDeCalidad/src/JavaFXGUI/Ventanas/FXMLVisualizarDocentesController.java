@@ -56,6 +56,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
     int idRol = 0;
     int idDocente = 0;
     boolean eliminacionExitosa = true;
+    boolean estaVinculadoAUnCuerpoAcademico = true;
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -243,6 +244,28 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
         }
     }
     
+    private void validarVinculacionATrabajoRecepcional(int idDocente)throws SQLException{
+        Connection conn = ConectarBD.abrirConexionMySQL();
+        if(conn != null){
+            String consulta = "select nombre from trabajoRecepcional where idDirector = ? "
+                + "or idCoDirector = ? or idSinodal = ?";
+            PreparedStatement declaracion = conn.prepareStatement(consulta);
+            declaracion.setInt(1, idDocente);
+            declaracion.setInt(2, idDocente);
+            declaracion.setInt(3, idDocente);
+            ResultSet resultado = declaracion.executeQuery();
+            if(!resultado.next()){
+                estaVinculadoAUnCuerpoAcademico = false;
+            }
+            conn.close();
+        }else{
+            eliminacionExitosa = false;
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error de conexión", "No fue posible conectar con la base de datos"
+                + "en este momento, intente más tarde", Alert.AlertType.ERROR);
+            mostrarAlerta.showAndWait(); 
+        }
+    }
+    
     private void obtenerIdRol(int idDocente){
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
@@ -254,7 +277,16 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
                 if(resultado.next()){
                     idRol = resultado.getInt("idRol");
                     if(idRol > 0){
-                        eliminarUsuario(idDocente);
+                        validarVinculacionATrabajoRecepcional(idDocente);
+                        if(estaVinculadoAUnCuerpoAcademico){
+                            eliminacionExitosa = false;
+                            mostrarAlerta = Herramientas.creadorDeAlerta("No se puede eliminar", 
+                                "El docente a eliminar esta vinculado a uno o más trabajos recepcionales,"
+                                + " para eliminarlo primero actualice el/los trabajos vinculados a este", Alert.AlertType.WARNING);
+                            mostrarAlerta.showAndWait();
+                        }else{
+                            eliminarUsuario(idDocente);
+                        }    
                     }else{
                         eliminacionExitosa = false;
                         mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible obtener la información necesaria "
@@ -269,6 +301,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
                 }
                 conn.close();
             }catch(SQLException ex){
+                System.out.println(ex.getMessage());
                 eliminacionExitosa = false;
                 mostrarAlerta = Herramientas.creadorDeAlerta("Error de consulta", "No fue posible acceder a la base de datos "
                     + "en este momento, intente más tarde", Alert.AlertType.ERROR);

@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -27,11 +26,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import pojos.CatalogoDeCuerpoAcademico;
 import pojos.CatalogoLGCA;
 import pojos.Docente;
 import pojos.RepresentanteDeCuerpoAcademico;
 import util.Herramientas;
+import validaciones.Validaciones;
 
 public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initializable {
     
@@ -273,9 +274,6 @@ public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initia
         }
     }
 
-    @FXML
-    private void irAVisualizarDocentes(ActionEvent event) {
-    }
 
     @FXML
     private void cancelar(ActionEvent event) {
@@ -291,29 +289,31 @@ public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initia
         taMision.setStyle("-fx-border-color: ;");
         
         boolean esCorrecto = true;
+        Validaciones datoAValidar = new Validaciones();
+        
         nombreAuxiliar = tfNombre.getText();
         estatusAuxiliar = tfEstatus.getText();
         fechaAuxiliar = tfFecha.getText();
         descripcionAuxiliar = taDescripcion.getText();
         misionAuxiliar = taMision.getText();
         
-        if(nombreAuxiliar.isEmpty()){
+        if((nombreAuxiliar.isEmpty()) || (!datoAValidar.validarTextos(nombreAuxiliar))){
             esCorrecto = false;
             tfNombre.setStyle("-fx-border-color: red;");
         }
-        if(estatusAuxiliar.isEmpty()){
+        if((estatusAuxiliar.isEmpty()) || (!datoAValidar.validarEstatus(estatusAuxiliar))){
             esCorrecto = false;
             tfEstatus.setStyle(("-fx-border-color: red;"));
         }
-        if(fechaAuxiliar.isEmpty()){
+        if((fechaAuxiliar.isEmpty()) || (!datoAValidar.validarFecha(fechaAuxiliar))){
             esCorrecto = false;
             tfFecha.setStyle("-fx-border-color: red;");
         }
-        if(descripcionAuxiliar.isEmpty()){
+        if((descripcionAuxiliar.isEmpty()) || (!datoAValidar.validarTextos(descripcionAuxiliar))){
             esCorrecto = false;
             taDescripcion.setStyle("-fx-border-color: red;");
         }
-        if(misionAuxiliar.isEmpty()){
+        if((misionAuxiliar.isEmpty()) || (!datoAValidar.validarTextos(misionAuxiliar))){
             esCorrecto = false;
             taMision.setStyle("-fx-border-color: red;");
         }
@@ -426,5 +426,17 @@ public class FXMLActualizarCatalogoDeCuerpoAcademicoController implements Initia
             }
         }
         return value;
+    }
+    
+    
+
+    @FXML
+    private void contarCaracteresDescripcion(KeyEvent event) {
+        Herramientas.contadorDeCaracteres(taDescripcion, event);
+    }
+
+    @FXML
+    private void contarCaracteresMision(KeyEvent event) {
+        Herramientas.contadorDeCaracteres(taMision, event); 
     }
 }

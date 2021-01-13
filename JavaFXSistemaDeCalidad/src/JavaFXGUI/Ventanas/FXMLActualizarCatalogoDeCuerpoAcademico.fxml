@@ -46,8 +46,8 @@
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Label>
-      <TextArea fx:id="taDescripcion" layoutX="21.0" layoutY="143.0" prefHeight="100.0" prefWidth="342.0" wrapText="true" />
-      <TextArea fx:id="taMision" layoutX="383.0" layoutY="143.0" prefHeight="100.0" prefWidth="336.0" wrapText="true" />
+      <TextArea fx:id="taDescripcion" layoutX="21.0" layoutY="143.0" onKeyTyped="#contarCaracteresDescripcion" prefHeight="100.0" prefWidth="342.0" wrapText="true" />
+      <TextArea fx:id="taMision" layoutX="383.0" layoutY="143.0" onKeyTyped="#contarCaracteresMision" prefHeight="100.0" prefWidth="336.0" wrapText="true" />
       <Label layoutX="23.0" layoutY="126.0" text="Descripción:">
          <font>
             <Font name="Arial Bold" size="15.0" />

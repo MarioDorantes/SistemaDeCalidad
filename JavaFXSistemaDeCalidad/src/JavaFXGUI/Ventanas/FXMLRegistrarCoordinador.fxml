@@ -11,9 +11,9 @@
    <children>
       <TextField fx:id="tfContraseña" layoutX="201.0" layoutY="276.0" prefHeight="25.0" prefWidth="374.0" promptText="8-10 caracteres" />
       <TextField fx:id="tfCorreo" layoutX="200.0" layoutY="228.0" prefHeight="25.0" prefWidth="374.0" promptText="\@gmail/@uv.mx" />
-      <TextField fx:id="tfTelefono" layoutX="203.0" layoutY="176.0" prefHeight="25.0" prefWidth="374.0" promptText="10 dígitos" />
-      <TextField fx:id="tfNumeroDePersonal" layoutX="203.0" layoutY="132.0" prefHeight="25.0" prefWidth="374.0" promptText="5 dígitos" />
-      <TextField fx:id="tfNombre" layoutX="203.0" layoutY="89.0" prefHeight="25.0" prefWidth="374.0" promptText="Brandon Adalit Trujillo Capistran" />
+      <TextField fx:id="tfTelefono" layoutX="203.0" layoutY="176.0" prefHeight="25.0" prefWidth="374.0" promptText="Máximo 10 dígitos" />
+      <TextField fx:id="tfNumeroDePersonal" layoutX="203.0" layoutY="132.0" prefHeight="25.0" prefWidth="374.0" promptText="Máximo 5 dígitos" />
+      <TextField fx:id="tfNombre" layoutX="203.0" layoutY="89.0" prefHeight="25.0" prefWidth="374.0" promptText="Brandon Trujillo Capistran" />
       <Label layoutX="88.0" layoutY="278.0" text="Contraseña:">
          <font>
             <Font name="Arial Bold" size="17.0" />

@@ -24,9 +24,9 @@
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="tfNombre" layoutX="94.0" layoutY="55.0" prefHeight="25.0" prefWidth="487.0" />
+      <TextField fx:id="tfNombre" layoutX="94.0" layoutY="55.0" prefHeight="25.0" prefWidth="487.0" promptText="Máximo 200 caracteres" />
       <TextField fx:id="tfFecha" layoutX="94.0" layoutY="104.0" prefHeight="25.0" prefWidth="204.0" promptText="año-mes-día" />
-      <TextArea fx:id="taDescripcion" layoutX="32.0" layoutY="215.0" prefHeight="96.0" prefWidth="545.0" promptText="Descripción" wrapText="true" />
+      <TextArea fx:id="taDescripcion" layoutX="32.0" layoutY="215.0" onKeyTyped="#contarCaracteresDescripcion" prefHeight="96.0" prefWidth="545.0" promptText="Descripción" wrapText="true" />
       <ComboBox fx:id="cbEstudiantes" layoutX="94.0" layoutY="140.0" prefHeight="25.0" prefWidth="204.0" promptText="Seleccione un Estudiante" />
       <ComboBox fx:id="cbDirector" layoutX="374.0" layoutY="140.0" prefHeight="25.0" prefWidth="204.0" promptText="Seleccione un Director" />
       <ComboBox fx:id="cbCoDirector" layoutX="94.0" layoutY="179.0" prefHeight="25.0" prefWidth="204.0" promptText="Seleccione un CoDirector" />

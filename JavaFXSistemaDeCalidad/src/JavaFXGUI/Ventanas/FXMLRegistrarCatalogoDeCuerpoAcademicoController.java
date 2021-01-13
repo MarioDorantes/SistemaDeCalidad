@@ -23,9 +23,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import pojos.CatalogoLGCA;
 import pojos.RepresentanteDeCuerpoAcademico;
 import util.Herramientas;
+import validaciones.Validaciones;
 
 public class FXMLRegistrarCatalogoDeCuerpoAcademicoController implements Initializable {
 
@@ -169,24 +171,26 @@ public class FXMLRegistrarCatalogoDeCuerpoAcademicoController implements Initial
         nombreAuxiliar = tfNombreCatalogo.getText();
         fechaAuxiliar = tfFechaRegistro.getText();
         estatusAuxiliar = tfEstatus.getText();
+        misionAuxiliar = taMision.getText();
+        descripcionAuxiliar = taDescripcion.getText();
         
         int posicionDelComboBoxRepresentante = cbRepresentante.getSelectionModel().getSelectedIndex();
         int posicionDeComboBoxLgca = cbLgca.getSelectionModel().getSelectedIndex();
         
-        misionAuxiliar = taMision.getText();
-        descripcionAuxiliar = taDescripcion.getText();
+        
         
         boolean esCorrecto = true;
+        Validaciones datoAValidar = new Validaciones();
         
-        if(nombreAuxiliar.isEmpty()){
+        if((nombreAuxiliar.isEmpty()) || (!datoAValidar.validarTextos(nombreAuxiliar))){
             tfNombreCatalogo.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(fechaAuxiliar.isEmpty()){
+        if((fechaAuxiliar.isEmpty()) || (!datoAValidar.validarFecha(fechaAuxiliar)) ){
             tfFechaRegistro.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(estatusAuxiliar.isEmpty()){
+        if((estatusAuxiliar.isEmpty()) || (!datoAValidar.validarEstatus(estatusAuxiliar))){
             tfEstatus.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
@@ -195,14 +199,14 @@ public class FXMLRegistrarCatalogoDeCuerpoAcademicoController implements Initial
             esCorrecto = false;
         }
         if(posicionDeComboBoxLgca < 0){
-            cbLgca.setStyle("-fx-border-color: ;");
+            cbLgca.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(misionAuxiliar.isEmpty()){
+        if((misionAuxiliar.isEmpty()) || (!datoAValidar.validarTextos(misionAuxiliar))){
             taMision.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(descripcionAuxiliar.isEmpty()){
+        if((descripcionAuxiliar.isEmpty()) || (!datoAValidar.validarTextos(descripcionAuxiliar))){
             taDescripcion.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
@@ -318,6 +322,17 @@ public class FXMLRegistrarCatalogoDeCuerpoAcademicoController implements Initial
     @FXML
     private void cancelar(ActionEvent event) {
         Herramientas.cerrarPantalla(tfEstatus);
+    }
+    
+    @FXML
+    private void contarCaracteresMision(KeyEvent event) {
+        Herramientas.contadorDeCaracteres(taMision, event);
+      
+    }
+
+    @FXML
+    private void contarCaracteresDescripcion(KeyEvent event) {
+        Herramientas.contadorDeCaracteres(taDescripcion, event);
     }
     
 }

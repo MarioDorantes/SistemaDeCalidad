@@ -23,10 +23,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import pojos.Docente;
 import pojos.Estudiante;
 import pojos.TrabajoRecepcional;
 import util.Herramientas;
+import validaciones.Validaciones;
 
 public class FXMLActualizarTrabajoController implements Initializable {
 
@@ -160,25 +162,26 @@ public class FXMLActualizarTrabajoController implements Initializable {
         
         boolean esCorrecto = true;
         boolean esElMismoDocente = false;
+        Validaciones datoAValidar = new Validaciones();
         
         nombreAuxiliar = tfNombre.getText();
         fechaAuxiliar = tfFecha.getText();
         estatusAuxiliar = tfEstatus.getText();
         descripcionAuxiliar = taDescripcion.getText();
         
-        if(nombreAuxiliar.isEmpty()){
+        if((nombreAuxiliar.isEmpty()) || (!datoAValidar.validarTextos(nombreAuxiliar))){
             tfNombre.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(fechaAuxiliar.isEmpty()){
+        if((fechaAuxiliar.isEmpty()) || (!datoAValidar.validarFecha(fechaAuxiliar))){
             tfFecha.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(estatusAuxiliar.isEmpty()){
+        if((estatusAuxiliar.isEmpty()) || (!datoAValidar.validarEstatus(estatusAuxiliar))){
             tfEstatus.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(descripcionAuxiliar.isEmpty()){
+        if((descripcionAuxiliar.isEmpty()) || (!datoAValidar.validarTextos(descripcionAuxiliar))){
             taDescripcion.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
@@ -436,6 +439,11 @@ public class FXMLActualizarTrabajoController implements Initializable {
             }
         }
         return value;
+    }
+
+    @FXML
+    private void contadorDeCaracteresDescripcion(KeyEvent event) {
+        Herramientas.contadorDeCaracteres(taDescripcion, event);
     }
     
 }

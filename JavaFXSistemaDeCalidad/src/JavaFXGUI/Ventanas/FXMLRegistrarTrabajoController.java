@@ -23,9 +23,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import pojos.Docente;
 import pojos.Estudiante;
 import util.Herramientas;
+import validaciones.Validaciones;
 
 public class FXMLRegistrarTrabajoController implements Initializable {
     
@@ -265,6 +267,7 @@ public class FXMLRegistrarTrabajoController implements Initializable {
         
         boolean esCorrecto = true;
         boolean esElMismoDocente = false;
+        Validaciones datoAValidar = new Validaciones();
         
         int posicionComboEstudiantes = cbEstudiantes.getSelectionModel().getSelectedIndex();
         int posicionComboDirector = cbDirector.getSelectionModel().getSelectedIndex();
@@ -276,19 +279,19 @@ public class FXMLRegistrarTrabajoController implements Initializable {
         estatusAuxiliar = tfEstatus.getText();
         descripcionAuxiliar = taDescripcion.getText();
         
-        if(nombreAuxiliar.isEmpty()){
+        if((nombreAuxiliar.isEmpty()) || (!datoAValidar.validarTextos(nombreAuxiliar))){
             tfNombre.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(fechaAuxiliar.isEmpty()){
+        if((fechaAuxiliar.isEmpty()) || (!datoAValidar.validarFecha(fechaAuxiliar))){
             tfFecha.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(estatusAuxiliar.isEmpty()){
+        if((estatusAuxiliar.isEmpty()) || (!datoAValidar.validarEstatus(estatusAuxiliar))){
             tfEstatus.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(descripcionAuxiliar.isEmpty()){
+        if((descripcionAuxiliar.isEmpty()) || (!datoAValidar.validarTextos(descripcionAuxiliar))){
             taDescripcion.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
@@ -380,6 +383,11 @@ public class FXMLRegistrarTrabajoController implements Initializable {
     @FXML
     private void cancelar(ActionEvent event) {
         Herramientas.cerrarPantalla(tfNombre);
+    }
+
+    @FXML
+    private void contarCaracteresDescripcion(KeyEvent event) {
+        Herramientas.contadorDeCaracteres(taDescripcion, event);
     }
     
 }

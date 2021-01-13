@@ -6,7 +6,6 @@ package JavaFXGUI.Ventanas;
 
 import conexionBD.ConectarBD;
 import interfaz.NotificaCambios;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +21,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import pojos.CatalogoLGCA;
 import util.Herramientas;
+import validaciones.Validaciones;
 
 public class FXMLRegistrarCatalogoLGCAController implements Initializable {
     
@@ -80,6 +80,7 @@ public class FXMLRegistrarCatalogoLGCAController implements Initializable {
         
         boolean esCorrecto = true;
         boolean esRepetido = false;
+        Validaciones datoAValidar = new Validaciones();
         
         int iterador = 0;
         int tamañoDeValidacionDeClaveRepetida = validacionDeClaveRepetida.size();
@@ -92,31 +93,31 @@ public class FXMLRegistrarCatalogoLGCAController implements Initializable {
         unidadAdscripcionAuxiliar = tfUnidadDeAdscripcion.getText();
         estatusAuxiliar = tfEstatus.getText();
         
-        if(claveAuxiliar.isEmpty()){
+        if((claveAuxiliar.isEmpty()) || (!datoAValidar.validarClave(claveAuxiliar))){
             tfClave.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(nombreAuxiliar.isEmpty()){
+        if((nombreAuxiliar.isEmpty()) || (!datoAValidar.validarTextos(nombreAuxiliar))){
             tfNombre.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(fechaAuxiliar.isEmpty()){
+        if((fechaAuxiliar.isEmpty()) || (!datoAValidar.validarFecha(fechaAuxiliar))){
             tfFecha.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(gradoConsolidacionAuxiliar.isEmpty()){
+        if((gradoConsolidacionAuxiliar.isEmpty()) || (!datoAValidar.validarGrado(gradoConsolidacionAuxiliar))){
             tfGradoConsolidacion.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(adscripcionAuxiliar.isEmpty()){
+        if((adscripcionAuxiliar.isEmpty()) || (!datoAValidar.validarTextos(adscripcionAuxiliar))){
             tfAdscripcion.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(unidadAdscripcionAuxiliar.isEmpty()){
+        if((unidadAdscripcionAuxiliar.isEmpty()) || (!datoAValidar.validarTextos(unidadAdscripcionAuxiliar))){
             tfUnidadDeAdscripcion.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }
-        if(estatusAuxiliar.isEmpty()){
+        if((estatusAuxiliar.isEmpty()) || (!datoAValidar.validarEstatus(estatusAuxiliar))){
             tfEstatus.setStyle("-fx-border-color: red;");
             esCorrecto = false;
         }

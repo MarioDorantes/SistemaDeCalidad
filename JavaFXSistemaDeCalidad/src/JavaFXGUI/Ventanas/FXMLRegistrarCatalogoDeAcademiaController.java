@@ -143,10 +143,10 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
             Validaciones datoAValidar = new Validaciones();
             
             if(!datoAValidar.validarNombreAcademia(nomAcademiaAux)){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Nombre de Academia Incorrecto", "Formato: Solo letras. Sin acentos. \nEjemplo: Bases de Datos", Alert.AlertType.ERROR);
+                mostrarAlerta = Herramientas.creadorDeAlerta("Nombre de Academia Incorrecto", "Formato: Solo letras. \nEjemplo: Bases de Datos", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             } else if(!datoAValidar.validarNombre(nomCoordinadorAux)){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Nombre de Coordinador Incorrecto", "Formato: 1 o 2 nombres y apellidos. Sin acentos. Primeras letras en mayúscula. \nEjemplo: Manuel Reyes Ochoa", Alert.AlertType.ERROR);
+                mostrarAlerta = Herramientas.creadorDeAlerta("Nombre de Coordinador Incorrecto", "Formato: 1 o 2 nombres y apellidos. Primeras letras en mayúscula. \nEjemplo: Manuel Reyes Ochoa", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             }
             if(datoAValidar.validarNombreAcademia(nomAcademiaAux) && datoAValidar.validarNombre(nomCoordinadorAux)){
@@ -190,6 +190,7 @@ public class FXMLRegistrarCatalogoDeAcademiaController implements Initializable 
                 conn.close();
                 
                 limpiarTabla();
+                limpiarCampos();
                 cargarRegistrosPorLicenciatura(idLicenciatura);
                 
                 

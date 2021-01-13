@@ -122,7 +122,7 @@ public class FXMLRegistrarCenevalController implements Initializable {
         if(esValido){
             Validaciones datoAValidar = new Validaciones();
             
-            if(!datoAValidar.validarFechaExamen(fechaAux)){
+            if(!datoAValidar.validarFecha(fechaAux)){
                 mostrarAlerta = Herramientas.creadorDeAlerta("Formato de fecha incorrecto", "Formato: Año-Mes-Dia \nEjemplo: 2018-05-13", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             } else if(!datoAValidar.validarPeriodo(periodoAux)){
@@ -132,7 +132,7 @@ public class FXMLRegistrarCenevalController implements Initializable {
                 mostrarAlerta = Herramientas.creadorDeAlerta("Puntaje incorrecto", "Formato: Numero y decimal \nEjemplo: 9.50", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             }
-            if(datoAValidar.validarFechaExamen(fechaAux) && datoAValidar.validarPeriodo(periodoAux) && datoAValidar.validarPuntajeObtenido(puntajeAux)){
+            if(datoAValidar.validarFecha(fechaAux) && datoAValidar.validarPeriodo(periodoAux) && datoAValidar.validarPuntajeObtenido(puntajeAux)){
                 guardarCeneval(estudiantes.get(posicionNombreEstudiante).getIdEstudiante(), fechaAux, periodoAux, puntajeAux);
             }
             

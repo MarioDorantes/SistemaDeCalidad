@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 public class Validaciones {
     
     private boolean nombreValido;
-    private boolean fechaExamenValida;
     private boolean periodoValido;
     private boolean puntajeObtenidoValido;
     private boolean nombreAcademiaValido;
@@ -34,10 +33,6 @@ public class Validaciones {
         return nombreValido = nombre.matches("^([A-ZÑÁÉÍÓÚ]{1}[a-zñáéíóú]+[ ]?){2,4}$");
     } 
     
-    public boolean validarFechaExamen (String fecha){
-        return fechaExamenValida = fecha.matches("^[0-9]{4}[-]{1}[0-9]{1,2}[-]{1}[0-9]{1,2}$");
-    }
-    
     public boolean validarFecha(String fecha){
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         formato.setLenient(false);
@@ -58,7 +53,7 @@ public class Validaciones {
     }
     
     public boolean validarNombreAcademia (String nombreAcademia){
-        return nombreAcademiaValido = nombreAcademia.matches("^([A-ZÑa-zñ]+[ ]?)+$");
+        return nombreAcademiaValido = nombreAcademia.matches("^([A-ZÑÁÉÍÓÚa-zñáéíóú]+[ ]?)+$");
     }
     
     public boolean validarPrograma (String programa){
@@ -78,7 +73,7 @@ public class Validaciones {
     }
     
     public boolean validarNombreDeLaEE (String nombreDeLaEE){
-        return nombreDeLaEEValido = nombreDeLaEE.matches("^([A-ZÑa-zñ]+[ ]?)+$");
+        return nombreDeLaEEValido = nombreDeLaEE.matches("^([A-ZÑÁÉÍÓÚa-zñáéíóú]+[ ]?)+$");
     }
     
     public boolean validarCorreo (String correo){

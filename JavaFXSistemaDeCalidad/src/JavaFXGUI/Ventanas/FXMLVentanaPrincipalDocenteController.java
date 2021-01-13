@@ -26,32 +26,19 @@ public class FXMLVentanaPrincipalDocenteController implements Initializable {
     @FXML
     private Button btVisualizarCeneval;
     @FXML
-    private Button btSalir;
-
+    private Button btCerrarSesion;
+    
     Alert mostrarAlerta;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-    
-    @FXML
-    private void salir(javafx.event.ActionEvent event) {
-        Stage stage = (Stage) btSalir.getScene().getWindow();
-        stage.close();
-    }
-    
+
     @FXML
     private void visualizarPlanesDeCurso(javafx.event.ActionEvent event) {
-        try{
-            Stage stage = (Stage) btVisualizarPlan.getScene().getWindow();
-            Scene sceneVisualizarPlanesDeCurso = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarPlanesDeCurso.fxml")));
-            stage.setScene(sceneVisualizarPlanesDeCurso);
-            stage.show();
-        } catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No se pudo cargar la ventana siguiente. Intente más tarde", Alert.AlertType.ERROR);
-            mostrarAlerta.showAndWait(); 
-        }
+        mostrarAlerta = Herramientas.creadorDeAlerta("Sin implementación", "No se implemento esta funcionalidad", Alert.AlertType.ERROR);
+        mostrarAlerta.showAndWait();
     }
     
     @FXML
@@ -69,13 +56,19 @@ public class FXMLVentanaPrincipalDocenteController implements Initializable {
 
     @FXML
     private void irAVisualizarAvancesProgramaticos(ActionEvent event) {
+        mostrarAlerta = Herramientas.creadorDeAlerta("Sin implementación", "No se implemento esta funcionalidad", Alert.AlertType.ERROR);
+        mostrarAlerta.showAndWait();
+    }
+
+    @FXML
+    private void cerrarSesion(ActionEvent event) {
         try{
-            Stage stage = (Stage) btSalir.getScene().getWindow();
-            Scene visualizarAvances = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarAvancesProgramaticos.fxml")));
-            stage.setScene(visualizarAvances);
-            stage.show(); 
-        } catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
+            Stage stage = (Stage) btCerrarSesion.getScene().getWindow();
+            Scene sceneCerrarSesion = new Scene(FXMLLoader.load(getClass().getResource("FXMLInicioDeSesion.fxml")));
+            stage.setScene(sceneCerrarSesion);
+            stage.show();
+        }catch(IOException ex){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible cerrar la sesión", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }

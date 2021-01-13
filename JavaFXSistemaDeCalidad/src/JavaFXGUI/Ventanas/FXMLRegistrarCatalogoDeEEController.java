@@ -189,7 +189,7 @@ public class FXMLRegistrarCatalogoDeEEController implements Initializable {
                 mostrarAlerta = Herramientas.creadorDeAlerta("NRC incorrecto", "Formato: NRC de 5 digitos \nEjemplo: 80612", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             } else if(!datoAValidar.validarNombreDeLaEE(nombreDeLaEEAux)){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Nombre de la EE incorrecto", "Formato: Solo letras. Sin acentos. \nEjemplo: Introduccion a la programacion", Alert.AlertType.ERROR);
+                mostrarAlerta = Herramientas.creadorDeAlerta("Nombre de la EE incorrecto", "Formato: Solo letras. \nEjemplo: Introducción a la programación", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             } else if(!datoAValidar.validarCreditos(creditosAux)){
                 mostrarAlerta = Herramientas.creadorDeAlerta("Creditos incorrecto", "Formato: Solo numeros \nEjemplo: 8", Alert.AlertType.ERROR);

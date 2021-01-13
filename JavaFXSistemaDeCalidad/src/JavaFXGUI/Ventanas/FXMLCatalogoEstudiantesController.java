@@ -122,7 +122,7 @@ public class FXMLCatalogoEstudiantesController implements Initializable {
             Validaciones datoAValidar = new Validaciones();
             
             if(!datoAValidar.validarNombre(nombreEstudianteAux)){
-                mostrarAlerta = Herramientas.creadorDeAlerta("Formato de nombre incorrecto", "Formato: 1 o 2 nombres y apellidos. Sin acentos. Primeras letras en mayúscula. \nEjemplo: Carlos Herrera Garcia ", Alert.AlertType.ERROR);
+                mostrarAlerta = Herramientas.creadorDeAlerta("Formato de nombre incorrecto", "Formato: 1 o 2 nombres y apellidos. Primeras letras en mayúscula. \nEjemplo: Carlos Herrera Fuentes", Alert.AlertType.ERROR);
                 mostrarAlerta.showAndWait();
             } else if(!datoAValidar.validarMatricula(matriculaAux)){
                 mostrarAlerta = Herramientas.creadorDeAlerta("Formato de matrícula incorrecto", "Formato: ZS + 8 dígitos numericos.  \nEjemplo: ZS18018456 ", Alert.AlertType.ERROR);

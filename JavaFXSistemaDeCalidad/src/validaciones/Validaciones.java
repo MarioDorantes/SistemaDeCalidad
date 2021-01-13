@@ -25,6 +25,9 @@ public class Validaciones {
     private boolean textoValido;
     private boolean claveValida;
     private boolean gradoConsolidacionValido;
+    private boolean telefonoValido;
+    private boolean contraseñaValida;
+    private boolean numeroPersonalValido;
     
     
     public boolean validarNombre (String nombre) {
@@ -91,7 +94,7 @@ public class Validaciones {
     }
     
     public boolean validarTextos(String texto){
-        return textoValido = texto.matches("^[A-ZÑÁÉÍÓa-zñáéíóú0-9.,:; ]{1,200}");
+        return textoValido = texto.matches("^[A-ZÑÁÉÍÓa-zñáéíóú0-9.,:; ]{1,200}$");
     }
     
     public boolean validarClave(String clave){
@@ -100,6 +103,18 @@ public class Validaciones {
     
     public boolean validarGrado(String grado){
         return gradoConsolidacionValido = grado.matches("^[0-9]{1}$");
+    }
+    
+    public boolean validarTelefono(String telefono){
+        return telefonoValido = telefono.matches("^[0-9]{10}$");
+    }
+    
+    public boolean validarContraseña(String contraseña){
+        return contraseñaValida = contraseña.matches("^[A-ZÑÁÉÍÓa-zñáéíóú0-9.,:; -_#*+]{8,10}$");
+    }
+    
+    public boolean validarNumeroDePersonal(String numeroDePersonal){
+        return numeroPersonalValido = numeroDePersonal.matches("^[0-9]{5}$");
     }
      
 }

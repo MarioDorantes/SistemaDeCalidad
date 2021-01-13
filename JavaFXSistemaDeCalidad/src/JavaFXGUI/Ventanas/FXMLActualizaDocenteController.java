@@ -27,6 +27,7 @@ import javafx.scene.control.ToggleGroup;
 import pojos.CatalogoDeCuerpoAcademico;
 import pojos.Docente;
 import util.Herramientas;
+import validaciones.Validaciones;
 
 public class FXMLActualizaDocenteController implements Initializable {
     
@@ -190,20 +191,21 @@ public class FXMLActualizaDocenteController implements Initializable {
         tfContraseña.setStyle("-fx-border-color: ;");
         
         boolean esCorrecto = true;
+        Validaciones datoAValidar = new Validaciones();
         
         nombreAuxiliar = tfNombre.getText();
         telefonoAuxiliar = tfTelefono.getText();
         contraseñaAuxiliar = tfContraseña.getText();
         
-        if(nombreAuxiliar.isEmpty()){
+        if((nombreAuxiliar.isEmpty()) || (!datoAValidar.validarNombre(nombreAuxiliar))){
             esCorrecto = false;
             tfNombre.setStyle("-fx-border-color: red;");
         }
-        if(telefonoAuxiliar.isEmpty()){
+        if((telefonoAuxiliar.isEmpty()) || (!datoAValidar.validarTelefono(telefonoAuxiliar))){
             esCorrecto = false;
             tfTelefono.setStyle("-fx-border-color: red;");
         }
-        if(contraseñaAuxiliar.isEmpty()){
+        if((contraseñaAuxiliar.isEmpty()) || (!datoAValidar.validarContraseña(contraseñaAuxiliar))){
             esCorrecto = false;
             tfContraseña.setStyle("-fx-border-color: red;");
         }
@@ -236,7 +238,8 @@ public class FXMLActualizaDocenteController implements Initializable {
             } 
                 
         }else{
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "correo previamente registrado", Alert.AlertType.INFORMATION);
+            mostrarAlerta = Herramientas.creadorDeAlerta("Atención", "Campos incorrectos o vacíos,"
+                + " verifique por favor", Alert.AlertType.WARNING);
             mostrarAlerta.showAndWait();
         }
     }

@@ -24,8 +24,8 @@
       <RadioButton fx:id="rbLicenciatura" layoutX="193.0" layoutY="295.0" mnemonicParsing="false" text="Licenciatura" toggleGroup="$gradosAcademicos" />
       <TextField fx:id="tfContraseña" layoutX="191.0" layoutY="250.0" prefHeight="25.0" prefWidth="374.0" promptText="8-10 caracteres" />
       <TextField fx:id="tfCorreo" layoutX="191.0" layoutY="201.0" prefHeight="25.0" prefWidth="374.0" promptText="\@gmail/@uv.mx" />
-      <TextField fx:id="tfTelefono" layoutX="191.0" layoutY="153.0" prefHeight="25.0" prefWidth="374.0" promptText="Máximo 10 dígitos" />
-      <TextField fx:id="tfNumeroDePersonal" layoutX="191.0" layoutY="109.0" prefHeight="25.0" prefWidth="374.0" promptText="Máximo 5 dígitos" />
+      <TextField fx:id="tfTelefono" layoutX="191.0" layoutY="153.0" prefHeight="25.0" prefWidth="374.0" promptText="10 dígitos" />
+      <TextField fx:id="tfNumeroDePersonal" layoutX="191.0" layoutY="109.0" prefHeight="25.0" prefWidth="374.0" promptText="5 dígitos" />
       <TextField fx:id="tfNombre" layoutX="191.0" layoutY="66.0" prefHeight="25.0" prefWidth="374.0" promptText="Brandon Trujillo Capistran" />
       <Label layoutX="78.0" layoutY="252.0" text="Contraseña:">
          <font>

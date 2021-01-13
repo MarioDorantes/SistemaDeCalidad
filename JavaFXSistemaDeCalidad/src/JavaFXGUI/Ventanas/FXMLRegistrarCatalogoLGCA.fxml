@@ -48,7 +48,7 @@
       <TextField fx:id="tfClave" layoutX="196.0" layoutY="70.0" prefHeight="25.0" prefWidth="136.0" promptText="UV100" />
       <TextField fx:id="tfUnidadDeAdscripcion" layoutX="196.0" layoutY="212.0" prefHeight="25.0" prefWidth="434.0" promptText="Máximo 200 caracteres" />
       <TextField fx:id="tfAdscripcion" layoutX="196.0" layoutY="168.0" prefHeight="25.0" prefWidth="434.0" promptText="Máximo 200 caracteres" />
-      <TextField fx:id="tfGradoConsolidacion" layoutX="199.0" layoutY="257.0" prefHeight="25.0" prefWidth="136.0" promptText="Máximo 1 dígito" />
+      <TextField fx:id="tfGradoConsolidacion" layoutX="199.0" layoutY="257.0" prefHeight="25.0" prefWidth="136.0" promptText="1 dígito" />
       <TextField fx:id="tfFecha" layoutX="405.0" layoutY="70.0" prefHeight="25.0" prefWidth="226.0" promptText="año-mes-día" />
       <Button layoutX="544.0" layoutY="325.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #FC9305;" text="Cancelar" />
       <Button layoutX="70.0" layoutY="325.0" mnemonicParsing="false" onAction="#clicEnRegistrar" style="-fx-background-color: #1FDC05;" text="Registrar" />

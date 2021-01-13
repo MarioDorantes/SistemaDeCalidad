@@ -23,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import pojos.RepresentanteDeCuerpoAcademico;
 import util.Herramientas;
+import validaciones.Validaciones;
 
 public class FXMLRegistrarRepresentanteController implements Initializable {
 
@@ -96,6 +97,7 @@ public class FXMLRegistrarRepresentanteController implements Initializable {
         
         int iterador = 0;
         int tamañoDeValidacionDocente = validacionDeRepresentante.size();
+        Validaciones datoAValidar = new Validaciones();
         
         nombreAuxiliar = tfNombre.getText();
         numeroPersonalAuxiliar = tfNumeroDePersonal.getText();
@@ -103,27 +105,23 @@ public class FXMLRegistrarRepresentanteController implements Initializable {
         correoAuxiliar = tfCorreo.getText();
         contraseñaAuxiliar = tfContraseña.getText();
       
-        if(nombreAuxiliar.isEmpty()){
+        if((nombreAuxiliar.isEmpty()) || (!datoAValidar.validarNombre(nombreAuxiliar))){
             esCorrecto = false;
             tfNombre.setStyle("-fx-border-color: red;");
         }
-        
-        if(numeroPersonalAuxiliar.isEmpty()){
+        if((numeroPersonalAuxiliar.isEmpty()) || (!datoAValidar.validarNumeroDePersonal(numeroPersonalAuxiliar))){
             esCorrecto = false;
             tfNumeroDePersonal.setStyle("-fx-border-color: red;");
         }
-        
-        if(telefonoAuxiliar.isEmpty()){
+        if((telefonoAuxiliar.isEmpty()) || (!datoAValidar.validarTelefono(telefonoAuxiliar))){
             esCorrecto = false;
             tfTelefono.setStyle("-fx-border-color: red;");
         }
-        
-        if(correoAuxiliar.isEmpty()){
+        if((correoAuxiliar.isEmpty()) || (!datoAValidar.validarCorreo(correoAuxiliar))){
             esCorrecto = false;
             tfCorreo.setStyle("-fx-border-color: red;");
         }
-        
-        if(contraseñaAuxiliar.isEmpty()){
+        if((contraseñaAuxiliar.isEmpty()) || (!datoAValidar.validarContraseña(contraseñaAuxiliar))){
             esCorrecto = false;
             tfContraseña.setStyle("-fx-border-color: red;");
         }
@@ -181,7 +179,7 @@ public class FXMLRegistrarRepresentanteController implements Initializable {
             }    
         }else{
             mostrarAlerta = Herramientas.creadorDeAlerta("Campos incorrectos o vacíos", 
-                "Verifique su información", Alert.AlertType.ERROR);
+                "Verifique su información", Alert.AlertType.WARNING);
             mostrarAlerta.showAndWait();
         }
     }

@@ -114,8 +114,7 @@ public class FXMLVisualizarRepresentantesDeCuerpoAcademicoController implements 
         if(seleccion >= 0){
             RepresentanteDeCuerpoAcademico eliminarRepresentante = representantes.get(seleccion);
             idRepresentante = eliminarRepresentante.getIdentificacion();
-            Alert alertConfirmacion = Herramientas.creadorDeAlerta("Confirmación", "¿Seguro de eliminar?"
-                + " Algún Cuerpo Académico podría quedar sin representante y deberá seleccionar otro", Alert.AlertType.CONFIRMATION);
+            Alert alertConfirmacion = Herramientas.creadorDeAlerta("Confirmación", "¿Seguro de eliminar?", Alert.AlertType.CONFIRMATION);
             Optional<ButtonType> resultadoDialogo = alertConfirmacion.showAndWait();
             if(resultadoDialogo.get() == ButtonType.OK){
                 obtenerIdRol(idRepresentante);

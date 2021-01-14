@@ -84,7 +84,7 @@ public class FXMLInicioDeSesionController implements Initializable {
                     mostrarAlerta.showAndWait();
                     irAVentanaCorrespondiente();
                 }else{
-                    mostrarAlerta = Herramientas.creadorDeAlerta("Datos incorrectos", "Verifique por favor", Alert.AlertType.ERROR);
+                    mostrarAlerta = Herramientas.creadorDeAlerta("Usuario no encontrado", "Verifique su información por favor", Alert.AlertType.ERROR);
                     mostrarAlerta.showAndWait();
                 }
             }catch(SQLException ex){

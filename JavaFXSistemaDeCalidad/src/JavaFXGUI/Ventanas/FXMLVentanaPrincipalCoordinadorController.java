@@ -27,17 +27,23 @@ public class FXMLVentanaPrincipalCoordinadorController implements Initializable 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
-    private void irAVisualizarPlanDeTrabajo(ActionEvent event) {
+    private void visualizarPlanDeTrabajo(ActionEvent event) {
+        mostrarAlerta = Herramientas.creadorDeAlerta("Atención", "No existe implementación aún", Alert.AlertType.WARNING);
+        mostrarAlerta.showAndWait();
+    }
+
+    @FXML
+    private void cerrarSesion(ActionEvent event) {
         try{
             Stage stage = (Stage) btPlanDeTrabajo.getScene().getWindow();
-            Scene visualizarPlanDeTrabajo = new Scene(FXMLLoader.load(getClass().getResource("FXMLVisualizarPlanDeTrabajoDeAcademia.fxml")));
-            stage.setScene(visualizarPlanDeTrabajo);
-            stage.show(); 
-        } catch(IOException ex){
-            mostrarAlerta = Herramientas.creadorDeAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
+            Scene sceneCerrarSesion = new Scene(FXMLLoader.load(getClass().getResource("FXMLInicioDeSesion.fxml")));
+            stage.setScene(sceneCerrarSesion);
+            stage.show();
+        }catch(IOException ex){
+            mostrarAlerta = Herramientas.creadorDeAlerta("Error", "No fue posible cerrar la sesión", Alert.AlertType.ERROR);
             mostrarAlerta.showAndWait();
         }
     }

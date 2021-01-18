@@ -7,14 +7,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="JavaFXGUI.Ventanas.FXMLVentanaPrincipalCoordinadorController">
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="733.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaFXGUI.Ventanas.FXMLVentanaPrincipalCoordinadorController">
    <children>
       <Label layoutX="141.0" layoutY="14.0" text="Ventana Principal de Coordinador" textFill="#092ae1">
          <font>
             <Font name="Arial Bold" size="28.0" />
          </font>
       </Label>
-      <Button fx:id="btPlanDeTrabajo" layoutX="67.0" layoutY="95.0" mnemonicParsing="false" onAction="#irAVisualizarPlanDeTrabajo" prefHeight="58.0" prefWidth="169.0" style="-fx-background-color: #28C156;" text="Visualizar Plan de Trabajo de Academia" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="btPlanDeTrabajo" layoutX="67.0" layoutY="95.0" mnemonicParsing="false" onAction="#visualizarPlanDeTrabajo" prefHeight="58.0" prefWidth="169.0" style="-fx-background-color: #28C156;" text="Visualizar Plan de Trabajo de Academia" textAlignment="CENTER" wrapText="true" />
+      <Button layoutX="632.0" layoutY="472.0" mnemonicParsing="false" onAction="#cerrarSesion" style="-fx-background-color: #3b83bd;" text="Cerrar Sesión" textFill="#fcfcfc">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

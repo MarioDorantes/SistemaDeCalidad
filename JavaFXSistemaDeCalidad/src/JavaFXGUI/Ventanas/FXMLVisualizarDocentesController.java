@@ -56,7 +56,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
     int idRol = 0;
     int idDocente = 0;
     boolean eliminacionExitosa = true;
-    boolean estaVinculadoAUnCuerpoAcademico = true;
+    boolean estaVinculadoAUnTrabajoRecepcional= true;
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -254,7 +254,7 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
             declaracion.setInt(3, idDocente);
             ResultSet resultado = declaracion.executeQuery();
             if(!resultado.next()){
-                estaVinculadoAUnCuerpoAcademico = false;
+                estaVinculadoAUnTrabajoRecepcional= false;
             }
             conn.close();
         }else{
@@ -276,14 +276,16 @@ public class FXMLVisualizarDocentesController implements Initializable, Notifica
                 if(resultado.next()){
                     idRol = resultado.getInt("idRol");
                     if(idRol > 0){
+                        estaVinculadoAUnTrabajoRecepcional = true;
                         validarVinculacionATrabajoRecepcional(idDocente);
-                        if(estaVinculadoAUnCuerpoAcademico){
+                        if(estaVinculadoAUnTrabajoRecepcional){
                             eliminacionExitosa = false;
                             mostrarAlerta = Herramientas.creadorDeAlerta("No se puede eliminar", 
                                 "El docente a eliminar esta vinculado a uno o más trabajos recepcionales,"
                                 + " para eliminarlo primero actualice el/los trabajos vinculados a este", Alert.AlertType.WARNING);
                             mostrarAlerta.showAndWait();
                         }else{
+                            eliminacionExitosa = true;
                             eliminarUsuario(idDocente);
                         }    
                     }else{

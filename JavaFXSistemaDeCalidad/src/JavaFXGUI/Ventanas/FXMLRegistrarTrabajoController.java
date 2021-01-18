@@ -125,7 +125,7 @@ public class FXMLRegistrarTrabajoController implements Initializable {
         Connection conn = ConectarBD.abrirConexionMySQL();
         if(conn != null){
             try {
-                String consulta = "select * from estudiante";
+                String consulta = "select * from estudiante where estatus = 'Activo'";
                 PreparedStatement declaracion = conn.prepareStatement(consulta);
                 ResultSet resultado = declaracion.executeQuery();
                 while(resultado.next()){
